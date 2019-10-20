@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">رواج</string>
+    <string name="home_tab">الرئيسية</string>
+    <string name="categories_tab">الأقسام</string>
+    <string name="favourites_tab">المفضلة</string>
+    <string name="home_title">الصفحة الرئيسية</string>
+    <string name="profile">الصفحة الشخصية</string>
+    <string name="add_Product">أضافة أعلان</string>
+    <string name="about">عن التطبيق</string>
+    <string name="terms">الشروط والاحكام</string>
+    <string name="contactUs">اتصل بنا</string>
+    <string name="settings">الاعدادات</string>
+    <string name="LogOut">تسجيل الخروج</string>
+    <string name="ok">حسنا</string>
+    <string name="cancel">الغاء</string>
+    <string name="loading">تحميل</string>
+    <string name="load_failed">فشل التحميل</string>
+    <string name="load_end">لا يوجد المزيد</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="searchTitle">عمليات البحث</string>
+    <string name="search_what_you_need">ابحث عما تريد</string>
+    <string name="you_must_login">يجب تسجيل الدخول اولا</string>
+    <string name="search">أظهر النتائج</string>
+    <string name="comments">مشاهدة التعليقات</string>
+    <string name="my_products">مشاهدة اعلاناتي</string>
+    <string name="description">نبذة عنه</string>
+    <string name="social">روابط التواصل</string>
+    <string name="editProfile">تعديل البيانات</string>
+    <string name="personalInfo">البيانات الشخصية</string>
+    <string name="socialLinks">روابط التواصل</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="desc">نبذة عنا</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="phone">رقم الجوال</string>
+    <string name="location">العنوان</string>
+    <string name="choose_image">اختر صورة</string>
+    <string name="change_password">تغيير كلمة المرور</string>
+    <string name="message">الرسالة</string>
+    <string name="sendMessage">ارسال</string>
+
+    <string name="language">لغة التطبيق</string>
+    <string name="arabic">اللغة العربية</string>
+    <string name="english">English</string>
+    <string name="notifications">التنبيهات</string>
+    <string name="password">كلمة المرور</string>
+    <string name="saveChanges">حفظ التغيرات</string>
+    <string name="skip">الدخول كزائر</string>
+    <string name="forgetPassword">هل نسيت كلمة المرور؟</string>
+
+    <string name="haveNoAccount">ليس لديك حساب</string>
+    <string name="clickHere">  اضغط هنا</string>
+
+    <string name="resetPassword">استعادة كلمة المرور</string>
+    <string name="confirm">تأكيد</string>
+    <string name="code">كود التحقق</string>
+    <string name="enterCodeMessage">برجاء ادخال الكود المرسل اليك عبر الجوال</string>
+    <string name="resendCode">اعادة الارسال؟</string>
+    <string name="confirmNewPassword">تأكيد كلمة المرور الجديدة</string>
+    <string name="newPassword">كلمة المرور الجديدة</string>
+    <string name="register">أنشاء حساب جديد</string>
+    <string name="click_to_get_your_location">أضغط لتحديد موقعك</string>
+    <string name="newAccount">حساب جديد</string>
+    <string name="pickLocation">تحديد العنوان</string>
+    <string name="registering_into_our_app_you_agreed_to">"بالتسجيل في التطبيق فانك توافق علي"</string>
+    <string name="haveAccount">لديك حساب بالفعل</string>
+    <string name="subCategoriesTitle">اسم القسم</string>
+    <string name="diamond_package">الباقة الماسية</string>
+    <string name="pay">اشتراك</string>
+
+    <string name="silver_package">الباقة الفضية</string>
+    <string name="gold_package">الباقة الذهبية</string>
+    <string name="choose_payment_method">اختر طريقة الدفع</string>
+    <string name="send">ارسال</string>
+    <string name="price_today">السعر اليوم</string>
+    <string name="show_period">مدة ظهور الاعلان</string>
+    <string name="productsTitle">اسم القسم الفرعي</string>
+    <string name="myAdsTitle">اعلاناتي</string>
+    <string name="call">اجراء مكالمة</string>
+    <string name="commentsTitle">التعليقات</string>
+    <string name="write_comment">اكتب تعليقا</string>
+    <string name="delete">حذف</string>
+    <string name="hide">اخفاء</string>
+    <string name="report_reason">سبب البلاغ</string>
+    <string name="requestPermission">طلب الصلاحيات</string>
+    <string name="errorSelectImage">خطأ في اختيار الصورة</string>
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_Home"
+        android:icon="@drawable/ic_home_white_24dp"
+        android:title="@string/home_title" />
+
+    <item
+        android:id="@+id/nav_Profile"
+        android:icon="@drawable/ic_perm_identity_white_24dp"
+        android:title="@string/profile" />
+
+    <item
+        android:id="@+id/nav_AddProduct"
+        android:icon="@drawable/ic_add_white_24dp"
+        android:title="@string/add_Product" />
+
+    <item
+        android:id="@+id/nav_About"
+        android:icon="@drawable/ic_help_white_24dp"
+        android:title="@string/about" />
+
+    <item
+        android:id="@+id/nav_Terms"
+        android:icon="@drawable/ic_import_contacts_white_24dp"
+        android:title="@string/terms" />
+
+    <item
+        android:id="@+id/nav_contactUs"
+        android:icon="@drawable/ic_call_white_24dp"
+        android:title="@string/contactUs" />
+
+      <item
+        android:id="@+id/nav_Settings"
+        android:icon="@drawable/ic_settings_white_24dp"
+        android:title="@string/settings" />
+
+    <item
+        android:id="@+id/nav_LogOut"
+        android:icon="@drawable/ic_exit_to_app_white_24dp"
+        android:title="@string/LogOut" />
+
+</menu>

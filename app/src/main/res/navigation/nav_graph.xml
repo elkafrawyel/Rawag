@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.elwaha.rawag.ui.main.mainFragment.MainFragment"
+        android:label="main_fragment"
+        tools:layout="@layout/main_fragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_termsFragment"
+            app:destination="@id/termsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_contactUsFragment"
+            app:destination="@id/contactUsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_subCategoriesFragment"
+            app:destination="@id/subCategoriesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_productsFragment"
+            app:destination="@id/profilesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_choosePackageFragment"
+            app:destination="@id/choosePackageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.elwaha.rawag.ui.main.profile.ProfileFragment"
+        android:label="profile_fragment"
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <argument android:name="userId"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_myAdsFragment"
+            app:destination="@id/myAdsFragment" />
+        <argument
+            android:name="isMyProfile"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_profileFragment_to_commentsFragment"
+            app:destination="@id/commentsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.elwaha.rawag.ui.main.aboutUs.AboutUsFragment"
+        android:label="about_us_fragment"
+        tools:layout="@layout/about_us_fragment" />
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.elwaha.rawag.ui.main.termsAndCondition.TermsFragment"
+        android:label="terms_fragment"
+        tools:layout="@layout/terms_fragment" />
+    <fragment
+        android:id="@+id/addProductFragment"
+        android:name="com.elwaha.rawag.ui.main.addProduct.AddProductFragment"
+        android:label="add_product_fragment"
+        tools:layout="@layout/add_product_fragment" >
+        <action
+            android:id="@+id/action_addProductFragment_to_choosePaymentMethodFragment"
+            app:destination="@id/choosePaymentMethodFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.elwaha.rawag.ui.main.settings.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" />
+    <fragment
+        android:id="@+id/contactUsFragment"
+        android:name="com.elwaha.rawag.ui.main.contactUs.ContactUsFragment"
+        android:label="contact_us_fragment"
+        tools:layout="@layout/contact_us_fragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.elwaha.rawag.ui.main.search.SearchFragment"
+        android:label="search_fragment"
+        tools:layout="@layout/search_fragment" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.elwaha.rawag.ui.main.profile.editProfile.EditProfileFragment"
+        android:label="edit_profile_fragment"
+        tools:layout="@layout/edit_profile_fragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.elwaha.rawag.ui.main.auth.login.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.elwaha.rawag.ui.main.auth.register.RegisterFragment"
+        android:label="register_fragment"
+        tools:layout="@layout/register_fragment" />
+    <fragment
+        android:id="@+id/newPasswordFragment"
+        android:name="com.elwaha.rawag.ui.main.auth.newPassword.NewPasswordFragment"
+        android:label="new_password_fragment"
+        tools:layout="@layout/new_password_fragment" />
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.elwaha.rawag.ui.main.auth.resetPassword.ResetPasswordFragment"
+        android:label="reset_password_fragment"
+        tools:layout="@layout/reset_password_fragment" >
+        <action
+            android:id="@+id/action_resetPasswordFragment_to_verifyCodeFragment"
+            app:destination="@id/verifyCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyCodeFragment"
+        android:name="com.elwaha.rawag.ui.main.auth.verifyCode.VerifyCodeFragment"
+        android:label="verify_code_fragment"
+        tools:layout="@layout/verify_code_fragment" >
+        <action
+            android:id="@+id/action_verifyCodeFragment_to_newPasswordFragment"
+            app:destination="@id/newPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/subCategoriesFragment"
+        android:name="com.elwaha.rawag.ui.main.subCategories.SubCategoriesFragment"
+        android:label="sub_categories_fragment"
+        tools:layout="@layout/sub_categories_fragment" >
+        <action
+            android:id="@+id/action_subCategoriesFragment_to_productsFragment"
+            app:destination="@id/profilesFragment" />
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/profilesFragment"
+        android:name="com.elwaha.rawag.ui.main.profiles.ProfilesFragment"
+        android:label="profiles_fragment"
+        tools:layout="@layout/profiles_fragment" >
+        <argument android:name="subCategoryId" />
+        <action
+            android:id="@+id/action_profilesFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/choosePackageFragment"
+        android:name="com.elwaha.rawag.ui.main.choosePackage.ChoosePackageFragment"
+        android:label="choose_package_fragment"
+        tools:layout="@layout/choose_package_fragment" >
+        <action
+            android:id="@+id/action_choosePackageFragment_to_addProductFragment"
+            app:destination="@id/addProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/choosePaymentMethodFragment"
+        android:name="com.elwaha.rawag.ui.main.choosePaymentMethod.ChoosePaymentMethodFragment"
+        android:label="choose_payment_method_fragment"
+        tools:layout="@layout/choose_payment_method_fragment" />
+    <fragment
+        android:id="@+id/myAdsFragment"
+        android:name="com.elwaha.rawag.ui.main.profile.myAds.MyAdsFragment"
+        android:label="my_ads_fragment"
+        tools:layout="@layout/my_ads_fragment" />
+    <fragment
+        android:id="@+id/commentsFragment"
+        android:name="com.elwaha.rawag.ui.main.profile.comments.CommentsFragment"
+        android:label="comments_fragment"
+        tools:layout="@layout/comments_fragment" >
+        <argument
+            android:name="profileId"
+            app:argType="string" />
+    </fragment>
+</navigation>
