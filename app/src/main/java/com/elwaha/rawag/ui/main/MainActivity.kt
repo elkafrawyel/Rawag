@@ -5,8 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.elwaha.rawag.R
-import com.elwaha.rawag.ui.main.auth.register.RegisterFragment
+import com.elwaha.rawag.data.models.UserModel
+import com.elwaha.rawag.utilies.Injector
+import com.elwaha.rawag.utilies.ObjectConverter
 import com.elwaha.rawag.utilies.changeLanguage
+import com.elwaha.rawag.utilies.toast
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,8 +28,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        RegisterFragment().onActivityResult(requestCode, resultCode, data)
-    }
 }

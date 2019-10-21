@@ -3,7 +3,6 @@ package com.elwaha.rawag.utilies
 import com.elwaha.rawag.MyApp
 import com.elwaha.rawag.data.storage.local.PreferencesHelper
 import com.elwaha.rawag.data.storage.remote.CoroutinesRetrofitApiService
-import com.elwaha.rawag.data.storage.remote.RetrofitApiService
 import com.elwaha.rawag.utilies.Constants.BASE_URL
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
@@ -46,7 +45,7 @@ object Injector {
             .build()
     }
 
-    private fun createCoroutinesApi(client: OkHttpClient): CoroutinesRetrofitApiService {
+    private fun createApi(client: OkHttpClient): CoroutinesRetrofitApiService {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
@@ -57,26 +56,13 @@ object Injector {
         return retrofit.create(CoroutinesRetrofitApiService::class.java)
     }
 
-    private fun createApi(client: OkHttpClient): RetrofitApiService {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .client(client)
-            .build()
-
-        return retrofit.create(RetrofitApiService::class.java)
-    }
-
-    private fun getCoroutinesApiService() =
-        createCoroutinesApi(getOkHttpClient())
-
-    private fun getApiService() =
-        createApi(getOkHttpClient())
-
     fun getApplicationContext() = MyApp.instance
 
-    fun getPreferenceHelper() =
-        PreferencesHelper(getApplicationContext())
+    private fun getApiService() = createApi(getOkHttpClient())
+
+    fun getPreferenceHelper() = PreferencesHelper(getApplicationContext())
+
+    fun getObjectConverter() = ObjectConverter(getPreferenceHelper())
 
     //========================================Repo================================================
 

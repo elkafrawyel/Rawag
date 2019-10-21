@@ -11,6 +11,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.elwaha.rawag.R
 import com.elwaha.rawag.utilies.toast
 import com.elwaha.rawag.ui.main.adapters.CategoriesAdapter
+import com.elwaha.rawag.utilies.CustomParent
+import com.elwaha.rawag.utilies.CustomViews
 import kotlinx.android.synthetic.main.sub_categories_fragment.*
 
 class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
@@ -43,37 +45,32 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
 
         backImgv.setOnClickListener { findNavController().navigateUp() }
 
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
+        subCategoriesRv.adapter = adapter
+        subCategoriesRv.setHasFixedSize(true)
+
+        setData()
+        rootView.setLayout(subCategoriesCl)
+        rootView.setVisible(CustomViews.INTERNET)
+        rootView.retry {
+            activity?.toast("retry")
+        }
+    }
+
+
+
+    fun setData(){
         adapter.data.add("A")
         adapter.data.add("A")
         adapter.data.add("A")
         adapter.data.add("A")
 
-        subCategoriesRv.adapter = adapter
-        subCategoriesRv.setHasFixedSize(true)
+        adapter.notifyDataSetChanged()
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
             R.id.cardItem -> {
-                val action =
-                    com.elwaha.rawag.ui.main.subCategories.SubCategoriesFragmentDirections.actionSubCategoriesFragmentToProductsFragment(
+                val action =SubCategoriesFragmentDirections.actionSubCategoriesFragmentToProductsFragment(
                         "test"
                     )
                 findNavController().navigate(action)
