@@ -13,6 +13,7 @@ import com.elwaha.rawag.R
 import com.elwaha.rawag.ui.main.mainFragment.MainFragmentDirections
 import com.elwaha.rawag.utilies.toast
 import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
+import com.elwaha.rawag.utilies.CustomViews
 import kotlinx.android.synthetic.main.favourite_fragment.*
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -60,6 +61,9 @@ class FavouritesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
 
         favouritesRv.adapter = adapter
         favouritesRv.setHasFixedSize(true)
+
+        rootView.setLayout(favouritesNsv)
+        rootView.setVisible(CustomViews.LAYOUT)
     }
 
     override fun onResume() {

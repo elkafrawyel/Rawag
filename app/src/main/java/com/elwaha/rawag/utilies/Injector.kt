@@ -2,7 +2,11 @@ package com.elwaha.rawag.utilies
 
 import com.elwaha.rawag.MyApp
 import com.elwaha.rawag.data.storage.local.PreferencesHelper
-import com.elwaha.rawag.data.storage.remote.CoroutinesRetrofitApiService
+import com.elwaha.rawag.data.storage.remote.RetrofitApiService
+import com.elwaha.rawag.repo.CategoriesRepo
+import com.elwaha.rawag.repo.LookupsRepo
+import com.elwaha.rawag.repo.ProductsRepo
+import com.elwaha.rawag.repo.UserRepo
 import com.elwaha.rawag.utilies.Constants.BASE_URL
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
@@ -45,7 +49,7 @@ object Injector {
             .build()
     }
 
-    private fun createApi(client: OkHttpClient): CoroutinesRetrofitApiService {
+    private fun createApi(client: OkHttpClient): RetrofitApiService {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
@@ -53,7 +57,7 @@ object Injector {
             .client(client)
             .build()
 
-        return retrofit.create(CoroutinesRetrofitApiService::class.java)
+        return retrofit.create(RetrofitApiService::class.java)
     }
 
     fun getApplicationContext() = MyApp.instance
@@ -62,9 +66,11 @@ object Injector {
 
     fun getPreferenceHelper() = PreferencesHelper(getApplicationContext())
 
-    fun getObjectConverter() = ObjectConverter(getPreferenceHelper())
-
     //========================================Repo================================================
 
+    fun getCategoriesRepo() = CategoriesRepo(getApiService())
+    fun getUserRepo() = UserRepo(getApiService())
+    fun getProductsRepo() = ProductsRepo(getApiService())
+    fun getLookupsRepo() = LookupsRepo(getApiService())
 
 }

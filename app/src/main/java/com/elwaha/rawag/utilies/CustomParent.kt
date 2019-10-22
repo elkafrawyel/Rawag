@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.annotation.Nullable
 import com.elwaha.rawag.R
 
-
 enum class CustomViews(val value: Int) {
     LAYOUT(0),
     EMPTY(1),
@@ -26,13 +25,11 @@ class CustomParent : FrameLayout {
     private lateinit var errorView: View
     private lateinit var loadingView: View
     private lateinit var emptyText: TextView
-
-    var layoutView: View? = null
-        private set
+    private lateinit var errorText: TextView
+    private var layoutView: View? = null
 
     constructor(context: Context) : super(context) {
         init()
-
     }
 
     constructor(context: Context, @Nullable attrs: AttributeSet)
@@ -45,17 +42,18 @@ class CustomParent : FrameLayout {
         init()
     }
 
-
     @SuppressLint("InflateParams")
     private fun init() {
 
         val inflater = LayoutInflater.from(context)
+
         internetView = inflater.inflate(R.layout.custom_view_network, null)
 
         emptyView = inflater.inflate(R.layout.custom_view_empty, null)
         emptyText = emptyView.findViewById(R.id.emptyText)
 
         errorView = inflater.inflate(R.layout.custom_view_error, null)
+        errorText = errorView.findViewById(R.id.errorText)
 
         loadingView = inflater.inflate(R.layout.custom_view_loading, null)
 
@@ -78,6 +76,14 @@ class CustomParent : FrameLayout {
         emptyText.text = context.getString(textId)
     }
 
+    fun setErrorText(text: String) {
+        errorText.text = text
+    }
+
+    fun setErrorText(textId: Int) {
+        errorText.text = context.getString(textId)
+    }
+
     fun retry(action: () -> Unit) {
         internetView.setOnClickListener {
             action.invoke()
@@ -86,30 +92,29 @@ class CustomParent : FrameLayout {
 
     fun setVisible(customViews: CustomViews) {
         if (layoutView != null) {
-            val views =
-                arrayOf(layoutView!!, emptyView, internetView, errorView, loadingView)
-            for (x in views.indices) {
-                if (customViews.value == x) {
-                    views[customViews.value].visibility = View.VISIBLE
+            val views = arrayOf(layoutView!!, emptyView, internetView, errorView, loadingView)
+
+            views.forEachIndexed { index, view ->
+                if (customViews.value == index) {
+                    view.visibility = View.VISIBLE
                 } else {
-                    views[x].visibility = View.GONE
+                    view.visibility = View.GONE
                 }
             }
         } else {
-            throw Throwable("no layout view provided")
+            throw Throwable("No layout view provided")
         }
     }
 
     fun hideAll() {
         if (layoutView != null) {
+            val views = arrayOf(layoutView!!, emptyView, internetView, errorView, loadingView)
 
-            val views =
-                arrayOf(layoutView!!, emptyView, internetView, errorView, loadingView)
-            for (x in views.indices) {
-                views[x].visibility = View.GONE
+            views.forEach {
+                it.visibility = View.GONE
             }
         } else {
-            throw Throwable("no layout view provided")
+            throw Throwable("No layout view provided")
         }
     }
 }

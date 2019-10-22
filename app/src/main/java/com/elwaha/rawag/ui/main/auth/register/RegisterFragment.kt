@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.register_fragment.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
-
 const val RC_PERMISSION_STORAGE = 111
 const val RC_AVATAR = 112
 const val RC_IMAGES = 113
@@ -144,7 +143,6 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     private fun register() {
 
     }
-
 
     private fun setUpSpinner() {
 

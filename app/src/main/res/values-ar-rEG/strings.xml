@@ -84,4 +84,7 @@
     <string name="report_reason">سبب البلاغ</string>
     <string name="requestPermission">طلب الصلاحيات</string>
     <string name="errorSelectImage">خطأ في اختيار الصورة</string>
+    <string name="internet_message">"لا يوجد اتصال بالانترنت \n اضغط لاعادة المحاولة"</string>
+    <string name="error_message">حدث خطأ ما</string>
+    <string name="empty_message">لا توجد بيانات</string>
 </resources>

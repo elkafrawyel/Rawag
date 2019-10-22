@@ -9,16 +9,16 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.elwaha.rawag.R
-import com.elwaha.rawag.ui.main.mainFragment.MainFragmentDirections
-import com.elwaha.rawag.utilies.toast
-import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
 import com.elwaha.rawag.ui.main.adapters.CategoriesAdapter
+import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
+import com.elwaha.rawag.ui.main.mainFragment.MainFragmentDirections
+import com.elwaha.rawag.utilies.CustomViews
+import com.elwaha.rawag.utilies.toast
 import kotlinx.android.synthetic.main.categories_fragment.*
 import java.util.*
 import kotlin.concurrent.timerTask
 
 class CategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
-
 
     companion object {
         fun newInstance() = CategoriesFragment()
@@ -28,6 +28,7 @@ class CategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
     private var adapter = CategoriesAdapter().also {
         it.onItemChildClickListener = this
     }
+
     private var timer: Timer? = null
     private val imageSliderAdapter = ImageSliderAdapter {
         val images = viewModel.images
@@ -77,6 +78,9 @@ class CategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
 
         categoriesRv.adapter = adapter
         categoriesRv.setHasFixedSize(true)
+
+        rootView.setLayout(categoriesNsv)
+        rootView.setVisible(CustomViews.LAYOUT)
     }
 
     override fun onResume() {
@@ -103,7 +107,8 @@ class CategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
             R.id.cardItem -> {
-                val action = MainFragmentDirections.actionMainFragmentToSubCategoriesFragment("test")
+                val action =
+                    MainFragmentDirections.actionMainFragmentToSubCategoriesFragment("test")
                 findNavController().navigate(action)
             }
         }

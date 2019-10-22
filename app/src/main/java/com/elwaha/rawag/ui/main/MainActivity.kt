@@ -5,11 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.elwaha.rawag.R
-import com.elwaha.rawag.data.models.UserModel
 import com.elwaha.rawag.utilies.Injector
 import com.elwaha.rawag.utilies.ObjectConverter
 import com.elwaha.rawag.utilies.changeLanguage
-import com.elwaha.rawag.utilies.toast
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,5 +25,4 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
     }
-
 }

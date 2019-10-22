@@ -73,10 +73,13 @@
     <string name="myAdsTitle">My Products</string>
     <string name="call">Make Call</string>
     <string name="commentsTitle">Comment</string>
-    <string name="write_comment">write comment...</string>
+    <string name="write_comment">write comment…</string>
     <string name="delete">Delete</string>
     <string name="hide">Hide</string>
     <string name="report_reason">Report reason</string>
     <string name="requestPermission">Request Permission</string>
     <string name="errorSelectImage">Error selecting image</string>
+    <string name="internet_message">Oops, No Internet Connection.\n click to retry</string>
+    <string name="error_message">Some error happened</string>
+    <string name="empty_message">Empty data</string>
 </resources>

@@ -50,10 +50,7 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
 
         setData()
         rootView.setLayout(subCategoriesCl)
-        rootView.setVisible(CustomViews.INTERNET)
-        rootView.retry {
-            activity?.toast("retry")
-        }
+        rootView.setVisible(CustomViews.LAYOUT)
     }
 
 

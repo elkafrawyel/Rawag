@@ -7,7 +7,7 @@ class CustomLoadMoreView : LoadMoreView() {
 
     override fun getLayoutId(): Int {
         //layout name that hold the custom views
-        return R.layout.loading_view
+        return R.layout.pagination_loading_view
     }
 
     override fun isLoadEndGone(): Boolean {

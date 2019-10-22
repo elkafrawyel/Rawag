@@ -1,8 +1,8 @@
 package com.elwaha.rawag.ui.main.auth.register
 
-import androidx.lifecycle.ViewModel
+import com.elwaha.rawag.ui.AppViewModel
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel : AppViewModel() {
     var categories = ArrayList<String>()
 
     init {
