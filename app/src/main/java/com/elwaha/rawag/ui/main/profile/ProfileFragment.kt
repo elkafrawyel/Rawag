@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.elwaha.rawag.R
 import com.elwaha.rawag.utilies.toast
 import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
+import com.elwaha.rawag.utilies.CustomViews
 import kotlinx.android.synthetic.main.profile_fragment.*
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -41,6 +42,8 @@ class ProfileFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
 
+        rootView.setLayout(profileCl)
+        rootView.setVisible(CustomViews.LAYOUT)
         arguments?.let {
             val isMyAccount = com.elwaha.rawag.ui.main.profile.ProfileFragmentArgs.fromBundle(it).isMyProfile
             if (isMyAccount){

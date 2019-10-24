@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.elwaha.rawag.utilies.CustomParent xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rootView"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.elwaha.rawag.ui.main.profiles.ProfilesFragment">
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/profilesCl"
     tools:context="com.elwaha.rawag.ui.main.profiles.ProfilesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -78,3 +85,4 @@
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.elwaha.rawag.utilies.CustomParent>

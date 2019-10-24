@@ -48,6 +48,7 @@ class CustomParent : FrameLayout {
         val inflater = LayoutInflater.from(context)
 
         internetView = inflater.inflate(R.layout.custom_view_network, null)
+        internetView.visibility = View.GONE
 
         emptyView = inflater.inflate(R.layout.custom_view_empty, null)
         emptyText = emptyView.findViewById(R.id.emptyText)
@@ -61,11 +62,12 @@ class CustomParent : FrameLayout {
         this.addView(loadingView)
         this.addView(emptyView)
         this.addView(internetView)
+
     }
 
     fun setLayout(layoutView: View) {
         this.layoutView = layoutView
-        setVisible(CustomViews.LOADING)
+        hideAll()
     }
 
     fun setEmptyText(text: String) {
