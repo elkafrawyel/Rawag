@@ -13,7 +13,6 @@ import com.elwaha.rawag.R
 import com.elwaha.rawag.ui.main.adapters.CategoriesAdapter
 import com.elwaha.rawag.utilies.CustomViews
 import com.elwaha.rawag.utilies.ViewState
-import com.elwaha.rawag.utilies.toast
 import kotlinx.android.synthetic.main.sub_categories_fragment.*
 
 class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
@@ -41,13 +40,10 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
         viewModel = ViewModelProviders.of(this).get(SubCategoriesViewModel::class.java)
         viewModel.uiState.observe(this, Observer { onResponse(it) })
 
-        viewModel.getSubCategories()
         arguments?.let {
-            val categoryId =
-                com.elwaha.rawag.ui.main.subCategories.SubCategoriesFragmentArgs.fromBundle(
-                    it
-                ).categoryId
-            activity?.toast(categoryId)
+            val categoryId = SubCategoriesFragmentArgs.fromBundle(it).categoryId
+            if (viewModel.categoryId == null)
+                viewModel.categoryId = categoryId
         }
 
         backImgv.setOnClickListener { findNavController().navigateUp() }
@@ -55,7 +51,6 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
         subCategoriesRv.adapter = adapter
         subCategoriesRv.setHasFixedSize(true)
 
-        setData()
     }
 
     private fun onResponse(state: ViewState?) {
@@ -64,6 +59,7 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
                 rootView.setVisible(CustomViews.LOADING)
             }
             ViewState.Success -> {
+                setData()
                 rootView.setVisible(CustomViews.LAYOUT)
             }
             is ViewState.Error -> {
@@ -88,11 +84,25 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
     }
 
     fun setData() {
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-
+        val list = ArrayList<String>()
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        list.add("A")
+        adapter.replaceData(list)
         adapter.notifyDataSetChanged()
     }
 

@@ -3,17 +3,23 @@ package com.elwaha.rawag.ui.main.subCategories
 import com.elwaha.rawag.ui.AppViewModel
 import com.elwaha.rawag.utilies.ViewState
 
-class SubCategoriesViewModel  : AppViewModel() {
+class SubCategoriesViewModel : AppViewModel() {
 
-    fun getSubCategories() {
+    var categoryId: String? = null
+        set(value) {
+            getSubCategories(value)
+        }
+
+    private fun getSubCategories(categoryId: String?) {
         checkNetwork {
-           runOnMainThread {
-               _uiState.value = ViewState.Empty
-           }
+            runOnMainThread {
+                _uiState.value = ViewState.Success
+            }
         }
     }
 
     fun refresh() {
-        getSubCategories()
+        getSubCategories(categoryId)
     }
+
 }

@@ -2,9 +2,9 @@
 <com.elwaha.rawag.utilies.CustomParent xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rootView"
     tools:context="com.elwaha.rawag.ui.main.subCategories.SubCategoriesFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -26,7 +26,6 @@
             app:layout_constraintTop_toBottomOf="@id/bannerSliderVp"
             app:spanCount="2"
             tools:listitem="@layout/categories_item_view" />
-
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"

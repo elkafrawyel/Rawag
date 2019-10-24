@@ -11,13 +11,16 @@ import kotlinx.coroutines.*
 
 abstract class AppViewModel : ViewModel() {
 
+    var job: Job? = null
+
+    private val parentJob = Job()
+    private val scope = CoroutineScope(Dispatchers.Main + parentJob)
+
     private val dispatcherProvider = CoroutinesDispatcherProvider(
         Dispatchers.Main,
         Dispatchers.Default,
         Dispatchers.IO
     )
-
-    var job: Job? = null
 
     protected var _uiState = MutableLiveData<ViewState>()
     val uiState: LiveData<ViewState>
@@ -27,9 +30,6 @@ abstract class AppViewModel : ViewModel() {
     val uiStateEvent: LiveData<Event<ViewState>>
         get() = _uiStateEvent
 
-    private val parentJob = Job()
-    private val scope = CoroutineScope(Dispatchers.Main + parentJob)
-
     fun checkNetwork(JobCode: () -> Unit) {
         if (NetworkUtils.isConnected()) {
             if (job?.isActive == true)
@@ -37,6 +37,16 @@ abstract class AppViewModel : ViewModel() {
             job = launchJob(JobCode)
         } else {
             _uiState.value = ViewState.NoConnection
+        }
+    }
+
+    fun checkNetworkEvent(JobCode: () -> Unit) {
+        if (NetworkUtils.isConnected()) {
+            if (job?.isActive == true)
+                return
+            job = launchJob(JobCode)
+        } else {
+            _uiStateEvent.value = Event(ViewState.NoConnection)
         }
     }
 
@@ -59,3 +69,4 @@ abstract class AppViewModel : ViewModel() {
         parentJob.cancel()
     }
 }
+
