@@ -1,4 +1,9 @@
 <resources>
+    //Hoot app in google console should be an old created app
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyC85RQEkaJ5mjDZDCj3qnq8cdR_5igNed0
+    </string>
+
     <string name="app_name">Rawag</string>
     <string name="home_tab">Home</string>
     <string name="categories_tab">Categories</string>
@@ -79,7 +84,16 @@
     <string name="report_reason">Report reason</string>
     <string name="requestPermission">Request Permission</string>
     <string name="errorSelectImage">Error selecting image</string>
-    <string name="internet_message">Oops, No Internet Connection.\n click to retry</string>
-    <string name="error_message">Some error happened</string>
-    <string name="empty_message">Empty data</string>
+    <string name="generalError">Error Happened</string>
+    <string name="empty_field">Empty Field</string>
+    <string name="LogIn">LogIn</string>
+    <string name="loggingIn">LogIn ,Please wait.</string>
+    <string name="login_success">Login Completed Successfully</string>
+    <string name="noInternet">No Internet Connection.</string>
+    <string name="agree_to_terms">You have to agree to our terms and conditions first.</string>
+    <string name="select_category">Select Category</string>
+    <string name="choose_category">Choose Category</string>
+    <string name="select_sub_category">choose SubCategory</string>
+    <string name="choose_avatar">Choose Profile Picture</string>
+    <string name="creatingNewAccount">Creating your account,please wait.</string>
 </resources>

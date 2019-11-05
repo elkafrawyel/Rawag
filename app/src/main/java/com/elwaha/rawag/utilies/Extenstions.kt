@@ -1,6 +1,7 @@
 package com.elwaha.rawag.utilies
 
 import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
@@ -9,18 +10,25 @@ import android.database.DatabaseUtils
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.Handler
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.text.format.DateFormat
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.beust.klaxon.Klaxon
-import com.google.android.material.snackbar.Snackbar
 import com.elwaha.rawag.BuildConfig.DEBUG
 import com.elwaha.rawag.R
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import dmax.dialog.SpotsDialog
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.reflect.KClass
-
 
 fun Context.changeLanguage() {
     var locale: Locale? = null
@@ -42,7 +50,6 @@ fun Context.changeLanguage() {
         this.resources.updateConfiguration(config, this.resources.displayMetrics)
     }
 }
-
 
 fun Context.restartApplication() {
     val intent = Injector.getApplicationContext().packageManager.getLaunchIntentForPackage(
@@ -123,6 +130,61 @@ fun Context.showMessageInDialog(message: String, okAction: () -> Unit, cancelAct
 
 }
 
+fun Context.viewLocation(lat: Any, lang: Any): Intent {
+    val gmmIntentUri = Uri.parse("google.navigation:q=$lat,$lang")
+    val intent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+    intent.setPackage("com.google.android.apps.maps")
+    return intent
+}
+
+fun Context.getTime(time: String): String {
+    return try {
+        DateFormat.format("hh:mm a", SimpleDateFormat("hh:mm:ss").parse(time)).toString()
+    } catch (ex: Exception) {
+        time
+    }
+}
+
+fun Context.clearNotifications(context: Context) {
+    val notificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.cancelAll()
+}
+
+fun Uri.toMultiPart(context: Context, partName: String): MultipartBody.Part {
+    val path = context.getRealPathFromUri(this)
+    val file = File(path)
+    val requestFile =
+        RequestBody.create(MediaType.parse(context.contentResolver.getType(this)!!), file)
+    return MultipartBody.Part.createFormData(partName, file.name, requestFile)
+}
+
+fun String.toMultiPart(): RequestBody =
+    RequestBody.create(MediaType.parse("text/plain"), this)
+
+fun TextInputEditText.setEmptyError() {
+    this.error = Injector.getApplicationContext().getString(R.string.empty_field)
+    this.requestFocus()
+    startAnimation(AnimationUtils.loadAnimation(context, R.anim.shake))
+    Handler().postDelayed({
+        error = null
+    }, 2000)
+}
+
+fun Context.getCurrentDate(): String {
+    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale("en"))
+    return sdf.format(Date())
+}
+
+fun Context.showLoading(
+    message: String
+): SpotsDialog {
+    return SpotsDialog.Builder()
+        .setMessage(message)
+        .setContext(this)
+        .build() as SpotsDialog
+}
+
 //=============================== Image Real Path =============================
 @SuppressLint("ObsoleteSdkInt")
 fun Context.getRealPathFromUri(uri: Uri): String? {
@@ -201,13 +263,13 @@ private fun getDataColumn(
 
     try {
         cursor =
-            Injector.getApplicationContext().getContentResolver()
-                .query(uri, projection, selection, selectionArgs, null)
-        if (cursor != null && cursor!!.moveToFirst()) {
+            Injector.getApplicationContext().contentResolver
+                .query(uri!!, projection, selection, selectionArgs, null)
+        if (cursor != null && cursor.moveToFirst()) {
             if (DEBUG)
                 DatabaseUtils.dumpCursor(cursor)
 
-            val column_index = cursor!!.getColumnIndexOrThrow(column)
+            val column_index = cursor.getColumnIndexOrThrow(column)
             return cursor.getString(column_index)
         }
     } finally {

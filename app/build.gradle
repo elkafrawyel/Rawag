@@ -54,7 +54,7 @@ dependencies {
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
     implementation "com.squareup.okhttp3:logging-interceptor:3.13.1"
 
-    implementation "com.google.android.material:material:1.1.0-beta01"
+    implementation "com.google.android.material:material:1.2.0-alpha01"
 
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46"
 
@@ -63,11 +63,12 @@ dependencies {
     }
     kapt "com.github.bumptech.glide:compiler:4.9.0"
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-beta01"
-    implementation "androidx.recyclerview:recyclerview:1.1.0-beta05"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc01"
+    implementation "androidx.recyclerview:recyclerview:1.1.0-rc01"
 
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.0-beta01'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.2.0-beta01'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.0-rc01'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.0-rc01'
+
 
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'com.duolingo.open:rtl-viewpager:2.0.0'
@@ -76,7 +77,14 @@ dependencies {
     //Klaxon is a library to parse JSON in Kotlin
     implementation 'com.beust:klaxon:5.0.1'
 
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+
     implementation "com.airbnb.android:lottie:3.0.0-beta1"
 
+    implementation 'com.github.elkafrawyel:FrameView-Android:0.0.6'
+    implementation 'com.github.elkafrawyel:ZoomImageView-Android:0.0.2'
 
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.libraries.places:places:2.0.0'
 }

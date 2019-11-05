@@ -7,7 +7,7 @@ class PreferencesHelper(private val context: Context) {
 
     companion object {
         private const val IS_LOGGED_IN = "isLoggedIn"
-        private const val USER = "user"
+        private const val USER = "userModel"
         private const val LANGUAGE = "language"
     }
 

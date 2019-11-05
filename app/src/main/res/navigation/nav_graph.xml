@@ -29,7 +29,11 @@
             app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_mainFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/translate_left_side"
+            app:popExitAnim="@anim/translate_right_side" />
         <action
             android:id="@+id/action_mainFragment_to_subCategoriesFragment"
             app:destination="@id/subCategoriesFragment" />
@@ -107,10 +111,16 @@
         tools:layout="@layout/login_fragment" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            />
         <action
             android:id="@+id/action_loginFragment_to_resetPasswordFragment"
             app:destination="@id/resetPasswordFragment" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment"/>
+
     </fragment>
     <fragment
         android:id="@+id/registerFragment"

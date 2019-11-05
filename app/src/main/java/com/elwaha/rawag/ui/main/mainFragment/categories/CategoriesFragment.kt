@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.elkafrawyel.CustomViews
 import com.elwaha.rawag.R
 import com.elwaha.rawag.ui.main.adapters.CategoriesAdapter
 import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
 import com.elwaha.rawag.ui.main.mainFragment.MainFragmentDirections
-import com.elwaha.rawag.utilies.CustomViews
 import com.elwaha.rawag.utilies.toast
 import kotlinx.android.synthetic.main.categories_fragment.*
 import java.util.*
@@ -53,28 +53,6 @@ class CategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
         bannerSliderVp.pageMargin = 20
         bannerSliderVp.clipToPadding = false
         bannerSliderVp.adapter = imageSliderAdapter
-
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
 
         categoriesRv.adapter = adapter
         categoriesRv.setHasFixedSize(true)

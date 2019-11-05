@@ -5,20 +5,30 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
+import com.elwaha.rawag.R
+import com.elwaha.rawag.utilies.Constants
+import com.elwaha.rawag.utilies.Injector
+import com.elwaha.rawag.utilies.ObjectConverter
+import com.elwaha.rawag.utilies.snackBarWithAction
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
-import com.elwaha.rawag.R
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 
 class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var viewModel: MainFragmentViewModel
+    private val authIndex = 7
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,65 +85,65 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
                     0 -> {
-                        viewPager.setCurrentItem(0,true)
+                        viewPager.setCurrentItem(0, true)
                     }
 
                     1 -> {
-                        viewPager.setCurrentItem(1,true)
+                        viewPager.setCurrentItem(1, true)
                     }
 
                     2 -> {
-                        viewPager.setCurrentItem(2,true)
+                        viewPager.setCurrentItem(2, true)
                     }
                 }
             }
         })
 
         searchImgv.setOnClickListener { findNavController().navigate(R.id.searchFragment) }
+
+        setAuthState()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_Profile -> {
-//                if (Injector.getPreferenceHelper().isLoggedIn) {
-                //isMyAccount is false
-                val action =
-                    com.elwaha.rawag.ui.main.mainFragment.MainFragmentDirections.actionMainFragmentToProfileFragment(
-                        null,
-                        true
-                    )
-                findNavController().navigate(action)
-//                } else {
-//                    snackBarWithAction(
-//                        getString(R.string.you_must_login),
-//                        getString(R.string.login),
-//                        rootView
-//                    ) {
-//                        findNavController().navigate(R.id.action_mainHomeFragment_to_loginFragment)
-//                    }
-//                }
+                if (Injector.getPreferenceHelper().isLoggedIn) {
+                    //isMyAccount is false
+                    val action =
+                        MainFragmentDirections.actionMainFragmentToProfileFragment(
+                            null,
+                            true
+                        )
+                    findNavController().navigate(action)
+                } else {
+                    activity?.snackBarWithAction(
+                        getString(R.string.you_must_login),
+                        getString(R.string.login),
+                        rootView
+                    ) {
+                        findNavController().navigate(R.id.action_mainFragment_to_loginFragment)
+                    }
+                }
             }
 
             R.id.nav_AddProduct -> {
-//                if (Injector.getPreferenceHelper().isLoggedIn) {
-                findNavController().navigate(R.id.choosePackageFragment)
-
-//                } else {
-//                   snackBarWithAction(
-//                        getString(R.string.you_must_login),
-//                        getString(R.string.login),
-//                        rootView
-//                    ) {
-//                        findNavController().navigate(R.id.action_mainHomeFragment_to_loginFragment)
-//                    }
-//                }
+                if (Injector.getPreferenceHelper().isLoggedIn) {
+                    findNavController().navigate(R.id.choosePackageFragment)
+                } else {
+                    activity?.snackBarWithAction(
+                        getString(R.string.you_must_login),
+                        getString(R.string.login),
+                        rootView
+                    ) {
+                        findNavController().navigate(R.id.action_mainFragment_to_loginFragment)
+                    }
+                }
             }
             R.id.nav_About -> {
                 findNavController().navigate(R.id.aboutUsFragment)
             }
             R.id.nav_Terms -> {
                 findNavController().navigate(R.id.termsFragment)
-
             }
             R.id.nav_contactUs -> {
                 findNavController().navigate(R.id.contactUsFragment)
@@ -143,15 +153,35 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
 
             R.id.nav_LogOut -> {
-//                if (Injector.getPreferenceHelper().isLoggedIn) {
-
-                findNavController().navigate(R.id.loginFragment)
-//                } else {
-//                    findNavController().navigate(R.id.action_mainHomeFragment_to_loginFragment)
-//                }
+                if (Injector.getPreferenceHelper().isLoggedIn) {
+                    Injector.getPreferenceHelper().clear()
+                    findNavController().navigate(R.id.loginFragment)
+                } else {
+                    findNavController().navigate(R.id.loginFragment)
+                }
             }
         }
         rootView.closeDrawer(GravityCompat.START)
         return true
+    }
+
+
+    private fun setAuthState() {
+        val userImage =
+            navigationView.getHeaderView(0).findViewById<CircleImageView>(R.id.userImage)
+        val userName=
+            navigationView.getHeaderView(0).findViewById<TextView>(R.id.userName)
+
+        if (Injector.getPreferenceHelper().isLoggedIn) {
+            val user = ObjectConverter().getUser(Injector.getPreferenceHelper().user)
+
+            navigationView.menu.getItem(authIndex).title = getString(R.string.LogOut)
+            Glide.with(this).load(Constants.IMAGES_BASE_URL+user.avatar).into(userImage)
+            userName.text = user.name
+        } else {
+            navigationView.menu.getItem(authIndex).title = getString(R.string.LogIn)
+            Glide.with(this).load(R.drawable.logoo).into(userImage)
+            userName.text = getString(R.string.app_name)
+        }
     }
 }

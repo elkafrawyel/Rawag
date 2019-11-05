@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.elkafrawyel.CustomViews
 import com.elwaha.rawag.R
-import com.elwaha.rawag.utilies.CustomViews
 import com.elwaha.rawag.utilies.toast
 import kotlinx.android.synthetic.main.profiles_fragment.*
 

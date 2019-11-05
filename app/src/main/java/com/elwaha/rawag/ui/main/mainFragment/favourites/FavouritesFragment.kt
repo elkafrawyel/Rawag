@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.elkafrawyel.CustomViews
 
 import com.elwaha.rawag.R
 import com.elwaha.rawag.ui.main.mainFragment.MainFragmentDirections
 import com.elwaha.rawag.utilies.toast
 import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
-import com.elwaha.rawag.utilies.CustomViews
 import kotlinx.android.synthetic.main.favourite_fragment.*
 import java.util.*
 import kotlin.concurrent.timerTask

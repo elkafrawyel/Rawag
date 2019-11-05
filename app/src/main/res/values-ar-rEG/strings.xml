@@ -84,7 +84,16 @@
     <string name="report_reason">سبب البلاغ</string>
     <string name="requestPermission">طلب الصلاحيات</string>
     <string name="errorSelectImage">خطأ في اختيار الصورة</string>
-    <string name="internet_message">"لا يوجد اتصال بالانترنت \n اضغط لاعادة المحاولة"</string>
-    <string name="error_message">حدث خطأ ما</string>
-    <string name="empty_message">لا توجد بيانات</string>
+    <string name="generalError">حدث خطأ ما</string>
+    <string name="LogIn">تسجيل الدخول</string>
+    <string name="empty_field">حقل فارغ</string>
+    <string name="loggingIn">يتم تسجيل الدخول,انتظر من فضلك</string>
+    <string name="login_success">تم تسجيل الدخول بنجاح</string>
+    <string name="noInternet">لا يوجد اتصال بالانترنت</string>
+    <string name="agree_to_terms">يجب ان توافق علي الشروط والاحكام</string>
+    <string name="select_category">أختر قسم</string>
+    <string name="choose_category">اختر قسم رئيسي</string>
+    <string name="select_sub_category">اختر قسم فرعي</string>
+    <string name="choose_avatar">اختر صورة شخصية</string>
+    <string name="creatingNewAccount">يتم انشاء حساب انتظر من فضلك</string>
 </resources>

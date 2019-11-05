@@ -11,20 +11,29 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.elwaha.rawag.R
+import com.elwaha.rawag.data.models.CategoryModel
+import com.elwaha.rawag.data.models.requests.RegisterRequest
+import com.elwaha.rawag.ui.main.MainViewModel
 import com.elwaha.rawag.ui.main.adapters.ImagesAdapter
-import com.elwaha.rawag.utilies.getRealPathFromUri
-import com.elwaha.rawag.utilies.toast
+import com.elwaha.rawag.utilies.*
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesRepairableException
+import com.google.android.gms.location.places.ui.PlacePicker
+import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.register_fragment.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
+
 const val RC_PERMISSION_STORAGE = 111
 const val RC_AVATAR = 112
 const val RC_IMAGES = 113
+const val RC_PLACE_PICKER = 114
 
 class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
@@ -32,7 +41,9 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         fun newInstance() = RegisterFragment()
     }
 
+    private var loading: SpotsDialog? = null
     private lateinit var viewModel: RegisterViewModel
+    private lateinit var mainViewModel: MainViewModel
     var adapter = ImagesAdapter().also {
         it.onItemChildClickListener = this
     }
@@ -47,6 +58,12 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
+        mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+
+        viewModel.uiStateEvent.observeEvent(this) { onRegisterResponse(it) }
+        mainViewModel.uiState.observe(this, Observer { onMainResponse(it) })
+        mainViewModel.action = MainViewModel.MainActions.CATEGORIES
+
         locationTv.isSelected = true
 
         backImgv.setOnClickListener { findNavController().navigateUp() }
@@ -54,7 +71,135 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         login.setOnClickListener { findNavController().navigate(R.id.loginFragment) }
         chooseProfileImage.setOnClickListener { chooseAvatar() }
         pickImages.setOnClickListener { chooseBackgroundImages() }
-        setUpSpinner()
+        pickLocation.setOnClickListener { openPlacePicker() }
+        newAccountMbtn.setOnClickListener { checkStorage() }
+    }
+
+    private fun onRegisterResponse(state: ViewState) {
+        when (state) {
+            ViewState.Loading -> {
+                loading = activity?.showLoading(getString(R.string.creatingNewAccount))
+                loading!!.show()
+            }
+            ViewState.Success -> {
+                loading!!.dismiss()
+                activity?.toast(getString(R.string.login_success))
+                findNavController().popBackStack(R.id.mainFragment, true)
+            }
+            is ViewState.Error -> {
+                loading!!.dismiss()
+                activity?.toast(state.message)
+            }
+            ViewState.NoConnection -> {
+                loading!!.dismiss()
+                activity?.toast(getString(R.string.noInternet))
+            }
+        }
+    }
+
+    private fun onMainResponse(state: ViewState?) {
+        when (state) {
+            ViewState.Loading -> {
+
+            }
+            ViewState.Success -> {
+                when (mainViewModel.action) {
+                    MainViewModel.MainActions.CATEGORIES -> {
+                        addCategoriesToSpinner()
+                        //just initialized with first object
+                        addSubCategoriesToSpinner()
+                    }
+                    MainViewModel.MainActions.SUB_CATEGORIES -> {
+                        addSubCategoriesToSpinner()
+                    }
+                    null -> {
+
+                    }
+                }
+            }
+            is ViewState.Error -> {
+                activity?.toast(state.message)
+            }
+            ViewState.NoConnection -> {
+
+            }
+
+            null -> {
+
+            }
+        }
+    }
+
+    private fun addCategoriesToSpinner() {
+        val adapterCategories = ArrayAdapter<CategoryModel>(
+            context!!,
+            android.R.layout.simple_spinner_item,
+            mainViewModel.categoriesList
+        )
+
+        adapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categoriesSpinner.adapter = adapterCategories
+        categoriesSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.selectedCategory = mainViewModel.categoriesList[position]
+                    //call subCategory when select category
+                    if (viewModel.selectedCategory!!.id != mainViewModel.fakeCategoryId) {
+                        mainViewModel.categoryId = viewModel.selectedCategory!!.id.toString()
+                        mainViewModel.get(MainViewModel.MainActions.SUB_CATEGORIES)
+                    }
+                }
+            }
+    }
+
+
+    private fun addSubCategoriesToSpinner() {
+        val adapterSubCategories = ArrayAdapter<CategoryModel>(
+            context!!,
+            android.R.layout.simple_spinner_item,
+            mainViewModel.subCategoriesList
+        )
+
+        adapterSubCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        subCategoriesSpinner.adapter = adapterSubCategories
+        subCategoriesSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.selectedSubCategory = mainViewModel.subCategoriesList[position]
+                }
+            }
+    }
+
+    private fun openPlacePicker() {
+        val builder = PlacePicker.IntentBuilder()
+        try {
+            // for activity
+            // startActivityForResult(builder.build(this), RC_PLACE_PICKER)
+            // for fragment
+            startActivityForResult(builder.build(activity), RC_PLACE_PICKER);
+        } catch (e: GooglePlayServicesRepairableException) {
+            e.printStackTrace()
+        } catch (e: GooglePlayServicesNotAvailableException) {
+            e.printStackTrace()
+        }
     }
 
     private fun chooseAvatar() {
@@ -82,10 +227,9 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
                 RC_AVATAR -> {
                     val uri = data?.data
-                    val path = activity?.getRealPathFromUri(uri!!)
-                    if (path != null) {
+                    if (uri != null) {
                         registerUserImage.setImageURI(uri)
-//                        viewModel.userImagePath = path
+                        viewModel.avatarUri = uri
                     } else {
                         activity?.toast(getString(R.string.errorSelectImage))
                     }
@@ -113,6 +257,17 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                     imagesRv.setHasFixedSize(true)
                     imagesRv.adapter = adapter
                 }
+
+                RC_PLACE_PICKER -> {
+                    val place = PlacePicker.getPlace(activity, data)
+                    val lat = place.latLng.latitude
+                    viewModel.lat = lat.toString()
+                    val lang = place.latLng.longitude
+                    viewModel.lang = lang.toString()
+                    val address = place.address!!.toString()
+                    viewModel.address = address
+                    locationTv.text = address
+                }
             }
         }
     }
@@ -125,7 +280,6 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             }
         }
     }
-
 
     @AfterPermissionGranted(RC_PERMISSION_STORAGE)
     private fun checkStorage() {
@@ -141,58 +295,72 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     }
 
     private fun register() {
+        if (viewModel.avatarUri == null) {
+            activity?.toast(getString(R.string.choose_avatar))
+            return
+        }
 
-    }
+        if (userNameEt.text.toString().isEmpty()) {
+            userNameEt.setEmptyError()
+            return
+        }
 
-    private fun setUpSpinner() {
+        if (phoneEt.text.toString().isEmpty()) {
+            phoneEt.setEmptyError()
+            return
+        }
 
-        val adapterCategories = ArrayAdapter<String>(
-            context!!,
-            android.R.layout.simple_spinner_item,
-            viewModel.categories
+        if (emailEt.text.toString().isEmpty()) {
+            emailEt.setEmptyError()
+            return
+        }
+
+        if (viewModel.lang == null || viewModel.lat == null || viewModel.address == null) {
+            activity?.toast("We need your address")
+            return
+        }
+
+        if (viewModel.selectedCategory == null || viewModel.selectedCategory!!.id == mainViewModel.fakeCategoryId) {
+            activity?.toast(getString(R.string.choose_category))
+            return
+        }
+
+        if (viewModel.selectedSubCategory == null || viewModel.selectedSubCategory!!.id == mainViewModel.fakeCategoryId) {
+            activity?.toast(getString(R.string.choose_category))
+            return
+        }
+
+        if (viewModel.selectedSubCategory == null) {
+            activity?.toast(getString(R.string.select_sub_category))
+            return
+        }
+
+        if (passwordEt.text.toString().isEmpty()) {
+            passwordEt.setEmptyError()
+            return
+        }
+
+        if (descEt.text.toString().isEmpty()) {
+            descEt.setEmptyError()
+            return
+        }
+
+        if (!termsCheckBox.isChecked) {
+            activity?.toast(getString(R.string.agree_to_terms))
+            return
+        }
+
+        val registerRequest = RegisterRequest(
+            userNameEt.text.toString(), emailEt.text.toString(),
+            phoneEt.text.toString(),
+            passwordEt.text.toString(),
+            viewModel.address!!,
+            viewModel.lang!!,
+            viewModel.lat!!,
+            viewModel.selectedSubCategory!!.id.toString(),
+            accepted = "1"
         )
 
-        adapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        categoriesSpinner.adapter = adapterCategories
-        categoriesSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-//                    viewModel.selectedSubCategory = viewModel.subCategories[position]
-                }
-            }
-
-        val adapterSubCategories = ArrayAdapter<String>(
-            context!!,
-            android.R.layout.simple_spinner_item,
-            viewModel.categories
-        )
-
-        adapterSubCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        subCategoriesSpinner.adapter = adapterSubCategories
-        subCategoriesSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-//                    viewModel.selectedSubCategory = viewModel.subCategories[position]
-                }
-            }
+        viewModel.register(registerRequest, viewModel.avatarUri!!)
     }
-
 }

@@ -8,78 +8,89 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.elkafrawyel.CustomViews
 import com.elwaha.rawag.R
 import com.elwaha.rawag.ui.main.adapters.CategoriesAdapter
 import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
 import com.elwaha.rawag.ui.main.mainFragment.MainFragmentDirections
-import com.elwaha.rawag.utilies.CustomViews
+import com.elwaha.rawag.utilies.ViewState
 import com.elwaha.rawag.utilies.toast
 import kotlinx.android.synthetic.main.home_fragment.*
 import java.util.*
 import kotlin.concurrent.timerTask
 
 class HomeFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
-
     companion object {
         fun newInstance() = HomeFragment()
     }
-
     private var adapter = CategoriesAdapter().also {
         it.onItemChildClickListener = this
     }
-
     private lateinit var viewModel: HomeViewModel
     private var timer: Timer? = null
     private val imageSliderAdapter = ImageSliderAdapter {
-        val images = viewModel.images
+        val images = viewModel.ads
         if (images.isNotEmpty()) {
             activity?.toast("clicked")
         }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        imageSliderAdapter.submitList(viewModel.images)
+        viewModel.uiState.observe(this, androidx.lifecycle.Observer { onHomeResponse(it) })
+        categoriesRv.adapter = adapter
+        categoriesRv.setHasFixedSize(true)
+        rootView.setLayout(homeNsv)
+        rootView.setVisible(CustomViews.LAYOUT)
+        if (viewModel.categories.isEmpty()|| viewModel.ads.isEmpty()){
+            viewModel.get()
+        }
+    }
+
+    private fun onHomeResponse(state: ViewState?) {
+        when (state) {
+            ViewState.Loading -> {
+                rootView.setVisible(CustomViews.LOADING)
+            }
+            ViewState.Success -> {
+                setData()
+                rootView.setVisible(CustomViews.LAYOUT)
+            }
+            is ViewState.Error -> {
+                rootView.setVisible(CustomViews.ERROR)
+            }
+            ViewState.NoConnection -> {
+                rootView.setVisible(CustomViews.INTERNET)
+                rootView.retry {
+                    viewModel.get()
+                }
+            }
+            ViewState.Empty -> {
+                rootView.setVisible(CustomViews.EMPTY)
+            }
+            ViewState.LastPage -> {
+
+            }
+            null -> {
+
+            }
+        }
+    }
+
+    private fun setData() {
+        imageSliderAdapter.submitList(viewModel.ads)
         bannerSliderVp.setPadding(80, 0, 80, 0);
         bannerSliderVp.pageMargin = 20
         bannerSliderVp.clipToPadding = false
         bannerSliderVp.adapter = imageSliderAdapter
 
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-
-        categoriesRv.adapter = adapter
-        categoriesRv.setHasFixedSize(true)
-
-        rootView.setLayout(homeNsv)
-        rootView.setVisible(CustomViews.LAYOUT)
+        adapter.replaceData(viewModel.categories)
     }
 
     override fun onResume() {

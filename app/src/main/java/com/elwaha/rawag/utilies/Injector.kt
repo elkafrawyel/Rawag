@@ -33,7 +33,7 @@ object Injector {
             if (chain.request().header("Accept-Language") == null) {
                 request.addHeader(
                     "Accept-Language",
-                    chain.request().header("Accept-Language") ?: getPreferenceHelper().language!!
+                    chain.request().header("Accept-Language") ?: getPreferenceHelper().language
                 )
             }
             chain.proceed(request.build())

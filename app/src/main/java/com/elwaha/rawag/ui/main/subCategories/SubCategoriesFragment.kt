@@ -9,17 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.elkafrawyel.CustomViews
 import com.elwaha.rawag.R
+import com.elwaha.rawag.data.models.CategoryModel
 import com.elwaha.rawag.ui.main.adapters.CategoriesAdapter
-import com.elwaha.rawag.utilies.CustomViews
 import com.elwaha.rawag.utilies.ViewState
 import kotlinx.android.synthetic.main.sub_categories_fragment.*
 
 class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
-
-    companion object {
-        fun newInstance() = SubCategoriesFragment()
-    }
 
     private lateinit var viewModel: SubCategoriesViewModel
     private var adapter = CategoriesAdapter().also {
@@ -68,7 +65,7 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
             ViewState.NoConnection -> {
                 rootView.setVisible(CustomViews.INTERNET)
                 rootView.retry {
-
+                    viewModel.refresh()
                 }
             }
             ViewState.Empty -> {
@@ -83,25 +80,8 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
         }
     }
 
-    fun setData() {
-        val list = ArrayList<String>()
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
-        list.add("A")
+    private fun setData() {
+        val list = ArrayList<CategoryModel>()
         adapter.replaceData(list)
         adapter.notifyDataSetChanged()
     }

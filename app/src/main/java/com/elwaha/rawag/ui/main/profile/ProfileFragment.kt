@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.elkafrawyel.CustomViews
 import com.elwaha.rawag.R
 import com.elwaha.rawag.utilies.toast
 import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
-import com.elwaha.rawag.utilies.CustomViews
 import kotlinx.android.synthetic.main.profile_fragment.*
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -62,7 +62,7 @@ class ProfileFragment : Fragment() {
                 val userId = com.elwaha.rawag.ui.main.profile.ProfileFragmentArgs.fromBundle(it).userId
                 activity?.toast(userId!!)
 
-                //call with user id
+                //call with userModel id
             }
 
         }

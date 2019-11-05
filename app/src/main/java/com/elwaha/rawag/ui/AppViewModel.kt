@@ -14,21 +14,19 @@ abstract class AppViewModel : ViewModel() {
     var job: Job? = null
 
     private val parentJob = Job()
-    private val scope = CoroutineScope(Dispatchers.Main + parentJob)
+    val scope = CoroutineScope(Dispatchers.Main + parentJob)
 
-    private val dispatcherProvider = CoroutinesDispatcherProvider(
+    val dispatcherProvider = CoroutinesDispatcherProvider(
         Dispatchers.Main,
         Dispatchers.Default,
         Dispatchers.IO
     )
 
     protected var _uiState = MutableLiveData<ViewState>()
-    val uiState: LiveData<ViewState>
-        get() = _uiState
+    val uiState: LiveData<ViewState> = _uiState
 
     protected var _uiStateEvent = MutableLiveData<Event<ViewState>>()
-    val uiStateEvent: LiveData<Event<ViewState>>
-        get() = _uiStateEvent
+    val uiStateEvent: LiveData<Event<ViewState>> = _uiStateEvent
 
     fun checkNetwork(JobCode: () -> Unit) {
         if (NetworkUtils.isConnected()) {
@@ -40,15 +38,44 @@ abstract class AppViewModel : ViewModel() {
         }
     }
 
-    fun checkNetworkEvent(JobCode: () -> Unit) {
+
+
+
+
+
+
+
+
+
+
+    fun checkNetworkEvent(code: () -> Unit) {
         if (NetworkUtils.isConnected()) {
             if (job?.isActive == true)
                 return
-            job = launchJob(JobCode)
+            job = scope.launch(dispatcherProvider.io) {
+                code.invoke()
+            }
         } else {
             _uiStateEvent.value = Event(ViewState.NoConnection)
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private fun launchJob(jobCode: () -> Unit): Job {
         return scope.launch(dispatcherProvider.io) {

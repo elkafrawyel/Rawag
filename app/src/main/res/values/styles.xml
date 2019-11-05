@@ -11,9 +11,10 @@
     </style>
 
     <style name="myPopupMenuTextAppearanceLarge" parent="@android:style/TextAppearance.DeviceDefault.Widget.PopupMenu.Large">
-    <item name="android:textColor">#545656</item>
-    <item name="android:textSize">25sp</item>
+        <item name="android:textColor">#545656</item>
+        <item name="android:textSize">25sp</item>
     </style>
+
     <style name="splashStyle" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:windowFullscreen">true</item>

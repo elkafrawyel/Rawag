@@ -8,19 +8,20 @@ import androidx.cardview.widget.CardView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.elwaha.rawag.R
-
+import com.elwaha.rawag.data.models.AdModel
+import com.elwaha.rawag.utilies.Constants
 
 
 class ImageSliderAdapter(private val openFullScreenSlider: (Int) -> Unit) : PagerAdapter() {
 
-    private val images = ArrayList<String>()
+    private val ads = ArrayList<AdModel>()
 
     override fun isViewFromObject(view: View, v: Any): Boolean {
         return view == v
     }
 
     override fun getCount(): Int {
-        return images.size
+        return ads.size
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -32,7 +33,7 @@ class ImageSliderAdapter(private val openFullScreenSlider: (Int) -> Unit) : Page
         val imageView = cardView.findViewById<ImageView>(R.id.imageSlider)
 
         Glide.with(imageView)
-            .load(images[position])
+            .load(Constants.IMAGES_BASE_URL+ads[position].img)
             .into(imageView)
 
         imageView.setOnClickListener { openFullScreenSlider(position) }
@@ -43,9 +44,9 @@ class ImageSliderAdapter(private val openFullScreenSlider: (Int) -> Unit) : Page
         container.removeView(`object` as View?)
     }
 
-    fun submitList(imagesList: List<String>) {
-        images.clear()
-        images.addAll(imagesList)
+    fun submitList(imagesList: List<AdModel>) {
+        ads.clear()
+        ads.addAll(imagesList)
         notifyDataSetChanged()
     }
 

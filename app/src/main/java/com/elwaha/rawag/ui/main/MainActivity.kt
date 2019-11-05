@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.elwaha.rawag.R
 import com.elwaha.rawag.utilies.Injector
 import com.elwaha.rawag.utilies.ObjectConverter
@@ -18,11 +19,18 @@ class MainActivity : AppCompatActivity() {
             context.startActivity(intent)
         }
     }
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         changeLanguage()
         setContentView(R.layout.activity_main)
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mainViewModel.get(MainViewModel.MainActions.CATEGORIES)
     }
 }
