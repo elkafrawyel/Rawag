@@ -162,8 +162,8 @@ fun Uri.toMultiPart(context: Context, partName: String): MultipartBody.Part {
 fun String.toMultiPart(): RequestBody =
     RequestBody.create(MediaType.parse("text/plain"), this)
 
-fun TextInputEditText.setEmptyError() {
-    this.error = Injector.getApplicationContext().getString(R.string.empty_field)
+fun TextInputEditText.setEmptyError(context: Context) {
+    this.error = context.getString(R.string.empty_field)
     this.requestFocus()
     startAnimation(AnimationUtils.loadAnimation(context, R.anim.shake))
     Handler().postDelayed({

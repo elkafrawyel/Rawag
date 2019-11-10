@@ -2,17 +2,6 @@ package com.elwaha.rawag.data.models
 
 import com.squareup.moshi.Json
 
-
-data class UserResponse(
-    @field:Json(name = "data")
-    val userModel: UserModel?,
-    @field:Json(name = "status")
-    val status: Boolean,
-    @field:Json(name = "msg")
-    val msg: String?
-
-)
-
 data class UserModel(
     @field:Json(name = "about")
     val about: String,
@@ -22,6 +11,8 @@ data class UserModel(
     val avatar: String,
     @field:Json(name = "sub_category_id")
     val subCategoryId: Int,
+    @field:Json(name = "category_id")
+    val categoryId: Int,
     @field:Json(name = "email")
     val email: String,
     @field:Json(name = "facebook")
@@ -49,5 +40,7 @@ data class UserModel(
     @field:Json(name = "twitter")
     val twitter: String,
     @field:Json(name = "youtube")
-    val youtube: String
+    val youtube: String,
+    @field:Json(name = "rate_value")
+    val rate_value: Int
 )

@@ -23,23 +23,30 @@ class HomeFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     companion object {
         fun newInstance() = HomeFragment()
     }
+
     private var adapter = CategoriesAdapter().also {
         it.onItemChildClickListener = this
     }
     private lateinit var viewModel: HomeViewModel
     private var timer: Timer? = null
-    private val imageSliderAdapter = ImageSliderAdapter {
+    private val imageSliderAdapter = ImageSliderAdapter { position ->
         val images = viewModel.ads
         if (images.isNotEmpty()) {
-            activity?.toast("clicked")
+            val action = MainFragmentDirections.actionMainFragmentToProfileFragment(
+                viewModel.ads[position].userId!!.toString(),
+                false
+            )
+            findNavController().navigate(action)
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
@@ -48,7 +55,7 @@ class HomeFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         categoriesRv.setHasFixedSize(true)
         rootView.setLayout(homeNsv)
         rootView.setVisible(CustomViews.LAYOUT)
-        if (viewModel.categories.isEmpty()|| viewModel.ads.isEmpty()){
+        if (viewModel.categories.isEmpty() || viewModel.ads.isEmpty()) {
             viewModel.get()
         }
     }
@@ -117,8 +124,9 @@ class HomeFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
             R.id.cardItem -> {
+                val categoryId = viewModel.categories[position].id
                 val action =
-                    MainFragmentDirections.actionMainFragmentToSubCategoriesFragment("test")
+                    MainFragmentDirections.actionMainFragmentToSubCategoriesFragment(categoryId.toString())
                 findNavController().navigate(action)
             }
         }

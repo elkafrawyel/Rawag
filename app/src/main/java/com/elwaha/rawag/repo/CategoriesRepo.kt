@@ -2,7 +2,7 @@ package com.elwaha.rawag.repo
 
 import com.elwaha.rawag.R
 import com.elwaha.rawag.data.models.CategoryModel
-import com.elwaha.rawag.data.models.HomeCategoriesWithAds
+import com.elwaha.rawag.data.models.HomeWithAds
 import com.elwaha.rawag.data.models.requests.SubCategoriesRequest
 import com.elwaha.rawag.data.storage.remote.RetrofitApiService
 import com.elwaha.rawag.utilies.DataResource
@@ -16,7 +16,7 @@ class CategoriesRepo(private val retrofitApiService: RetrofitApiService) {
             call = {
                 val response = retrofitApiService.categoriesAsync().await()
                 if (response.status)
-                    DataResource.Success(response.categories)
+                    DataResource.Success(response.data)
                 else
                     DataResource.Error(response.msg!!)
             },
@@ -24,12 +24,12 @@ class CategoriesRepo(private val retrofitApiService: RetrofitApiService) {
         )
     }
 
-    suspend fun getCategoriesWithAds(): DataResource<HomeCategoriesWithAds> {
+    suspend fun getCategoriesWithAds(): DataResource<HomeWithAds> {
         return safeApiCall(
             call = {
                 val response = retrofitApiService.homeAsync().await()
                 if (response.status)
-                    DataResource.Success(response.homeCategoriesWithAds)
+                    DataResource.Success(response.data)
                 else
                     DataResource.Error(response.msg!!)
             },
@@ -42,9 +42,9 @@ class CategoriesRepo(private val retrofitApiService: RetrofitApiService) {
             call = {
                 val response = retrofitApiService.subCategoriesAsync(SubCategoriesRequest(categoryId)).await()
                 if (response.status)
-                    DataResource.Success(response.categories)
+                    DataResource.Success(response.data)
                 else
-                    DataResource.Error(response.msg!!)
+                    DataResource.Error(response.msg)
             },
             errorMessage = Injector.getApplicationContext().getString(R.string.generalError)
         )

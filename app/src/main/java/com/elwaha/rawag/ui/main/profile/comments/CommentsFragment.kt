@@ -5,15 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.elwaha.rawag.R
-import com.elwaha.rawag.ui.main.profile.comments.report.ReportDialog
+import com.elwaha.rawag.utilies.ViewState
 import com.elwaha.rawag.utilies.toast
 import kotlinx.android.synthetic.main.comments_fragment.*
+
 
 class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
@@ -36,7 +40,9 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(CommentsViewModel::class.java)
+        viewModel.uiState.observe(this, Observer { onActionsResponse(it) })
 
+        viewModel.get(CommentsActions.PROBLEMS)
         arguments?.let {
             val profileId =
                 com.elwaha.rawag.ui.main.profile.comments.CommentsFragmentArgs.fromBundle(
@@ -63,6 +69,105 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         commentsRv.setHasFixedSize(true)
     }
 
+    private fun onActionsResponse(state: ViewState?) {
+        when (state) {
+            ViewState.Loading -> {
+                when (viewModel.action) {
+                    CommentsActions.GET -> {
+
+                    }
+                    CommentsActions.REPORT -> {
+
+                    }
+                    CommentsActions.PROBLEMS -> {
+
+                    }
+                    CommentsActions.SEND -> {
+
+                    }
+                    CommentsActions.DELETE -> {
+
+                    }
+                    CommentsActions.HIDE -> {
+
+                    }
+                }
+            }
+            ViewState.Success -> {
+                when (viewModel.action) {
+                    CommentsActions.GET -> {
+
+                    }
+                    CommentsActions.REPORT -> {
+                        openReportDialog()
+                    }
+                    CommentsActions.PROBLEMS -> {
+
+                    }
+                    CommentsActions.SEND -> {
+
+                    }
+                    CommentsActions.DELETE -> {
+
+                    }
+                    CommentsActions.HIDE -> {
+
+                    }
+                }
+            }
+            is ViewState.Error -> {
+                when (viewModel.action) {
+                    CommentsActions.GET -> {
+
+                    }
+                    CommentsActions.REPORT -> {
+
+                    }
+                    CommentsActions.PROBLEMS -> {
+
+                    }
+                    CommentsActions.SEND -> {
+
+                    }
+                    CommentsActions.DELETE -> {
+
+                    }
+                    CommentsActions.HIDE -> {
+
+                    }
+                }
+            }
+            ViewState.NoConnection -> {
+                activity?.toast(getString(R.string.noInternet))
+            }
+            ViewState.Empty -> {
+                when (viewModel.action) {
+                    CommentsActions.GET -> {
+
+                    }
+                    CommentsActions.REPORT -> {
+
+                    }
+                    CommentsActions.PROBLEMS -> {
+
+                    }
+                    CommentsActions.SEND -> {
+
+                    }
+                    CommentsActions.DELETE -> {
+
+                    }
+                    CommentsActions.HIDE -> {
+
+                    }
+                }
+            }
+            ViewState.LastPage -> {
+
+            }
+        }
+    }
+
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
             R.id.reportComment -> {
@@ -77,8 +182,27 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     }
 
     private fun openReportDialog() {
-        val dialog = ReportDialog(context!!)
-        dialog.show()
+
+        val problemsArray: Array<out String> =
+            viewModel.problems.map { it.report }.toTypedArray()
+        AlertDialog.Builder(ContextThemeWrapper(context, R.style.AlertDialogCustom))
+            .setTitle(getString(R.string.report_reason))
+            .setSingleChoiceItems(problemsArray, -1, null)
+            .setPositiveButton(R.string.send) { dialog, _ ->
+                dialog.dismiss()
+                val selectedPosition: Int =
+                    (dialog as AlertDialog).listView.checkedItemPosition
+                activity?.toast(viewModel.problems[selectedPosition].report)
+            }
+            .show()
+
+
+//        val dialog = ReportDialog(context!!, viewModel.problems, object : IReportProblems {
+//            override fun getProblem(problems: Problems) {
+//                //report a comment
+//            }
+//        })
+//        dialog.show()
     }
 
     private fun showCommentMenu(optionIcon: ImageView) {
@@ -91,11 +215,9 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             when (item.itemId) {
                 R.id.hide -> {
                     activity?.toast("hide")
-
                 }
                 R.id.delete -> {
                     activity?.toast("delete")
-
                 }
             }
             //handle menu2 click

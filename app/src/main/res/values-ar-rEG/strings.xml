@@ -96,4 +96,20 @@
     <string name="select_sub_category">اختر قسم فرعي</string>
     <string name="choose_avatar">اختر صورة شخصية</string>
     <string name="creatingNewAccount">يتم انشاء حساب انتظر من فضلك</string>
+    <string name="you_have_no_ads">لا توجد اعلانات حتي الان</string>
+    <string name="no_link">وسيلة التواصل لا تحتوي علي رابط</string>
+    <string name="edit_profile_success">تم تعديل البيانات بنجاح</string>
+    <string name="changingProfile">يتم تعديل البيانات</string>
+    <string name="oldPassword">كلمة السر القديمة</string>
+    <string name="password_change_success">تم تغيير كلمة المرور بنجاح</string>
+    <string name="wait">انتظر من فضلك</string>
+    <string name="social_media_links">روابط التواصل الاجتماعي</string>
+    <string name="please_enter_link">برجاء ادخل الرابط</string>
+    <string name="facebook">فيس بوك</string>
+    <string name="twitter">تويتر</string>
+    <string name="instgram">انستغرام</string>
+    <string name="snapChat">سناب شات</string>
+    <string name="youtube">يوتيوب</string>
+    <string name="changes_saved">تم حفظ التعيرات</string>
+    <string name="error_link">خطأ في فتح الرابط</string>
 </resources>

@@ -82,16 +82,22 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 loading!!.show()
             }
             ViewState.Success -> {
-                loading!!.dismiss()
+                if (loading != null) {
+                    loading!!.dismiss()
+                }
                 activity?.toast(getString(R.string.login_success))
                 findNavController().popBackStack(R.id.mainFragment, true)
             }
             is ViewState.Error -> {
-                loading!!.dismiss()
+                if (loading != null) {
+                    loading!!.dismiss()
+                }
                 activity?.toast(state.message)
             }
             ViewState.NoConnection -> {
-                loading!!.dismiss()
+                if (loading != null) {
+                    loading!!.dismiss()
+                }
                 activity?.toast(getString(R.string.noInternet))
             }
         }
@@ -301,17 +307,17 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         }
 
         if (userNameEt.text.toString().isEmpty()) {
-            userNameEt.setEmptyError()
+            userNameEt.setEmptyError(context!!)
             return
         }
 
         if (phoneEt.text.toString().isEmpty()) {
-            phoneEt.setEmptyError()
+            phoneEt.setEmptyError(context!!)
             return
         }
 
         if (emailEt.text.toString().isEmpty()) {
-            emailEt.setEmptyError()
+            emailEt.setEmptyError(context!!)
             return
         }
 
@@ -336,12 +342,12 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         }
 
         if (passwordEt.text.toString().isEmpty()) {
-            passwordEt.setEmptyError()
+            passwordEt.setEmptyError(context!!)
             return
         }
 
         if (descEt.text.toString().isEmpty()) {
-            descEt.setEmptyError()
+            descEt.setEmptyError(context!!)
             return
         }
 
@@ -357,6 +363,7 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             viewModel.address!!,
             viewModel.lang!!,
             viewModel.lat!!,
+            descEt.text.toString(),
             viewModel.selectedSubCategory!!.id.toString(),
             accepted = "1"
         )

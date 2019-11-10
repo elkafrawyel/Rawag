@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
             context.startActivity(intent)
         }
     }
+
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        mainViewModel.get(MainViewModel.MainActions.CATEGORIES)
+        if (mainViewModel.categoriesList.isEmpty())
+            mainViewModel.get(MainViewModel.MainActions.CATEGORIES)
     }
 }

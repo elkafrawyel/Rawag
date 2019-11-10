@@ -3,10 +3,7 @@ package com.elwaha.rawag.utilies
 import com.elwaha.rawag.MyApp
 import com.elwaha.rawag.data.storage.local.PreferencesHelper
 import com.elwaha.rawag.data.storage.remote.RetrofitApiService
-import com.elwaha.rawag.repo.CategoriesRepo
-import com.elwaha.rawag.repo.LookupsRepo
-import com.elwaha.rawag.repo.ProductsRepo
-import com.elwaha.rawag.repo.UserRepo
+import com.elwaha.rawag.repo.*
 import com.elwaha.rawag.utilies.Constants.BASE_URL
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
@@ -69,8 +66,9 @@ object Injector {
     //========================================Repo================================================
 
     fun getCategoriesRepo() = CategoriesRepo(getApiService())
-    fun getUserRepo() = UserRepo(getApiService())
-    fun getProductsRepo() = ProductsRepo(getApiService())
+    fun getUserRepo() = UserRepo(getApiService(), getPreferenceHelper())
+    fun getProductsRepo() = ProductsRepo(getApiService(), getPreferenceHelper())
     fun getLookupsRepo() = LookupsRepo(getApiService())
+    fun getStaticRepo() = StaticRepo(getApiService())
 
 }

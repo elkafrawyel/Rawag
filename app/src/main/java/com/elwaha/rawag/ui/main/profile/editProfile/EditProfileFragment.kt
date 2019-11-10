@@ -11,6 +11,8 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 
 import com.elwaha.rawag.R
+import com.elwaha.rawag.utilies.Injector
+import com.elwaha.rawag.utilies.ObjectConverter
 import kotlinx.android.synthetic.main.edit_profile_fragment.*
 
 class EditProfileFragment : Fragment() {
@@ -79,6 +81,9 @@ class EditProfileFragment : Fragment() {
         })
 
         backImgv.setOnClickListener { findNavController().navigateUp() }
+
+
+
     }
 
 }

@@ -96,4 +96,20 @@
     <string name="select_sub_category">choose SubCategory</string>
     <string name="choose_avatar">Choose Profile Picture</string>
     <string name="creatingNewAccount">Creating your account,please wait.</string>
+    <string name="you_have_no_ads">There is no ads yet.</string>
+    <string name="no_link">No Link for this social media</string>
+    <string name="edit_profile_success">Profile Updated Successfully</string>
+    <string name="changingProfile">Changing your info....</string>
+    <string name="oldPassword">Old password</string>
+    <string name="password_change_success">Password change successfully</string>
+    <string name="wait">please wait</string>
+    <string name="social_media_links">Social media links</string>
+    <string name="please_enter_link">Please enter link</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="instgram">Instgram</string>
+    <string name="snapChat">SnapChat</string>
+    <string name="youtube">Youtube</string>
+    <string name="changes_saved">Changes Saved</string>
+    <string name="error_link">Url not valid</string>
 </resources>

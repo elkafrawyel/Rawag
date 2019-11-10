@@ -39,4 +39,9 @@
         <item name="android:windowEnterAnimation">@anim/translate_left_side</item>
         <item name="android:windowExitAnimation">@anim/translate_right_side</item>
     </style>
+
+    <style name="AlertDialogCustom" parent="@android:style/Theme.Dialog">
+        <item name="android:textColor">#00FF00</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

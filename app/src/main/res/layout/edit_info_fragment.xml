@@ -109,6 +109,26 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Spinner
+            android:id="@+id/editProfileCategoriesSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/spinner_bg"
+            android:spinnerMode="dialog" />
+
+        <Spinner
+            android:id="@+id/editProfileSubCategoriesSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/spinner_bg"
+            android:spinnerMode="dialog" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -142,32 +162,6 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:textColor="@android:color/darker_gray" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/pickImages"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="12dp"
-            android:drawableTop="@drawable/photo_camera"
-            android:drawablePadding="4dp"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="@string/choose_image"
-            android:textColor="@android:color/black" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imagesRv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/image_item_view"
-            android:layout_marginEnd="12dp"
-            android:layout_marginStart="12dp"
-            />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/changePasswordMbtn"

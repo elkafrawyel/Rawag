@@ -22,6 +22,7 @@ import com.google.android.material.tabs.TabLayout
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.android.synthetic.main.nav_header_main.*
+import java.lang.Exception
 
 
 class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
@@ -109,12 +110,15 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             R.id.nav_Profile -> {
                 if (Injector.getPreferenceHelper().isLoggedIn) {
                     //isMyAccount is false
-                    val action =
-                        MainFragmentDirections.actionMainFragmentToProfileFragment(
-                            null,
-                            true
-                        )
-                    findNavController().navigate(action)
+                    try {
+                        val action =
+                            MainFragmentDirections.actionMainFragmentToProfileFragment(
+                                null,
+                                true
+                            )
+                        findNavController().navigate(action)
+                    }catch (e:Exception){}
+
                 } else {
                     activity?.snackBarWithAction(
                         getString(R.string.you_must_login),

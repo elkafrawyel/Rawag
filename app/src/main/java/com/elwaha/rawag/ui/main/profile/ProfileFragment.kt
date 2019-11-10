@@ -1,5 +1,7 @@
 package com.elwaha.rawag.ui.main.profile
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,13 +9,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.elkafrawyel.CustomViews
 import com.elwaha.rawag.R
-import com.elwaha.rawag.utilies.toast
+import com.elwaha.rawag.data.models.UserModel
 import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
+import com.elwaha.rawag.utilies.*
 import kotlinx.android.synthetic.main.profile_fragment.*
 import java.util.*
 import kotlin.concurrent.timerTask
+
 
 class ProfileFragment : Fragment() {
 
@@ -41,37 +46,43 @@ class ProfileFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
-
+        viewModel.uiState.observe(
+            this,
+            androidx.lifecycle.Observer { onProfileActionsResponse(it) })
         rootView.setLayout(profileCl)
         rootView.setVisible(CustomViews.LAYOUT)
+
         arguments?.let {
-            val isMyAccount = com.elwaha.rawag.ui.main.profile.ProfileFragmentArgs.fromBundle(it).isMyProfile
-            if (isMyAccount){
+            val isMyAccount = ProfileFragmentArgs.fromBundle(it).isMyProfile
+            if (isMyAccount) {
                 callMbtn.visibility = View.GONE
                 watchMyAdsMbtn.visibility = View.VISIBLE
                 favImgv.visibility = View.GONE
                 editImgv.visibility = View.VISIBLE
 
-                // call with token
-            }else{
+                val userString = Injector.getPreferenceHelper().user
+                val user = ObjectConverter().getUser(userString!!)
+                viewModel.user = user
+                viewModel.userId = user.id.toString()
+                setProfileData(user)
+
+                youtube.setOnClickListener { openUrl(user.youtube) }
+                facebook.setOnClickListener { openUrl(user.facebook) }
+                twitter.setOnClickListener { openUrl(user.twitter) }
+                snap.setOnClickListener { openUrl(user.snabchat) }
+                ins.setOnClickListener { openUrl(user.instagram) }
+
+            } else {
                 callMbtn.visibility = View.VISIBLE
                 watchMyAdsMbtn.visibility = View.GONE
                 favImgv.visibility = View.VISIBLE
                 editImgv.visibility = View.GONE
 
-                val userId = com.elwaha.rawag.ui.main.profile.ProfileFragmentArgs.fromBundle(it).userId
-                activity?.toast(userId!!)
-
-                //call with userModel id
+                val userId = ProfileFragmentArgs.fromBundle(it).userId
+                viewModel.userId = userId
+                viewModel.get(ProfileViewModel.ProfileActions.GET_PROFILE)
             }
-
         }
-
-        imageSliderAdapter.submitList(viewModel.images)
-        bannerSliderVp.setPadding(80, 0, 80, 0);
-        bannerSliderVp.pageMargin = 20
-        bannerSliderVp.clipToPadding = false
-        bannerSliderVp.adapter = imageSliderAdapter
 
         backImgv.setOnClickListener { findNavController().navigateUp() }
 
@@ -86,6 +97,113 @@ class ProfileFragment : Fragment() {
                 )
             findNavController().navigate(action)
         }
+
+        callMbtn.setOnClickListener {
+            if (viewModel.user != null) {
+                val uri = "tel:" +  viewModel.user!!.phone
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse(uri)
+                activity?.startActivity(intent)
+            }
+        }
+
+    }
+
+    private fun onProfileActionsResponse(state: ViewState?) {
+        when (viewModel.action) {
+            ProfileViewModel.ProfileActions.GET_PROFILE -> {
+                when (state) {
+                    ViewState.Loading -> {
+                        loading.visibility = View.VISIBLE
+                    }
+                    ViewState.Success -> {
+                        loading.visibility = View.GONE
+                        setProfileData(viewModel.user!!)
+                        viewModel.get(ProfileViewModel.ProfileActions.GET_ADS)
+                    }
+                    is ViewState.Error -> {
+                        loading.visibility = View.GONE
+                        activity?.toast(state.message)
+                    }
+                    ViewState.NoConnection -> {
+                        loading.visibility = View.GONE
+                        activity?.toast(getString(R.string.noInternet))
+                    }
+
+                }
+            }
+            ProfileViewModel.ProfileActions.GET_ADS -> {
+                when (state) {
+                    ViewState.Loading -> {
+                        loading.visibility = View.VISIBLE
+                        noAdsTv.visibility = View.GONE
+                        pageIndicator.visibility = View.INVISIBLE
+                        bannerSliderVp.visibility = View.INVISIBLE
+                    }
+                    ViewState.Success -> {
+                        loading.visibility = View.GONE
+                        noAdsTv.visibility = View.GONE
+                        pageIndicator.visibility = View.VISIBLE
+                        bannerSliderVp.visibility = View.VISIBLE
+
+                        imageSliderAdapter.submitList(viewModel.images)
+                        bannerSliderVp.setPadding(80, 0, 80, 0);
+                        bannerSliderVp.pageMargin = 20
+                        bannerSliderVp.clipToPadding = false
+                        bannerSliderVp.adapter = imageSliderAdapter
+                    }
+                    is ViewState.Error -> {
+                        loading.visibility = View.GONE
+                        noAdsTv.visibility = View.GONE
+                        pageIndicator.visibility = View.INVISIBLE
+                        bannerSliderVp.visibility = View.INVISIBLE
+                        activity?.toast(state.message)
+                    }
+                    ViewState.NoConnection -> {
+                        loading.visibility = View.GONE
+                        noAdsTv.visibility = View.GONE
+                        pageIndicator.visibility = View.INVISIBLE
+                        bannerSliderVp.visibility = View.INVISIBLE
+
+                        activity?.toast(getString(R.string.noInternet))
+                    }
+                    ViewState.Empty -> {
+                        pageIndicator.visibility = View.INVISIBLE
+                        bannerSliderVp.visibility = View.INVISIBLE
+                        loading.visibility = View.GONE
+                        noAdsTv.visibility = View.VISIBLE
+                        noAdsTv.text = getString(R.string.you_have_no_ads)
+                    }
+                }
+            }
+        }
+
+    }
+
+    private fun openUrl(url: String) {
+        if (url != "") {
+            try {
+                val openURL = Intent(Intent.ACTION_VIEW)
+                openURL.data = Uri.parse(url)
+                startActivity(openURL)
+            } catch (e: Exception) {
+                activity?.toast(getString(R.string.error_link))
+            }
+
+        } else {
+            activity?.toast(getString(R.string.no_link))
+        }
+    }
+
+    private fun setProfileData(user: UserModel) {
+        Glide.with(context!!).load(Constants.IMAGES_BASE_URL + user.avatar).into(profileUserImage)
+        profileName.text = user.name
+        profileRateBar.rating = user.rate_value.toFloat()
+        profileAddress.text = user.address
+        profileAddress.isSelected = true
+        descTv.text = user.about
+        viewModel.get(ProfileViewModel.ProfileActions.GET_ADS)
+
     }
 
     override fun onResume() {

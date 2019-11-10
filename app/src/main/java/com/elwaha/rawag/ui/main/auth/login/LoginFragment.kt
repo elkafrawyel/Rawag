@@ -8,10 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.elwaha.rawag.R
-import com.elwaha.rawag.utilies.ViewState
-import com.elwaha.rawag.utilies.observeEvent
-import com.elwaha.rawag.utilies.showLoading
-import com.elwaha.rawag.utilies.toast
+import com.elwaha.rawag.utilies.*
 import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.login_fragment.*
 
@@ -42,7 +39,7 @@ class LoginFragment : Fragment() {
         forgetPassword.setOnClickListener { findNavController().navigate(R.id.resetPasswordFragment) }
 
         skipMbtn.setOnClickListener {
-            findNavController().popBackStack(R.id.mainFragment, true)
+            activity?.restartApplication()
         }
 
         loginMbtn.setOnClickListener {
@@ -68,16 +65,22 @@ class LoginFragment : Fragment() {
                 loading!!.show()
             }
             ViewState.Success -> {
-                loading!!.dismiss()
+                if (loading != null) {
+                    loading!!.dismiss()
+                }
                 activity?.toast(getString(R.string.login_success))
-                findNavController().popBackStack(R.id.mainFragment, true)
+                activity?.restartApplication()
             }
             is ViewState.Error -> {
-                loading!!.dismiss()
+                if (loading != null) {
+                    loading!!.dismiss()
+                }
                 activity?.toast(state.message)
             }
             ViewState.NoConnection -> {
-                loading!!.dismiss()
+                if (loading != null) {
+                    loading!!.dismiss()
+                }
                 activity?.toast(getString(R.string.noInternet))
             }
         }

@@ -8,9 +8,10 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import com.elwaha.rawag.R
+import com.elwaha.rawag.data.models.ProblemModel
 
-class ReportDialog(context: Context) :
-    Dialog(context, R.style.CustomDialog){
+class ReportDialog(context: Context, val problems: ArrayList<ProblemModel>, iReportProblems: IReportProblems) :
+    Dialog(context, R.style.CustomDialog) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,5 +24,10 @@ class ReportDialog(context: Context) :
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         )
+
     }
+}
+
+public interface IReportProblems {
+    fun getProblem(problemModel: ProblemModel)
 }

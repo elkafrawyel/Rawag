@@ -38,16 +38,6 @@ abstract class AppViewModel : ViewModel() {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
     fun checkNetworkEvent(code: () -> Unit) {
         if (NetworkUtils.isConnected()) {
             if (job?.isActive == true)
@@ -56,7 +46,9 @@ abstract class AppViewModel : ViewModel() {
                 code.invoke()
             }
         } else {
-            _uiStateEvent.value = Event(ViewState.NoConnection)
+            runOnMainThread {
+                _uiStateEvent.value = Event(ViewState.NoConnection)
+            }
         }
     }
 

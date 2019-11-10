@@ -32,15 +32,17 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        rootView.setLayout(subCategoriesCl)
+        rootView.setLayout(subCategoriesRv)
 
         viewModel = ViewModelProviders.of(this).get(SubCategoriesViewModel::class.java)
         viewModel.uiState.observe(this, Observer { onResponse(it) })
 
         arguments?.let {
             val categoryId = SubCategoriesFragmentArgs.fromBundle(it).categoryId
-            if (viewModel.categoryId == null)
+            if (viewModel.categoryId == null) {
                 viewModel.categoryId = categoryId
+                viewModel.getSubCategories()
+            }
         }
 
         backImgv.setOnClickListener { findNavController().navigateUp() }
@@ -81,8 +83,7 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
     }
 
     private fun setData() {
-        val list = ArrayList<CategoryModel>()
-        adapter.replaceData(list)
+        adapter.replaceData(viewModel.subCategoriesList)
         adapter.notifyDataSetChanged()
     }
 
