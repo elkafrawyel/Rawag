@@ -159,7 +159,7 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 ) {
                     viewModel.selectedCategory = mainViewModel.categoriesList[position]
                     //call subCategory when select category
-                    if (viewModel.selectedCategory!!.id != mainViewModel.fakeCategoryId) {
+                    if (viewModel.selectedCategory!!.id != mainViewModel.fakeId) {
                         mainViewModel.categoryId = viewModel.selectedCategory!!.id.toString()
                         mainViewModel.get(MainViewModel.MainActions.SUB_CATEGORIES)
                     }
@@ -326,12 +326,12 @@ class RegisterFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             return
         }
 
-        if (viewModel.selectedCategory == null || viewModel.selectedCategory!!.id == mainViewModel.fakeCategoryId) {
+        if (viewModel.selectedCategory == null || viewModel.selectedCategory!!.id == mainViewModel.fakeId) {
             activity?.toast(getString(R.string.choose_category))
             return
         }
 
-        if (viewModel.selectedSubCategory == null || viewModel.selectedSubCategory!!.id == mainViewModel.fakeCategoryId) {
+        if (viewModel.selectedSubCategory == null || viewModel.selectedSubCategory!!.id == mainViewModel.fakeId) {
             activity?.toast(getString(R.string.choose_category))
             return
         }

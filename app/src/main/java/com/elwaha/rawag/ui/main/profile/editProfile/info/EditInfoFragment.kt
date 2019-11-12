@@ -3,7 +3,6 @@ package com.elwaha.rawag.ui.main.profile.editProfile.info
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -26,7 +25,6 @@ import com.elwaha.rawag.ui.main.adapters.ImagesAdapter
 import com.elwaha.rawag.ui.main.auth.register.RC_AVATAR
 import com.elwaha.rawag.ui.main.auth.register.RC_IMAGES
 import com.elwaha.rawag.ui.main.auth.register.RC_PLACE_PICKER
-import com.elwaha.rawag.ui.main.profile.editProfile.EditProfileFragment
 import com.elwaha.rawag.ui.main.profile.editProfile.EditProfileFragmentDirections
 import com.elwaha.rawag.utilies.*
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
@@ -41,7 +39,6 @@ import kotlinx.android.synthetic.main.edit_info_fragment.locationTv
 import kotlinx.android.synthetic.main.edit_info_fragment.phoneEt
 import kotlinx.android.synthetic.main.edit_info_fragment.pickLocation
 import kotlinx.android.synthetic.main.edit_info_fragment.userNameEt
-import kotlinx.android.synthetic.main.register_fragment.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -183,7 +180,7 @@ class EditInfoFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 ) {
                     viewModel.selectedCategory = mainViewModel.categoriesList[position]
                     //call subCategory when select category
-                    if (viewModel.selectedCategory!!.id != mainViewModel.fakeCategoryId) {
+                    if (viewModel.selectedCategory!!.id != mainViewModel.fakeId) {
                         mainViewModel.categoryId = viewModel.selectedCategory!!.id.toString()
                         mainViewModel.get(MainViewModel.MainActions.SUB_CATEGORIES)
                     }
@@ -345,12 +342,12 @@ class EditInfoFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             return
         }
 
-        if (viewModel.selectedCategory == null || viewModel.selectedCategory!!.id == mainViewModel.fakeCategoryId) {
+        if (viewModel.selectedCategory == null || viewModel.selectedCategory!!.id == mainViewModel.fakeId) {
             activity?.toast(getString(R.string.choose_category))
             return
         }
 
-        if (viewModel.selectedSubCategory == null || viewModel.selectedSubCategory!!.id == mainViewModel.fakeCategoryId) {
+        if (viewModel.selectedSubCategory == null || viewModel.selectedSubCategory!!.id == mainViewModel.fakeId) {
             activity?.toast(getString(R.string.choose_category))
             return
         }

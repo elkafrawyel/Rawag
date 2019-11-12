@@ -135,6 +135,12 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="baqaId"
+            app:argType="string" />
+        <argument
+            android:name="price"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -278,7 +284,26 @@
         android:id="@+id/choosePaymentMethodFragment"
         android:name="com.elwaha.rawag.ui.main.choosePaymentMethod.ChoosePaymentMethodFragment"
         android:label="choose_payment_method_fragment"
-        tools:layout="@layout/choose_payment_method_fragment" />
+        tools:layout="@layout/choose_payment_method_fragment" >
+        <argument
+            android:name="subCategoryId"
+            app:argType="string" />
+        <argument
+            android:name="cityId"
+            app:argType="string" />
+        <argument
+            android:name="price"
+            app:argType="string" />
+        <argument
+            android:name="baqaId"
+            app:argType="string" />
+        <argument
+            android:name="images"
+            app:argType="com.elwaha.rawag.data.models.AdImages" />
+        <argument
+            android:name="days"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/myAdsFragment"
         android:name="com.elwaha.rawag.ui.main.profile.myAds.MyAdsFragment"

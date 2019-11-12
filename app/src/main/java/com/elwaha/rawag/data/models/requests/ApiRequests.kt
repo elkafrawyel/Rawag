@@ -55,3 +55,16 @@ data class EditSocialRequest(
     var snabchat: String = "",
     var youtube: String = ""
 )
+
+data class AddAdRequest(
+    val sub_category_id: String,
+    val city_id: String,
+    val price: String,
+    val baqa_id: String,
+    val payment_type: String,
+    val days: String
+)
+
+data class CitiesRequest(
+    val country_id: String
+)

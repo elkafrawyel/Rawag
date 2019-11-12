@@ -1,136 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:orientation="vertical"
     tools:context="com.elwaha.rawag.ui.main.addProduct.AddProductFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context="com.elwaha.rawag.ui.main.addProduct.AddProductFragment">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/backImgv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:src="@drawable/back_image"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="18dp"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/add_Product"
-                android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/backImgv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:src="@drawable/back_image"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="18dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/add_Product"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.appcompat.widget.Toolbar>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="@string/price_today"
-        android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="@android:color/black" />
+        </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/priceTodayTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="9 ريال سعودي"
-        android:textAppearance="?attr/textAppearanceHeadline6"
-        android:textColor="@color/colorAccent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/price_today"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@android:color/black" />
 
-    <TextView
-        android:id="@+id/pickImages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:drawableTop="@drawable/photo_camera"
-        android:drawablePadding="4dp"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="@string/choose_image"
-        android:textColor="@android:color/black" />
+        <TextView
+            android:id="@+id/priceTodayTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textColor="@color/colorAccent"
+            tools:text="9 ريال سعودي" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/imagesRv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/image_item_view"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp"
-        />
+        <TextView
+            android:id="@+id/pickImages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:drawableTop="@drawable/photo_camera"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/choose_image"
+            android:textColor="@android:color/black" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/show_period"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:textColor="@android:color/black" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imagesRv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/image_item_view" />
 
-    <Spinner
-        android:id="@+id/daysSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="18dp"
-        android:background="@drawable/spinner_bg"
-        android:spinnerMode="dropdown" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/show_period"
+            android:textColor="@android:color/black" />
 
+        <Spinner
+            android:id="@+id/daysSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/spinner_bg"
+            android:spinnerMode="dropdown" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/confirmMbtn"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="54dp"
-        android:layout_marginEnd="24dp"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/confirm"
-        android:textAllCaps="false"
-        app:cornerRadius="20dp"
-        app:rippleColor="@color/colorAccent"
-        app:strokeColor="@android:color/darker_gray" />
+        <Spinner
+            android:id="@+id/categoriesSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/spinner_bg"
+            android:spinnerMode="dialog" />
 
-</LinearLayout>
+        <Spinner
+            android:id="@+id/subCategoriesSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/spinner_bg"
+            android:spinnerMode="dialog" />
+
+        <Spinner
+            android:id="@+id/countriesSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/spinner_bg"
+            android:spinnerMode="dialog" />
+
+        <Spinner
+            android:id="@+id/citiesSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/spinner_bg"
+            android:spinnerMode="dialog" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/confirmMbtn"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="54dp"
+            android:layout_marginEnd="24dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/confirmBtn"
+            android:textAllCaps="false"
+            app:cornerRadius="20dp"
+            app:rippleColor="@color/colorAccent"
+            app:strokeColor="@android:color/darker_gray" />
+
+    </LinearLayout>
+</ScrollView>

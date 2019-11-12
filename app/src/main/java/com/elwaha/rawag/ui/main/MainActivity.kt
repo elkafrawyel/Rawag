@@ -34,5 +34,6 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         if (mainViewModel.categoriesList.isEmpty())
             mainViewModel.get(MainViewModel.MainActions.CATEGORIES)
+
     }
 }

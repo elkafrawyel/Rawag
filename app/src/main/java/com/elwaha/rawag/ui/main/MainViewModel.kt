@@ -1,6 +1,8 @@
 package com.elwaha.rawag.ui.main
 
 import com.elwaha.rawag.data.models.CategoryModel
+import com.elwaha.rawag.data.models.CityModel
+import com.elwaha.rawag.data.models.CountryModel
 import com.elwaha.rawag.ui.AppViewModel
 import com.elwaha.rawag.utilies.DataResource
 import com.elwaha.rawag.utilies.Injector
@@ -9,15 +11,25 @@ import kotlinx.coroutines.launch
 
 class MainViewModel : AppViewModel() {
 
-    val fakeCategoryId = 999
+    val fakeId = 999
     private val fakeCategory =
-        CategoryModel(fakeCategoryId, "", "الاقسام الرئيسية", "Categories", "", "")
+        CategoryModel(fakeId, "", "الاقسام الرئيسية", "Categories", "", "")
 
     private val fakeSubCategory =
-        CategoryModel(fakeCategoryId, "", "الاقسام الفرعية", "SubCategories", "", "")
+        CategoryModel(fakeId, "", "الاقسام الفرعية", "SubCategories", "", "")
+
+    private val fakeCountry =
+        CountryModel(fakeId, "الدول", "Countries", "", "")
+
+    private val fakeCity =
+        CityModel(fakeId, "المدن", "Cities", 999, "", "")
 
     var categoriesList = ArrayList<CategoryModel>()
     var subCategoriesList = ArrayList<CategoryModel>()
+    var countriesList = ArrayList<CountryModel>()
+    var citiesList = ArrayList<CityModel>()
+
+    var countryId: String? = null
     var categoryId: String? = null
     var action: MainActions? = null
 
@@ -67,8 +79,43 @@ class MainViewModel : AppViewModel() {
                             }
                         }
                     }
-                    null -> {
+                    MainActions.COUNTRIES -> {
+                        when (val result = Injector.getStaticRepo().getCountries()) {
+                            is DataResource.Success -> {
+                                countriesList.clear()
+                                countriesList.add(fakeCountry)
+                                countriesList.addAll(result.data)
 
+                                citiesList.clear()
+                                citiesList.add(fakeCity)
+                                runOnMainThread {
+                                    _uiState.value = ViewState.Success
+                                }
+                            }
+                            is DataResource.Error -> {
+                                runOnMainThread {
+                                    _uiState.value = ViewState.Error(result.errorMessage)
+                                }
+                            }
+                        }
+                    }
+                    MainActions.CITIES -> {
+                        when (val result =
+                            Injector.getStaticRepo().getCities(countryId!!)) {
+                            is DataResource.Success -> {
+                                citiesList.clear()
+                                citiesList.add(fakeCity)
+                                citiesList.addAll(result.data)
+                                runOnMainThread {
+                                    _uiState.value = ViewState.Success
+                                }
+                            }
+                            is DataResource.Error -> {
+                                runOnMainThread {
+                                    _uiState.value = ViewState.Error(result.errorMessage)
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -77,7 +124,9 @@ class MainViewModel : AppViewModel() {
 
     enum class MainActions(val value: String) {
         CATEGORIES("categories"),
-        SUB_CATEGORIES("sub_categories")
+        SUB_CATEGORIES("sub_categories"),
+        COUNTRIES("countriesList"),
+        CITIES("cities")
     }
 
 }

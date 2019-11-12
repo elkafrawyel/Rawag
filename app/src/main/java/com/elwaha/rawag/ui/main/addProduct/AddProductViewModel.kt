@@ -1,9 +1,22 @@
 package com.elwaha.rawag.ui.main.addProduct
 
-import androidx.lifecycle.ViewModel
+import com.elwaha.rawag.data.models.CategoryModel
+import com.elwaha.rawag.data.models.CityModel
+import com.elwaha.rawag.data.models.CountryModel
+import com.elwaha.rawag.ui.AppViewModel
 
-class AddProductViewModel : ViewModel() {
-    val days= ArrayList<String>()
+class AddProductViewModel : AppViewModel() {
+
+    var baqaId: String? = null
+    var price: String? = null
+
+    var selectedCategory: CategoryModel? = null
+    var selectedSubCategory: CategoryModel? = null
+    var selectedCountry: CountryModel? = null
+    var selectedCity: CityModel? = null
+    val days = ArrayList<String>()
+    var selectedDays: String? = null
+
     init {
         days.add("1")
         days.add("2")

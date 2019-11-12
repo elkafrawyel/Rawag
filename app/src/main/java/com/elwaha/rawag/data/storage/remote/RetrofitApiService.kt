@@ -32,6 +32,15 @@ interface RetrofitApiService {
     @GET("home")
     fun homeAsync(): Deferred<ApiResponse<HomeWithAds>>
 
+    @GET("countries")
+    fun countriesAsync(): Deferred<ApiResponse<List<CountryModel>>>
+
+    @POST("cities")
+    fun citiesAsync(@Body citiesRequest: CitiesRequest): Deferred<ApiResponse<List<CityModel>>>
+
+    @GET("allBaqas")
+    fun allBaqasAsync(): Deferred<ApiResponse<List<BaqaModel>>>
+
     @GET("problems")
     fun problemsAsync(): Deferred<ApiResponse<List<ProblemModel>>>
 
@@ -96,4 +105,17 @@ interface RetrofitApiService {
         @Part("sub_category_id") sub_category_id: RequestBody,
         @Part avatar: MultipartBody.Part
     ): Deferred<ApiResponse<UserModel>>
+
+    @POST("addAd")
+    @Multipart
+    fun addAdAsync(
+        @Header("Authorization") token: String,
+        @Part("sub_category_id") sub_category_id: RequestBody,
+        @Part("city_id") city_id: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("payment_type") payment_type: RequestBody,
+        @Part("baqa_id") baqa_id: RequestBody,
+        @Part("days") days: RequestBody,
+        @Part image: List<MultipartBody.Part>
+    ): Deferred<ApiResponse<AdModel>>
 }

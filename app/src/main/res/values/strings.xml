@@ -53,7 +53,7 @@
     <string name="haveNoAccount">Need new account</string>
     <string name="clickHere">click here</string>
     <string name="resetPassword">Reset Password</string>
-    <string name="confirm">Confirm</string>
+    <string name="confirmBtn">Confirm</string>
     <string name="code">Code</string>
     <string name="enterCodeMessage">Please enter the code we send to your phone number.</string>
     <string name="resendCode">Resend Code?</string>
@@ -112,4 +112,15 @@
     <string name="youtube">Youtube</string>
     <string name="changes_saved">Changes Saved</string>
     <string name="error_link">Url not valid</string>
+    <string name="currency">SAR</string>
+    <string name="select_country">Select Country</string>
+    <string name="select_city">Select City</string>
+    <string name="choose_images">Please Choose Images</string>
+    <string name="mada">Mada</string>
+    <string name="sdad">Sdad</string>
+    <string name="masterCard">Matser Card</string>
+    <string name="visa">Visa</string>
+    <string name="selectPaymentMethod">Select Payment method first.</string>
+    <string name="uploadingAd">Uploading… please wait.</string>
+    <string name="uploadAdSuccess">Upload Completed Successfully.</string>
 </resources>

@@ -52,7 +52,7 @@
     <string name="clickHere">  اضغط هنا</string>
 
     <string name="resetPassword">استعادة كلمة المرور</string>
-    <string name="confirm">تأكيد</string>
+    <string name="confirmBtn">تأكيد</string>
     <string name="code">كود التحقق</string>
     <string name="enterCodeMessage">برجاء ادخال الكود المرسل اليك عبر الجوال</string>
     <string name="resendCode">اعادة الارسال؟</string>
@@ -112,4 +112,15 @@
     <string name="youtube">يوتيوب</string>
     <string name="changes_saved">تم حفظ التعيرات</string>
     <string name="error_link">خطأ في فتح الرابط</string>
+    <string name="currency">ريال سعودي</string>
+    <string name="select_city">اختر مدينة</string>
+    <string name="select_country">اختر دولة</string>
+    <string name="choose_images">اختر صور للاعلان اولا</string>
+    <string name="mada">مدي</string>
+    <string name="masterCard">ماستر كارد</string>
+    <string name="visa">فيزا</string>
+    <string name="sdad">سداد</string>
+    <string name="selectPaymentMethod">اختر طريقة الدفع اولا</string>
+    <string name="uploadingAd"> اضافة الاعلان..انتظر من فضلك</string>
+    <string name="uploadAdSuccess">تمت الاضافة بنجاح</string>
 </resources>

@@ -24,7 +24,7 @@ class ProfileViewModel : AppViewModel() {
             scope.launch(dispatcherProvider.io) {
                 when (action) {
                     ProfileActions.GET_ADS -> {
-                        when (val result = Injector.getProductsRepo().myAds(userId!!)) {
+                        when (val result = Injector.getAdsRepo().myAds(userId!!)) {
                             is DataResource.Success -> {
                                 if (result.data.isEmpty()) {
                                     runOnMainThread {
