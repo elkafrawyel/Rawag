@@ -123,4 +123,11 @@
     <string name="selectPaymentMethod">Select Payment method first.</string>
     <string name="uploadingAd">Uploading… please wait.</string>
     <string name="uploadAdSuccess">Upload Completed Successfully.</string>
+    <string name="contactingUS">Sending your message</string>
+    <string name="contactSuccess">Your message sent successfully</string>
+    <string name="add_rate">Add Rate</string>
+    <string name="submit">Submit</string>
+    <string name="abort">Cancel</string>
+    <string name="success">Success</string>
+    <string name="select_rate">Select rate first</string>
 </resources>

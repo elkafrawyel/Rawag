@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
@@ -12,10 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.blankj.utilcode.util.KeyboardUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.elwaha.rawag.R
-import com.elwaha.rawag.utilies.ViewState
-import com.elwaha.rawag.utilies.toast
+import com.elwaha.rawag.data.models.requests.AddCommentRequest
+import com.elwaha.rawag.utilies.*
+import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.comments_fragment.*
 
 
@@ -24,6 +27,8 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     companion object {
         fun newInstance() = CommentsFragment()
     }
+
+    private var loading: SpotsDialog? = null
 
     private lateinit var viewModel: CommentsViewModel
     private var adapter = CommentsAdapter().also {
@@ -67,6 +72,39 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         adapter.data.add("A")
         commentsRv.adapter = adapter
         commentsRv.setHasFixedSize(true)
+
+        sendComment.setOnClickListener {
+            if (commentEt.text.toString().isNotEmpty())
+                addComment()
+        }
+    }
+
+    private fun addComment() {
+
+        KeyboardUtils.hideSoftInput(activity)
+        val userString = Injector.getPreferenceHelper().user
+        val user = ObjectConverter().getUser(userString!!)
+
+
+        val ratingView = LayoutInflater.from(context).inflate(R.layout.rating, null)
+        val ratingBar = ratingView.findViewById<RatingBar>(R.id.ratingBar)
+        AlertDialog.Builder(context!!)
+            .setTitle(getString(R.string.add_rate))
+            .setView(ratingView)
+            .setPositiveButton(R.string.send) { dialog, _ ->
+                if (ratingBar.rating > 0) {
+                    viewModel.addCommentRequest = AddCommentRequest(
+                        commentEt.text.toString(),
+                        user.id.toString(),
+                        ratingBar.rating.toString()
+                    )
+                    viewModel.get(CommentsActions.SEND)
+                    commentEt.setText("")
+                }else{
+                    activity?.toast(getString(R.string.select_rate))
+                }
+            }.show()
+
     }
 
     private fun onActionsResponse(state: ViewState?) {
@@ -83,7 +121,8 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
                     }
                     CommentsActions.SEND -> {
-
+                        loading = activity?.showLoading(getString(R.string.wait))
+                        loading!!.show()
                     }
                     CommentsActions.DELETE -> {
 
@@ -105,7 +144,10 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
                     }
                     CommentsActions.SEND -> {
-
+                        if (loading != null) {
+                            loading!!.dismiss()
+                        }
+                        activity?.toast(getString(R.string.success))
                     }
                     CommentsActions.DELETE -> {
 
@@ -127,7 +169,10 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
                     }
                     CommentsActions.SEND -> {
-
+                        if (loading != null) {
+                            loading!!.dismiss()
+                        }
+                        activity?.toast(state.message)
                     }
                     CommentsActions.DELETE -> {
 
@@ -138,6 +183,9 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 }
             }
             ViewState.NoConnection -> {
+                if (loading != null) {
+                    loading!!.dismiss()
+                }
                 activity?.toast(getString(R.string.noInternet))
             }
             ViewState.Empty -> {

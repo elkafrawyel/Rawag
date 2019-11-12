@@ -84,4 +84,6 @@ class StaticRepo(private val retrofitApiService: RetrofitApiService) {
             }
         )
     }
+
+
 }

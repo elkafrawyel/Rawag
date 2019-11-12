@@ -53,6 +53,7 @@ class NewPasswordFragment : Fragment() {
                     loading!!.dismiss()
                 }
                 activity?.toast(getString(R.string.password_change_success))
+                activity?.finish()
                 activity?.restartApplication()
             }
             is ViewState.Error -> {

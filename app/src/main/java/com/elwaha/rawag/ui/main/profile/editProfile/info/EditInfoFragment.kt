@@ -106,6 +106,7 @@ class EditInfoFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                     loading!!.dismiss()
                 }
                 activity?.toast(getString(R.string.edit_profile_success))
+                activity?.finish()
                 activity?.restartApplication()
             }
             is ViewState.Error -> {

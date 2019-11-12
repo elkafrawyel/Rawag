@@ -123,4 +123,11 @@
     <string name="selectPaymentMethod">اختر طريقة الدفع اولا</string>
     <string name="uploadingAd"> اضافة الاعلان..انتظر من فضلك</string>
     <string name="uploadAdSuccess">تمت الاضافة بنجاح</string>
+    <string name="contactingUS">جاري ارسال رسالتك</string>
+    <string name="contactSuccess">تم ارسال رسالتك بنجاح</string>
+    <string name="add_rate">اضافة تقييم</string>
+    <string name="submit">ارسال</string>
+    <string name="abort">الغاء</string>
+    <string name="success">تم الارسال</string>
+    <string name="select_rate">يجب اختيار التقييم</string>
 </resources>

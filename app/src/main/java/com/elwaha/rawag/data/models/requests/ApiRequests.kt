@@ -28,7 +28,8 @@ data class ProfileRequest(
 
 data class AddCommentRequest(
     val comment: String,
-    val ad_id: String
+    val user_id: String,
+    val value:String
 )
 
 data class EditProfileRequest(
@@ -67,4 +68,11 @@ data class AddAdRequest(
 
 data class CitiesRequest(
     val country_id: String
+)
+
+data class AddContactRequest(
+    val email: String,
+    val message: String,
+    val name: String,
+    val phone: String
 )

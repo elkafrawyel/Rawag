@@ -40,6 +40,7 @@ class LoginFragment : Fragment() {
 
         skipMbtn.setOnClickListener {
             activity?.restartApplication()
+            activity?.finish()
         }
 
         loginMbtn.setOnClickListener {
@@ -69,6 +70,7 @@ class LoginFragment : Fragment() {
                     loading!!.dismiss()
                 }
                 activity?.toast(getString(R.string.login_success))
+                activity?.finish()
                 activity?.restartApplication()
             }
             is ViewState.Error -> {

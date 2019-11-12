@@ -96,8 +96,8 @@ class ChoosePaymentMethodFragment : Fragment() {
                     loading!!.dismiss()
                 }
                 activity?.toast(getString(R.string.uploadAdSuccess))
-                activity?.restartApplication()
                 activity?.finish()
+                activity?.restartApplication()
             }
             is ViewState.Error -> {
                 if (loading != null) {

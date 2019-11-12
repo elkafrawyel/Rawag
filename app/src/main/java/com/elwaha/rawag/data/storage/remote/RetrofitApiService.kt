@@ -69,7 +69,8 @@ interface RetrofitApiService {
 
     @POST("addComment")
     fun addCommentAsync(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Body addCommentRequest: AddCommentRequest
     ): Deferred<ApiResponse<CommentModel>>
 
     @POST("changePassword")
@@ -84,12 +85,17 @@ interface RetrofitApiService {
         @Body editSocialRequest: EditSocialRequest
     ): Deferred<ApiResponse<UserModel>>
 
-
     @POST("editProfile")
     fun editProfileAsync(
         @Header("Authorization") token: String,
         @Body editProfileRequest: EditProfileRequest
     ): Deferred<ApiResponse<UserModel>>
+
+    @POST("addContact")
+    fun addContactAsync(
+        @Header("Authorization") token: String,
+        @Body addContactRequest: AddContactRequest
+    ): Deferred<ApiResponseNoData>
 
     @POST("editProfile")
     @Multipart

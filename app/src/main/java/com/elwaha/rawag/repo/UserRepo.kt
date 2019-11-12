@@ -3,6 +3,7 @@ package com.elwaha.rawag.repo
 import android.net.Uri
 import com.elwaha.rawag.R
 import com.elwaha.rawag.data.models.ApiResponse
+import com.elwaha.rawag.data.models.CommentModel
 import com.elwaha.rawag.data.models.UserModel
 import com.elwaha.rawag.data.models.requests.*
 import com.elwaha.rawag.data.storage.local.PreferencesHelper
@@ -111,7 +112,7 @@ class UserRepo(
         )
     }
 
-    suspend fun updatePassword(updatePasswordRequest: UpdatePasswordRequest): DataResource<Any> {
+    suspend fun updatePassword(updatePasswordRequest: UpdatePasswordRequest): DataResource<String> {
         return safeApiCall(
             call = {
                 val userString = Injector.getPreferenceHelper().user
@@ -143,6 +144,46 @@ class UserRepo(
                         user.token
                     else
                         "${Constants.AUTHORIZATION_START} ${user.token}", editSocialRequest
+                ).await()
+                if (response.status)
+                    DataResource.Success(response.data)
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
+    suspend fun addContact(addContactRequest: AddContactRequest): DataResource<String> {
+        return safeApiCall(
+            call = {
+                val userString = Injector.getPreferenceHelper().user
+                val user = ObjectConverter().getUser(userString!!)
+
+                val response = retrofitApiService.addContactAsync(
+                    if (user.token.contains(Constants.AUTHORIZATION_START))
+                        user.token
+                    else
+                        "${Constants.AUTHORIZATION_START} ${user.token}", addContactRequest
+                ).await()
+                if (response.status)
+                    DataResource.Success(response.msg)
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
+    suspend fun addComment(addCommentRequest: AddCommentRequest): DataResource<CommentModel> {
+        return safeApiCall(
+            call = {
+                val userString = Injector.getPreferenceHelper().user
+                val user = ObjectConverter().getUser(userString!!)
+
+                val response = retrofitApiService.addCommentAsync(
+                    if (user.token.contains(Constants.AUTHORIZATION_START))
+                        user.token
+                    else
+                        "${Constants.AUTHORIZATION_START} ${user.token}", addCommentRequest
                 ).await()
                 if (response.status)
                     DataResource.Success(response.data)
