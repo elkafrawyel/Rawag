@@ -72,6 +72,7 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
             }
             ViewState.Empty -> {
                 rootView.setVisible(CustomViews.EMPTY)
+                rootView.setEmptyText(R.string.empty_category)
             }
             ViewState.LastPage -> {
 
@@ -92,7 +93,7 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
             R.id.cardItem -> {
                 val action =
                     SubCategoriesFragmentDirections.actionSubCategoriesFragmentToProductsFragment(
-                        "test"
+                        viewModel.subCategoriesList[position].id.toString()
                     )
                 findNavController().navigate(action)
             }

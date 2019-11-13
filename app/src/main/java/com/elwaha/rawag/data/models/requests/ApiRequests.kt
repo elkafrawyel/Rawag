@@ -76,3 +76,20 @@ data class AddContactRequest(
     val name: String,
     val phone: String
 )
+
+data class AllCommentsRequest(
+    val user_id: String
+)
+
+data class AddLikeRequest(
+    val profile_id: String
+)
+
+data class AddReportRequest(
+    val comment_id: String,
+    val problem_id: String
+)
+
+data class UsersRequest(
+    val sub_category_id: String
+)

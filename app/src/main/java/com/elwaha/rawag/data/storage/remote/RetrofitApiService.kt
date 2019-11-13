@@ -60,6 +60,11 @@ interface RetrofitApiService {
         @Part avatar: MultipartBody.Part
     ): Deferred<ApiResponse<UserModel>>
 
+    @POST("userComments")
+    fun allCommentsAsync(
+        @Body allCommentsRequest: AllCommentsRequest
+    ): Deferred<ApiResponse<List<CommentModel>>>
+
     //================================ With Auth =========================================
 
     @POST("myAds")
@@ -124,4 +129,36 @@ interface RetrofitApiService {
         @Part("days") days: RequestBody,
         @Part image: List<MultipartBody.Part>
     ): Deferred<ApiResponse<AdModel>>
+
+    @POST("addReport")
+    fun addReportAsync(
+        @Header("Authorization") token: String,
+        @Body addReportRequest: AddReportRequest
+    ): Deferred<ApiResponseNoData>
+
+    @POST("subcategoryHomeUsers")
+    fun subCategoryUsersAsync(
+        @Body usersRequest: UsersRequest
+    ): Deferred<ApiResponse<List<UserModel>>>
+
+    @POST("subcategoryUsers")
+    fun subCategoryUsersAuthAsync(
+        @Header("Authorization") token: String,
+        @Body usersRequest: UsersRequest
+    ): Deferred<ApiResponse<List<UserModel>>>
+
+    @POST("addLike")
+    fun addLikeAuthAsync(
+        @Header("Authorization") token: String,
+        @Body addLikeRequest: AddLikeRequest
+    ): Deferred<ApiResponse<Int>>
+
+    @GET("myFavouriteAuth")
+    fun myFavouriteAuthAsync(
+        @Header("Authorization") token: String
+    ): Deferred<ApiResponse<FavouritesWithAds>>
+
+    @GET("myFavourite")
+    fun myFavouriteAsync(): Deferred<ApiResponse<FavouritesWithAds>>
+
 }

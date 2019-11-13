@@ -15,6 +15,8 @@ data class UserModel(
     val categoryId: Int,
     @field:Json(name = "email")
     val email: String,
+    @field:Json(name = "views")
+    val views: Int,
     @field:Json(name = "facebook")
     val facebook: String,
     @field:Json(name = "id")
@@ -42,5 +44,7 @@ data class UserModel(
     @field:Json(name = "youtube")
     val youtube: String,
     @field:Json(name = "rate_value")
-    val rate_value: Int
+    val rate_value: Int,
+    @field:Json(name = "isLiked")
+    var isLiked: Int
 )

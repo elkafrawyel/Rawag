@@ -29,20 +29,20 @@
             app:layout_constraintTop_toBottomOf="@id/bannerSliderVp"
             tools:listitem="@layout/comments_item_view" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/colorPrimary"
-            android:padding="8dp"
-            >
+            android:padding="8dp">
 
             <EditText
+                android:id="@+id/commentEt"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:id="@+id/commentEt"
                 android:background="@drawable/comment_field_bg"
                 android:hint="@string/write_comment"
                 android:textAppearance="?attr/textAppearanceCaption"
@@ -104,5 +104,14 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/emptyView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@android:color/black" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

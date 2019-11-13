@@ -81,8 +81,8 @@ dependencies {
 
     implementation "com.airbnb.android:lottie:3.0.0-beta1"
 
-    implementation 'com.github.elkafrawyel:FrameView-Android:0.0.6'
-    implementation 'com.github.elkafrawyel:ZoomImageView-Android:0.0.2'
+    implementation 'com.github.elkafrawyel:FrameView-Android:0.0.7'
+    implementation 'com.github.elkafrawyel:ZoomImageView-Android:0.0.3'
 
     implementation 'com.google.android.gms:play-services-places:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'

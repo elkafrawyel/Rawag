@@ -16,8 +16,12 @@ import android.provider.MediaStore
 import android.text.format.DateFormat
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.elwaha.rawag.BuildConfig.DEBUG
 import com.elwaha.rawag.R
 import com.google.android.material.snackbar.Snackbar
@@ -79,6 +83,61 @@ fun Context.setLanguageToDevice() {
 
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+}
+
+@SuppressLint("CheckResult")
+fun ImageView.loadWithPlaceHolder(url: String) {
+    val circularProgressDrawable = CircularProgressDrawable(Injector.getApplicationContext())
+    circularProgressDrawable.strokeWidth = 5f
+    circularProgressDrawable.centerRadius = 30f
+    circularProgressDrawable.start()
+
+    val requestOptions = RequestOptions()
+    requestOptions.placeholder(circularProgressDrawable)
+
+    Glide.with(Injector.getApplicationContext())
+        .load(url)
+        .apply(requestOptions)
+        .into(this)
+
+}
+
+@SuppressLint("CheckResult")
+fun ImageView.loadWithPlaceHolder(drawable:Int) {
+    val circularProgressDrawable = CircularProgressDrawable(Injector.getApplicationContext())
+    circularProgressDrawable.strokeWidth = 5f
+    circularProgressDrawable.centerRadius = 30f
+    circularProgressDrawable.start()
+
+    val requestOptions = RequestOptions()
+    requestOptions.placeholder(circularProgressDrawable)
+
+    Glide.with(Injector.getApplicationContext())
+        .load(drawable)
+        .apply(requestOptions)
+        .into(this)
+
+}
+
+@SuppressLint("CheckResult")
+fun ImageView.loadWithPlaceHolder(uri:Uri) {
+    val circularProgressDrawable = CircularProgressDrawable(Injector.getApplicationContext())
+    circularProgressDrawable.strokeWidth = 5f
+    circularProgressDrawable.centerRadius = 30f
+    circularProgressDrawable.start()
+
+    val requestOptions = RequestOptions()
+    requestOptions.placeholder(circularProgressDrawable)
+
+    Glide.with(Injector.getApplicationContext())
+        .load(uri)
+        .apply(requestOptions)
+        .into(this)
+
+}
+
+fun ImageView.load() {
+
 }
 
 fun Context.snackBarWithAction(

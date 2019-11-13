@@ -118,7 +118,7 @@
     <string name="choose_images">Please Choose Images</string>
     <string name="mada">Mada</string>
     <string name="sdad">Sdad</string>
-    <string name="masterCard">Matser Card</string>
+    <string name="masterCard">Master Card</string>
     <string name="visa">Visa</string>
     <string name="selectPaymentMethod">Select Payment method first.</string>
     <string name="uploadingAd">Uploading… please wait.</string>
@@ -130,4 +130,9 @@
     <string name="abort">Cancel</string>
     <string name="success">Success</string>
     <string name="select_rate">Select rate first</string>
+    <string name="empty_comments">No Comments on this profile yet send first comment</string>
+    <string name="errorSendReport">Error sending your report</string>
+    <string name="empty_category">Category is empty.</string>
+    <string name="addedToFavourites">Added to favourites</string>
+    <string name="removedFromFavourites">Removed from favourites</string>
 </resources>

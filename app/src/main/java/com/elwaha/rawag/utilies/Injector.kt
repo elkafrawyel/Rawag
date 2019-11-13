@@ -65,7 +65,7 @@ object Injector {
 
     //========================================Repo================================================
 
-    fun getCategoriesRepo() = CategoriesRepo(getApiService())
+    fun getCategoriesRepo() = CategoriesRepo(getApiService(), getPreferenceHelper())
     fun getUserRepo() = UserRepo(getApiService(), getPreferenceHelper())
     fun getAdsRepo() = AdsRepo(getApiService(), getPreferenceHelper())
     fun getStaticRepo() = StaticRepo(getApiService())

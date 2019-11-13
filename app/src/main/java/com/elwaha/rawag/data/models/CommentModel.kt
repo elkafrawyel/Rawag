@@ -15,6 +15,10 @@ data class CommentModel(
     val updatedAt: String?,
     @field:Json(name = "user_id")
     val userId: Int?,
+    @field:Json(name = "user_name")
+    val user_name: String?,
+    @field:Json(name = "user_img")
+    val user_img: String?,
     @field:Json(name = "value")
     val value: Int?
 )

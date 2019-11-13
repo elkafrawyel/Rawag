@@ -1,6 +1,5 @@
 package com.elwaha.rawag.ui.main.mainFragment.home
 
-import androidx.lifecycle.ViewModel
 import com.elwaha.rawag.data.models.AdModel
 import com.elwaha.rawag.data.models.CategoryModel
 import com.elwaha.rawag.ui.AppViewModel

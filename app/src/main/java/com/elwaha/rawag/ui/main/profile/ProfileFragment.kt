@@ -93,7 +93,7 @@ class ProfileFragment : Fragment() {
         showComments.setOnClickListener {
             val action =
                 ProfileFragmentDirections.actionProfileFragmentToCommentsFragment(
-                    "test"
+                    viewModel.userId!!
                 )
             findNavController().navigate(action)
         }
@@ -200,6 +200,7 @@ class ProfileFragment : Fragment() {
         profileName.text = user.name
         profileRateBar.rating = user.rate_value.toFloat()
         profileAddress.text = user.address
+        profileViews.text = user.views.toString()
         profileAddress.isSelected = true
         descTv.text = user.about
         viewModel.get(ProfileViewModel.ProfileActions.GET_ADS)

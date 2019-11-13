@@ -1,8 +1,10 @@
 package com.elwaha.rawag.ui.main.profile.comments
 
+import com.elwaha.rawag.R
 import com.elwaha.rawag.data.models.CommentModel
 import com.elwaha.rawag.data.models.ProblemModel
 import com.elwaha.rawag.data.models.requests.AddCommentRequest
+import com.elwaha.rawag.data.models.requests.AddReportRequest
 import com.elwaha.rawag.ui.AppViewModel
 import com.elwaha.rawag.utilies.DataResource
 import com.elwaha.rawag.utilies.Event
@@ -14,8 +16,14 @@ class CommentsViewModel : AppViewModel() {
 
     var action: CommentsActions? = null
     var problems = ArrayList<ProblemModel>()
+    var allComments = ArrayList<CommentModel>()
     var addedComment: CommentModel? = null
     var addCommentRequest: AddCommentRequest? = null
+    var userId: String? = null
+    var problemId: String? = null
+    var commentId: String? = null
+
+
     fun get(commentsActions: CommentsActions) {
         checkNetwork {
             action = commentsActions
@@ -41,8 +49,51 @@ class CommentsViewModel : AppViewModel() {
                             }
                         }
                     }
-                    CommentsActions.GET -> TODO()
-                    CommentsActions.REPORT -> TODO()
+                    CommentsActions.GET -> {
+                        when (val result =
+                            Injector.getUserRepo().allComments(userId!!)) {
+                            is DataResource.Success -> {
+                                allComments.clear()
+                                allComments.addAll(result.data)
+                                if (allComments.isEmpty()) {
+                                    runOnMainThread {
+                                        _uiState.value = ViewState.Empty
+                                    }
+                                } else {
+                                    runOnMainThread {
+                                        _uiState.value = ViewState.Success
+                                    }
+                                }
+                            }
+                            is DataResource.Error -> {
+                                runOnMainThread {
+                                    _uiState.value = ViewState.Error(result.errorMessage)
+                                }
+                            }
+                        }
+                    }
+                    CommentsActions.REPORT ->{
+                        when (val result =
+                            Injector.getUserRepo().addReport(AddReportRequest(commentId!!,problemId!!))) {
+                            is DataResource.Success -> {
+                                if (result.data) {
+                                        runOnMainThread {
+                                            _uiState.value = ViewState.Success
+                                        }
+                                }else{
+                                    runOnMainThread {
+                                        _uiState.value = ViewState.Error(Injector.getApplicationContext().getString(
+                                            R.string.errorSendReport))
+                                    }
+                                }
+                            }
+                            is DataResource.Error -> {
+                                runOnMainThread {
+                                    _uiState.value = ViewState.Error(result.errorMessage)
+                                }
+                            }
+                        }
+                    }
                     CommentsActions.SEND -> {
                         when (val result =
                             Injector.getUserRepo().addComment(addCommentRequest!!)) {

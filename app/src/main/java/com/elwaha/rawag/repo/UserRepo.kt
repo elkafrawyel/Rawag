@@ -1,16 +1,14 @@
 package com.elwaha.rawag.repo
 
 import android.net.Uri
-import com.elwaha.rawag.R
 import com.elwaha.rawag.data.models.ApiResponse
 import com.elwaha.rawag.data.models.CommentModel
+import com.elwaha.rawag.data.models.FavouritesWithAds
 import com.elwaha.rawag.data.models.UserModel
 import com.elwaha.rawag.data.models.requests.*
 import com.elwaha.rawag.data.storage.local.PreferencesHelper
 import com.elwaha.rawag.data.storage.remote.RetrofitApiService
 import com.elwaha.rawag.utilies.*
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 
 class UserRepo(
     private val retrofitApiService: RetrofitApiService,
@@ -189,6 +187,90 @@ class UserRepo(
                     DataResource.Success(response.data)
                 else
                     DataResource.Error(response.msg)
+            }
+        )
+    }
+
+    suspend fun addReport(addReportRequest: AddReportRequest): DataResource<Boolean> {
+        return safeApiCall(
+            call = {
+                val userString = Injector.getPreferenceHelper().user
+                val user = ObjectConverter().getUser(userString!!)
+
+                val response = retrofitApiService.addReportAsync(
+                    if (user.token.contains(Constants.AUTHORIZATION_START))
+                        user.token
+                    else
+                        "${Constants.AUTHORIZATION_START} ${user.token}", addReportRequest
+                ).await()
+                if (response.status)
+                    DataResource.Success(response.status)
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
+    suspend fun addLike(addLikeRequest: AddLikeRequest): DataResource<Int> {
+        return safeApiCall(
+            call = {
+                val userString = Injector.getPreferenceHelper().user
+                val user = ObjectConverter().getUser(userString!!)
+
+                val response = retrofitApiService.addLikeAuthAsync(
+                    if (user.token.contains(Constants.AUTHORIZATION_START))
+                        user.token
+                    else
+                        "${Constants.AUTHORIZATION_START} ${user.token}",
+                    addLikeRequest
+                ).await()
+                if (response.status)
+                    DataResource.Success(response.data)
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
+    suspend fun allComments(userId: String): DataResource<List<CommentModel>> {
+        return safeApiCall(
+            call = {
+                val response =
+                    retrofitApiService.allCommentsAsync(AllCommentsRequest(userId)).await()
+                if (response.status)
+                    DataResource.Success(response.data)
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
+    suspend fun myFavouritesWithAds(): DataResource<FavouritesWithAds> {
+        return safeApiCall(
+            call = {
+                val response: ApiResponse<FavouritesWithAds>
+
+                response = if (preferencesHelper.isLoggedIn) {
+                    val userString = preferencesHelper.user
+                    val user = ObjectConverter().getUser(userString!!)
+
+                    retrofitApiService.myFavouriteAuthAsync(
+                        if (user.token.contains(Constants.AUTHORIZATION_START))
+                            user.token
+                        else
+                            "${Constants.AUTHORIZATION_START} ${user.token}"
+                    ).await()
+
+                } else {
+                    retrofitApiService.myFavouriteAsync().await()
+                }
+
+                if (response.status)
+                    DataResource.Success(response.data)
+                else
+                    DataResource.Error(response.msg)
+
+
             }
         )
     }

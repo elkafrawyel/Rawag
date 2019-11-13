@@ -21,7 +21,6 @@ import com.elwaha.rawag.utilies.*
 import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.comments_fragment.*
 
-
 class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
     companion object {
@@ -47,29 +46,21 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         viewModel = ViewModelProviders.of(this).get(CommentsViewModel::class.java)
         viewModel.uiState.observe(this, Observer { onActionsResponse(it) })
 
-        viewModel.get(CommentsActions.PROBLEMS)
         arguments?.let {
-            val profileId =
-                com.elwaha.rawag.ui.main.profile.comments.CommentsFragmentArgs.fromBundle(
-                    it
-                ).profileId
-            activity?.toast(profileId)
+            val profileId = CommentsFragmentArgs.fromBundle(it).profileId
+            viewModel.userId = profileId
+
+            val userString = Injector.getPreferenceHelper().user
+            val user = ObjectConverter().getUser(userString!!)
+
+            if (profileId == user.id.toString()) {
+                adapter.isMyAccount = true
+            }
+            viewModel.get(CommentsActions.GET)
         }
 
         backImgv.setOnClickListener { findNavController().navigateUp() }
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
-        adapter.data.add("A")
+
         commentsRv.adapter = adapter
         commentsRv.setHasFixedSize(true)
 
@@ -100,7 +91,8 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                     )
                     viewModel.get(CommentsActions.SEND)
                     commentEt.setText("")
-                }else{
+
+                } else {
                     activity?.toast(getString(R.string.select_rate))
                 }
             }.show()
@@ -112,7 +104,8 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             ViewState.Loading -> {
                 when (viewModel.action) {
                     CommentsActions.GET -> {
-
+                        loading = activity?.showLoading(getString(R.string.wait))
+                        loading!!.show()
                     }
                     CommentsActions.REPORT -> {
 
@@ -135,10 +128,19 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             ViewState.Success -> {
                 when (viewModel.action) {
                     CommentsActions.GET -> {
+                        if (loading != null) {
+                            loading!!.dismiss()
+                        }
+                        adapter.replaceData(viewModel.allComments)
+                        emptyView.visibility = View.GONE
+                        viewModel.get(CommentsActions.PROBLEMS)
 
                     }
                     CommentsActions.REPORT -> {
-                        openReportDialog()
+                        if (loading != null) {
+                            loading!!.dismiss()
+                        }
+                        activity?.toast(getString(R.string.success))
                     }
                     CommentsActions.PROBLEMS -> {
 
@@ -148,6 +150,8 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                             loading!!.dismiss()
                         }
                         activity?.toast(getString(R.string.success))
+                        adapter.addData(viewModel.addedComment!!)
+                        emptyView.visibility = View.GONE
                     }
                     CommentsActions.DELETE -> {
 
@@ -160,10 +164,16 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             is ViewState.Error -> {
                 when (viewModel.action) {
                     CommentsActions.GET -> {
-
+                        if (loading != null) {
+                            loading!!.dismiss()
+                        }
+                        activity?.toast(state.message)
                     }
                     CommentsActions.REPORT -> {
-
+                        if (loading != null) {
+                            loading!!.dismiss()
+                        }
+                        activity?.toast(state.message)
                     }
                     CommentsActions.PROBLEMS -> {
 
@@ -191,7 +201,11 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             ViewState.Empty -> {
                 when (viewModel.action) {
                     CommentsActions.GET -> {
-
+                        if (loading != null) {
+                            loading!!.dismiss()
+                        }
+                        emptyView.visibility = View.VISIBLE
+                        emptyView.text = getString(R.string.empty_comments)
                     }
                     CommentsActions.REPORT -> {
 
@@ -219,7 +233,7 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
             R.id.reportComment -> {
-                openReportDialog()
+                openReportDialog(position)
             }
 
             R.id.menuComment -> {
@@ -229,18 +243,21 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         }
     }
 
-    private fun openReportDialog() {
+    private fun openReportDialog(commentPosition: Int) {
 
-        val problemsArray: Array<out String> =
-            viewModel.problems.map { it.report }.toTypedArray()
-        AlertDialog.Builder(ContextThemeWrapper(context, R.style.AlertDialogCustom))
+        val problemsArray: Array<out String> = viewModel.problems.map { it.report }.toTypedArray()
+        AlertDialog.Builder(context!!)
             .setTitle(getString(R.string.report_reason))
             .setSingleChoiceItems(problemsArray, -1, null)
             .setPositiveButton(R.string.send) { dialog, _ ->
                 dialog.dismiss()
                 val selectedPosition: Int =
                     (dialog as AlertDialog).listView.checkedItemPosition
-                activity?.toast(viewModel.problems[selectedPosition].report)
+
+                viewModel.commentId = viewModel.allComments[commentPosition].id.toString()
+                viewModel.problemId = viewModel.problems[selectedPosition].id.toString()
+
+                viewModel.get(CommentsActions.REPORT)
             }
             .show()
 

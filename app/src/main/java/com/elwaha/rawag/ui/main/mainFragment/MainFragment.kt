@@ -21,7 +21,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.main_fragment.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 import java.lang.Exception
 
 

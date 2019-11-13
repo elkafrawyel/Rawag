@@ -5,11 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.elwaha.rawag.R
 import com.elwaha.rawag.data.models.AdModel
 import com.elwaha.rawag.utilies.Constants
+import com.elwaha.rawag.utilies.loadWithPlaceHolder
 
 
 class ImageSliderAdapter(private val openFullScreenSlider: (Int) -> Unit) : PagerAdapter() {
@@ -32,10 +35,7 @@ class ImageSliderAdapter(private val openFullScreenSlider: (Int) -> Unit) : Page
 
         val imageView = cardView.findViewById<ImageView>(R.id.imageSlider)
 
-        Glide.with(imageView)
-            .load(Constants.IMAGES_BASE_URL+ads[position].img)
-            .into(imageView)
-
+        imageView.loadWithPlaceHolder(Constants.IMAGES_BASE_URL + ads[position].img)
         imageView.setOnClickListener { openFullScreenSlider(position) }
         return cardView
     }
