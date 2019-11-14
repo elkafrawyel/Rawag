@@ -135,4 +135,7 @@
     <string name="empty_category">Category is empty.</string>
     <string name="addedToFavourites">Added to favourites</string>
     <string name="removedFromFavourites">Removed from favourites</string>
+    <string name="deleted">Delete Complete</string>
+    <string name="hided">Hide Completed</string>
+    <string name="EmptyFavList">Favourite list is empty</string>
 </resources>

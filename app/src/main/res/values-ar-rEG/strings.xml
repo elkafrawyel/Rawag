@@ -135,4 +135,7 @@
     <string name="empty_category">القسم فارغ</string>
     <string name="addedToFavourites">تمت الاضافة الي المفضلة</string>
     <string name="removedFromFavourites">تم الحذف من المفضلة</string>
+    <string name="deleted">تم المسح</string>
+    <string name="hided">تم الاخفاء</string>
+    <string name="EmptyFavList">قائمة المفضلة فارغة</string>
 </resources>

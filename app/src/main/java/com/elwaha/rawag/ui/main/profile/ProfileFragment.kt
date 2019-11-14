@@ -15,6 +15,7 @@ import com.elwaha.rawag.R
 import com.elwaha.rawag.data.models.UserModel
 import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
 import com.elwaha.rawag.utilies.*
+import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.profile_fragment.*
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -25,6 +26,8 @@ class ProfileFragment : Fragment() {
     companion object {
         fun newInstance() = ProfileFragment()
     }
+
+    private var loadingDialog: SpotsDialog? = null
 
     private lateinit var viewModel: ProfileViewModel
     private var timer: Timer? = null
@@ -49,38 +52,33 @@ class ProfileFragment : Fragment() {
         viewModel.uiState.observe(
             this,
             androidx.lifecycle.Observer { onProfileActionsResponse(it) })
+        viewModel.uiStateEvent.observeEvent(this) { onLikeResponse(it) }
+
         rootView.setLayout(profileCl)
         rootView.setVisible(CustomViews.LAYOUT)
 
         arguments?.let {
             val isMyAccount = ProfileFragmentArgs.fromBundle(it).isMyProfile
             if (isMyAccount) {
-                callMbtn.visibility = View.GONE
-                watchMyAdsMbtn.visibility = View.VISIBLE
-                favImgv.visibility = View.GONE
-                editImgv.visibility = View.VISIBLE
+                myAccountData()
+
+            } else {
+
+                val userId = ProfileFragmentArgs.fromBundle(it).userId
 
                 val userString = Injector.getPreferenceHelper().user
                 val user = ObjectConverter().getUser(userString!!)
-                viewModel.user = user
-                viewModel.userId = user.id.toString()
-                setProfileData(user)
 
-                youtube.setOnClickListener { openUrl(user.youtube) }
-                facebook.setOnClickListener { openUrl(user.facebook) }
-                twitter.setOnClickListener { openUrl(user.twitter) }
-                snap.setOnClickListener { openUrl(user.snabchat) }
-                ins.setOnClickListener { openUrl(user.instagram) }
+                if (userId == user.id.toString()){
+                    //my account too
+                    myAccountData()
+                }else{
+                    viewModel.userId = userId
+                    viewModel.get(ProfileViewModel.ProfileActions.GET_PROFILE)
 
-            } else {
-                callMbtn.visibility = View.VISIBLE
-                watchMyAdsMbtn.visibility = View.GONE
-                favImgv.visibility = View.VISIBLE
-                editImgv.visibility = View.GONE
+                    otherUserData()
+                }
 
-                val userId = ProfileFragmentArgs.fromBundle(it).userId
-                viewModel.userId = userId
-                viewModel.get(ProfileViewModel.ProfileActions.GET_PROFILE)
             }
         }
 
@@ -100,13 +98,83 @@ class ProfileFragment : Fragment() {
 
         callMbtn.setOnClickListener {
             if (viewModel.user != null) {
-                val uri = "tel:" +  viewModel.user!!.phone
+                val uri = "tel:" + viewModel.user!!.phone
                 val intent = Intent(Intent.ACTION_DIAL)
                 intent.data = Uri.parse(uri)
                 activity?.startActivity(intent)
             }
         }
 
+        favImgv.setOnClickListener {
+            if (Injector.getPreferenceHelper().isLoggedIn) {
+                viewModel.like(viewModel.userId!!)
+            } else {
+                activity?.snackBarWithAction(
+                    getString(R.string.you_must_login),
+                    getString(R.string.login),
+                    rootView
+                ) {
+                    findNavController().navigate(R.id.action_profilesFragment_to_loginFragment)
+                }
+            }
+        }
+    }
+
+    private fun otherUserData() {
+        callMbtn.visibility = View.VISIBLE
+        watchMyAdsMbtn.visibility = View.GONE
+        favImgv.visibility = View.VISIBLE
+        editImgv.visibility = View.GONE
+    }
+
+    private fun myAccountData() {
+        callMbtn.visibility = View.GONE
+        watchMyAdsMbtn.visibility = View.VISIBLE
+        favImgv.visibility = View.GONE
+        editImgv.visibility = View.VISIBLE
+
+        val userString = Injector.getPreferenceHelper().user
+        val user = ObjectConverter().getUser(userString!!)
+        viewModel.user = user
+        viewModel.userId = user.id.toString()
+        setProfileData(user)
+    }
+
+    private fun onLikeResponse(state: ViewState) {
+        when (state) {
+            ViewState.Loading -> {
+                loadingDialog = activity?.showLoading(getString(R.string.wait))
+                loadingDialog!!.show()
+            }
+            ViewState.Success -> {
+                if (loadingDialog != null) {
+                    loadingDialog!!.dismiss()
+                }
+                if (viewModel.lastLikeActionResult != null) {
+                    if (viewModel.lastLikeActionResult!!) {
+                        activity?.toast(getString(R.string.addedToFavourites))
+                        favImgv.loadWithPlaceHolder(R.drawable.likeee)
+                        viewModel.user!!.isLiked = 1
+                    } else {
+                        activity?.toast(getString(R.string.removedFromFavourites))
+                        favImgv.loadWithPlaceHolder(R.drawable.like)
+                        viewModel.user!!.isLiked = 0
+                    }
+                }
+            }
+            is ViewState.Error -> {
+                if (loadingDialog != null) {
+                    loadingDialog!!.dismiss()
+                }
+                activity?.toast(state.message)
+            }
+            ViewState.NoConnection -> {
+                if (loadingDialog != null) {
+                    loadingDialog!!.dismiss()
+                }
+                activity?.toast(getString(R.string.noInternet))
+            }
+        }
     }
 
     private fun onProfileActionsResponse(state: ViewState?) {
@@ -116,10 +184,15 @@ class ProfileFragment : Fragment() {
                     ViewState.Loading -> {
                         loading.visibility = View.VISIBLE
                     }
+
                     ViewState.Success -> {
                         loading.visibility = View.GONE
                         setProfileData(viewModel.user!!)
-                        viewModel.get(ProfileViewModel.ProfileActions.GET_ADS)
+                        if (viewModel.user!!.isLiked == 1) {
+                            favImgv.loadWithPlaceHolder(R.drawable.likeee)
+                        } else {
+                            favImgv.loadWithPlaceHolder(R.drawable.like)
+                        }
                     }
                     is ViewState.Error -> {
                         loading.visibility = View.GONE
@@ -132,6 +205,7 @@ class ProfileFragment : Fragment() {
 
                 }
             }
+
             ProfileViewModel.ProfileActions.GET_ADS -> {
                 when (state) {
                     ViewState.Loading -> {
@@ -203,6 +277,13 @@ class ProfileFragment : Fragment() {
         profileViews.text = user.views.toString()
         profileAddress.isSelected = true
         descTv.text = user.about
+
+        youtube.setOnClickListener { openUrl(user.youtube) }
+        facebook.setOnClickListener { openUrl(user.facebook) }
+        twitter.setOnClickListener { openUrl(user.twitter) }
+        snap.setOnClickListener { openUrl(user.snabchat) }
+        ins.setOnClickListener { openUrl(user.instagram) }
+
         viewModel.get(ProfileViewModel.ProfileActions.GET_ADS)
 
     }

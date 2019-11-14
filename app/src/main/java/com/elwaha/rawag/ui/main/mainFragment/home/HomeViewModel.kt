@@ -18,7 +18,7 @@ class HomeViewModel : AppViewModel() {
                 _uiState.value = ViewState.Loading
             }
             scope.launch(dispatcherProvider.io) {
-                when(val result = Injector.getCategoriesRepo().getCategoriesWithAds()){
+                when(val result = Injector.getCategoriesRepo().getHomeWithAds("home")){
                     is DataResource.Success -> {
                         categories.clear()
                         categories.addAll(result.data.categories)

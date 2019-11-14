@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -82,7 +81,7 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         AlertDialog.Builder(context!!)
             .setTitle(getString(R.string.add_rate))
             .setView(ratingView)
-            .setPositiveButton(R.string.send) { dialog, _ ->
+            .setPositiveButton(R.string.send) { _, _ ->
                 if (ratingBar.rating > 0) {
                     viewModel.addCommentRequest = AddCommentRequest(
                         commentEt.text.toString(),
@@ -104,7 +103,7 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             ViewState.Loading -> {
                 when (viewModel.action) {
                     CommentsActions.GET -> {
-                        loading = activity?.showLoading(getString(R.string.wait))
+                        loading = activity?.showLoading(context!!.resources.getString(R.string.wait))
                         loading!!.show()
                     }
                     CommentsActions.REPORT -> {
@@ -118,10 +117,12 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                         loading!!.show()
                     }
                     CommentsActions.DELETE -> {
-
+                        loading = activity?.showLoading(getString(R.string.wait))
+                        loading!!.show()
                     }
                     CommentsActions.HIDE -> {
-
+                        loading = activity?.showLoading(getString(R.string.wait))
+                        loading!!.show()
                     }
                 }
             }
@@ -151,13 +152,34 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                         }
                         activity?.toast(getString(R.string.success))
                         adapter.addData(viewModel.addedComment!!)
+                        viewModel.allComments.add(viewModel.addedComment!!)
                         emptyView.visibility = View.GONE
                     }
                     CommentsActions.DELETE -> {
-
+                        if (loading != null) {
+                            loading!!.dismiss()
+                        }
+                        adapter.data.removeAt(viewModel.commentPosition!!)
+                        viewModel.allComments.removeAt(viewModel.commentPosition!!)
+                        adapter.notifyItemRemoved(viewModel.commentPosition!!)
+                        activity?.toast(getString(R.string.deleted))
+                        if (viewModel.allComments.isEmpty()){
+                            emptyView.visibility = View.VISIBLE
+                            emptyView.text = getString(R.string.empty_comments)
+                        }
                     }
                     CommentsActions.HIDE -> {
-
+                        if (loading != null) {
+                            loading!!.dismiss()
+                        }
+                        adapter.data.removeAt(viewModel.commentPosition!!)
+                        viewModel.allComments.removeAt(viewModel.commentPosition!!)
+                        adapter.notifyItemRemoved(viewModel.commentPosition!!)
+                        activity?.toast(getString(R.string.hided))
+                        if (viewModel.allComments.isEmpty()){
+                            emptyView.visibility = View.VISIBLE
+                            emptyView.text = getString(R.string.empty_comments)
+                        }
                     }
                 }
             }
@@ -185,10 +207,16 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                         activity?.toast(state.message)
                     }
                     CommentsActions.DELETE -> {
-
+                        if (loading != null) {
+                            loading!!.dismiss()
+                        }
+                        activity?.toast(state.message)
                     }
                     CommentsActions.HIDE -> {
-
+                        if (loading != null) {
+                            loading!!.dismiss()
+                        }
+                        activity?.toast(state.message)
                     }
                 }
             }
@@ -238,7 +266,7 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
             R.id.menuComment -> {
                 val optionIcon = view.findViewById<ImageView>(R.id.menuComment)
-                showCommentMenu(optionIcon)
+                showCommentMenu(optionIcon,position)
             }
         }
     }
@@ -270,26 +298,24 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 //        dialog.show()
     }
 
-    private fun showCommentMenu(optionIcon: ImageView) {
-        //creating a popup menu
+    private fun showCommentMenu(optionIcon: ImageView, position: Int) {
         val popup = PopupMenu(context!!, optionIcon)
-        //inflating menu from xml resource
         popup.inflate(R.menu.comment_menu)
-        //adding click listener
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.hide -> {
-                    activity?.toast("hide")
+                    viewModel.commentId = viewModel.allComments[position].id.toString()
+                    viewModel.commentPosition = position
+                    viewModel.get(CommentsActions.HIDE)
                 }
                 R.id.delete -> {
-                    activity?.toast("delete")
+                    viewModel.commentId = viewModel.allComments[position].id.toString()
+                    viewModel.commentPosition = position
+                    viewModel.get(CommentsActions.DELETE)
                 }
             }
-            //handle menu2 click
-            //handle menu3 click
             false
         }
-        //displaying the popup
         popup.show()
     }
 }

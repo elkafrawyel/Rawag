@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class CommentsViewModel : AppViewModel() {
 
+    var commentPosition: Int? = null
     var action: CommentsActions? = null
     var problems = ArrayList<ProblemModel>()
     var allComments = ArrayList<CommentModel>()
@@ -72,18 +73,22 @@ class CommentsViewModel : AppViewModel() {
                             }
                         }
                     }
-                    CommentsActions.REPORT ->{
+                    CommentsActions.REPORT -> {
                         when (val result =
-                            Injector.getUserRepo().addReport(AddReportRequest(commentId!!,problemId!!))) {
+                            Injector.getUserRepo()
+                                .addReport(AddReportRequest(commentId!!, problemId!!))) {
                             is DataResource.Success -> {
                                 if (result.data) {
-                                        runOnMainThread {
-                                            _uiState.value = ViewState.Success
-                                        }
-                                }else{
                                     runOnMainThread {
-                                        _uiState.value = ViewState.Error(Injector.getApplicationContext().getString(
-                                            R.string.errorSendReport))
+                                        _uiState.value = ViewState.Success
+                                    }
+                                } else {
+                                    runOnMainThread {
+                                        _uiState.value = ViewState.Error(
+                                            Injector.getApplicationContext().getString(
+                                                R.string.errorSendReport
+                                            )
+                                        )
                                     }
                                 }
                             }
@@ -111,8 +116,38 @@ class CommentsViewModel : AppViewModel() {
                             }
                         }
                     }
-                    CommentsActions.DELETE -> TODO()
-                    CommentsActions.HIDE -> TODO()
+                    CommentsActions.DELETE -> {
+                        when (val result =
+                            Injector.getUserRepo().deleteComments(commentId!!)) {
+                            is DataResource.Success -> {
+                                runOnMainThread {
+                                    _uiState.value = ViewState.Success
+                                }
+                            }
+                            is DataResource.Error -> {
+                                runOnMainThread {
+                                    _uiState.value =
+                                        ViewState.Error(result.errorMessage)
+                                }
+                            }
+                        }
+                    }
+                    CommentsActions.HIDE ->{
+                        when (val result =
+                            Injector.getUserRepo().deleteComments(commentId!!)) {
+                            is DataResource.Success -> {
+                                runOnMainThread {
+                                    _uiState.value = ViewState.Success
+                                }
+                            }
+                            is DataResource.Error -> {
+                                runOnMainThread {
+                                    _uiState.value =
+                                        ViewState.Error(result.errorMessage)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

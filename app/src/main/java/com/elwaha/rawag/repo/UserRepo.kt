@@ -1,6 +1,7 @@
 package com.elwaha.rawag.repo
 
 import android.net.Uri
+import android.text.BoringLayout
 import com.elwaha.rawag.data.models.ApiResponse
 import com.elwaha.rawag.data.models.CommentModel
 import com.elwaha.rawag.data.models.FavouritesWithAds
@@ -30,7 +31,20 @@ class UserRepo(
     suspend fun profile(profileRequest: ProfileRequest): DataResource<UserModel> {
         return safeApiCall(
             call = {
-                val response = retrofitApiService.profileAsync(profileRequest).await()
+                val userString = Injector.getPreferenceHelper().user
+                val user = ObjectConverter().getUser(userString!!)
+                val response: ApiResponse<UserModel>
+                response = if (preferencesHelper.isLoggedIn) {
+                    retrofitApiService.profileAuthAsync(
+                        if (user.token.contains(Constants.AUTHORIZATION_START))
+                            user.token
+                        else
+                            "${Constants.AUTHORIZATION_START} ${user.token}", profileRequest
+                    ).await()
+                } else {
+                    retrofitApiService.profileAsync(profileRequest).await()
+                }
+
                 if (response.status)
                     DataResource.Success(response.data)
                 else
@@ -244,6 +258,20 @@ class UserRepo(
             }
         )
     }
+
+    suspend fun deleteComments(commentId: String): DataResource<String> {
+        return safeApiCall(
+            call = {
+                val response =
+                    retrofitApiService.deleteCommentAsync(DeleteCommentRequest(commentId)).await()
+                if (response.status)
+                    DataResource.Success(response.data)
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
 
     suspend fun myFavouritesWithAds(): DataResource<FavouritesWithAds> {
         return safeApiCall(

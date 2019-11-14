@@ -158,12 +158,25 @@ class FavouritesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
         bannerSliderVp.clipToPadding = false
         bannerSliderVp.adapter = imageSliderAdapter
 
-        if (viewModel.usersList.isEmpty()) {
-            messageTv.visibility = View.VISIBLE
-        } else {
-            messageTv.visibility = View.GONE
-            adapter.replaceData(viewModel.usersList)
+        if (Injector.getPreferenceHelper().isLoggedIn){
+            if (viewModel.usersList.isEmpty() ) {
+                messageTv.visibility = View.VISIBLE
+                messageTv.text = getString(R.string.EmptyFavList)
+            } else {
+                messageTv.visibility = View.GONE
+                adapter.replaceData(viewModel.usersList)
+            }
+        }else{
+            if (viewModel.usersList.isEmpty() ) {
+                messageTv.visibility = View.VISIBLE
+                messageTv.text = getString(R.string.you_must_login)
+            } else {
+                messageTv.visibility = View.GONE
+                adapter.replaceData(viewModel.usersList)
+            }
         }
+
+
     }
 
     override fun onResume() {

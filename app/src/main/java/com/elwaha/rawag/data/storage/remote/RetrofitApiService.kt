@@ -2,6 +2,7 @@ package com.elwaha.rawag.data.storage.remote
 
 import com.elwaha.rawag.data.models.*
 import com.elwaha.rawag.data.models.requests.*
+import com.google.android.gms.common.api.Api
 import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -30,7 +31,7 @@ interface RetrofitApiService {
     ): Deferred<ApiResponse<List<CategoryModel>>>
 
     @GET("home")
-    fun homeAsync(): Deferred<ApiResponse<HomeWithAds>>
+    fun homeAsync(@Query("type") type: String): Deferred<ApiResponse<HomeWithAds>>
 
     @GET("countries")
     fun countriesAsync(): Deferred<ApiResponse<List<CountryModel>>>
@@ -65,12 +66,23 @@ interface RetrofitApiService {
         @Body allCommentsRequest: AllCommentsRequest
     ): Deferred<ApiResponse<List<CommentModel>>>
 
-    //================================ With Auth =========================================
+    @POST("deleteComment")
+    fun deleteCommentAsync(
+        @Body deleteCommentRequest: DeleteCommentRequest
+    ): Deferred<ApiResponse<String>>
 
     @POST("myAds")
     fun myAdsAsync(
         @Body profileRequest: ProfileRequest
     ): Deferred<ApiResponse<List<AdModel>>>
+
+    //================================ With Auth =========================================
+    @POST("profileAuth")
+    fun profileAuthAsync(
+        @Header("Authorization") token: String,
+        @Body profileRequest: ProfileRequest
+    ): Deferred<ApiResponse<UserModel>>
+
 
     @POST("addComment")
     fun addCommentAsync(

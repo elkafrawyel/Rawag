@@ -70,7 +70,6 @@
         android:id="@+id/messageTv"
         android:gravity="center"
         android:visibility="gone"
-        android:text="@string/you_must_login"
         android:textAppearance="?attr/textAppearanceBody1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

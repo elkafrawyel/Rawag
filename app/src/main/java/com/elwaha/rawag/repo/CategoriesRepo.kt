@@ -23,20 +23,20 @@ class CategoriesRepo(
                 if (response.status)
                     DataResource.Success(response.data)
                 else
-                    DataResource.Error(response.msg!!)
+                    DataResource.Error(response.msg)
             },
             errorMessage = Injector.getApplicationContext().getString(R.string.generalError)
         )
     }
 
-    suspend fun getCategoriesWithAds(): DataResource<HomeWithAds> {
+    suspend fun getHomeWithAds(type:String): DataResource<HomeWithAds> {
         return safeApiCall(
             call = {
-                val response = retrofitApiService.homeAsync().await()
+                val response = retrofitApiService.homeAsync(type).await()
                 if (response.status)
                     DataResource.Success(response.data)
                 else
-                    DataResource.Error(response.msg!!)
+                    DataResource.Error(response.msg)
             },
             errorMessage = Injector.getApplicationContext().getString(R.string.generalError)
         )
