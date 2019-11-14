@@ -97,3 +97,7 @@ data class UsersRequest(
 data class DeleteCommentRequest(
     val comment_id: String
 )
+
+data class SearchRequest(
+    val name: String
+)

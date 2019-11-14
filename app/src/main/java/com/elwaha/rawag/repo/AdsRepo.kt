@@ -1,15 +1,16 @@
 package com.elwaha.rawag.repo
 
-import android.net.Uri
 import androidx.core.net.toUri
 import com.elwaha.rawag.data.models.AdImages
 import com.elwaha.rawag.data.models.AdModel
+import com.elwaha.rawag.data.models.ApiResponse
+import com.elwaha.rawag.data.models.UserModel
 import com.elwaha.rawag.data.models.requests.AddAdRequest
 import com.elwaha.rawag.data.models.requests.ProfileRequest
+import com.elwaha.rawag.data.models.requests.SearchRequest
 import com.elwaha.rawag.data.storage.local.PreferencesHelper
 import com.elwaha.rawag.data.storage.remote.RetrofitApiService
 import com.elwaha.rawag.utilies.*
-import okhttp3.MultipartBody
 
 class AdsRepo(
     private val retrofitApiService: RetrofitApiService,
@@ -30,6 +31,32 @@ class AdsRepo(
         )
     }
 
+    suspend fun search(searchRequest: SearchRequest): DataResource<List<UserModel>> {
+        return safeApiCall(
+            call = {
+                val response: ApiResponse<List<UserModel>>
+                response = if (preferencesHelper.isLoggedIn) {
+                    val userString = Injector.getPreferenceHelper().user
+                    val user = ObjectConverter().getUser(userString!!)
+                    retrofitApiService.searchAuthAsync(
+                        if (user.token.contains(Constants.AUTHORIZATION_START))
+                            user.token
+                        else
+                            "${Constants.AUTHORIZATION_START} ${user.token}", searchRequest
+                    ).await()
+                } else {
+                    retrofitApiService.searchAsync(searchRequest).await()
+                }
+
+                if (response.status)
+                    DataResource.Success(response.data)
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
+
     suspend fun uploadAds(addAdRequest: AddAdRequest, adImages: AdImages): DataResource<AdModel> {
         return safeApiCall(
             call = {
@@ -38,7 +65,7 @@ class AdsRepo(
 
                 //upload an array of images
                 val images = adImages.images.map {
-                    it.toUri().toMultiPart(Injector.getApplicationContext(),"images[]")
+                    it.toUri().toMultiPart(Injector.getApplicationContext(), "images[]")
                 }
 
                 val response =
@@ -54,7 +81,7 @@ class AdsRepo(
                         addAdRequest.baqa_id.toMultiPart(),
                         addAdRequest.days.toMultiPart(),
                         images
-                        ).await()
+                    ).await()
                 if (response.status)
                     DataResource.Success(response.data)
                 else

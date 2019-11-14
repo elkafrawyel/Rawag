@@ -66,18 +66,26 @@ class ProfileFragment : Fragment() {
 
                 val userId = ProfileFragmentArgs.fromBundle(it).userId
 
-                val userString = Injector.getPreferenceHelper().user
-                val user = ObjectConverter().getUser(userString!!)
+                if (Injector.getPreferenceHelper().isLoggedIn){
+                    val userString = Injector.getPreferenceHelper().user
+                    val user = ObjectConverter().getUser(userString!!)
 
-                if (userId == user.id.toString()){
-                    //my account too
-                    myAccountData()
+                    if (userId == user.id.toString()){
+                        //my account too
+                        myAccountData()
+                    }else{
+                        viewModel.userId = userId
+                        viewModel.get(ProfileViewModel.ProfileActions.GET_PROFILE)
+
+                        otherUserData()
+                    }
                 }else{
                     viewModel.userId = userId
                     viewModel.get(ProfileViewModel.ProfileActions.GET_PROFILE)
 
                     otherUserData()
                 }
+
 
             }
         }

@@ -159,6 +159,18 @@ interface RetrofitApiService {
         @Body usersRequest: UsersRequest
     ): Deferred<ApiResponse<List<UserModel>>>
 
+    @POST("search")
+    fun searchAsync(
+        @Body searchRequest: SearchRequest
+    ): Deferred<ApiResponse<List<UserModel>>>
+
+    @POST("searchAuth")
+    fun searchAuthAsync(
+        @Header("Authorization") token: String,
+        @Body searchRequest: SearchRequest
+    ): Deferred<ApiResponse<List<UserModel>>>
+
+
     @POST("addLike")
     fun addLikeAuthAsync(
         @Header("Authorization") token: String,

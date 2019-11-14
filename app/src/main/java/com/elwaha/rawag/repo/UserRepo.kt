@@ -31,10 +31,11 @@ class UserRepo(
     suspend fun profile(profileRequest: ProfileRequest): DataResource<UserModel> {
         return safeApiCall(
             call = {
-                val userString = Injector.getPreferenceHelper().user
-                val user = ObjectConverter().getUser(userString!!)
                 val response: ApiResponse<UserModel>
                 response = if (preferencesHelper.isLoggedIn) {
+                    val userString = Injector.getPreferenceHelper().user
+                    val user = ObjectConverter().getUser(userString!!)
+
                     retrofitApiService.profileAuthAsync(
                         if (user.token.contains(Constants.AUTHORIZATION_START))
                             user.token

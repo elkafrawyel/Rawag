@@ -138,4 +138,5 @@
     <string name="deleted">Delete Complete</string>
     <string name="hided">Hide Completed</string>
     <string name="EmptyFavList">Favourite list is empty</string>
+    <string name="no_search_result">No search result founded</string>
 </resources>
