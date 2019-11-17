@@ -35,7 +35,7 @@ class ProfileFragment : Fragment() {
         ImageSliderAdapter {
             val images = viewModel.images
             if (images.isNotEmpty()) {
-                activity?.toast("clicked")
+
             }
         }
 
@@ -66,20 +66,20 @@ class ProfileFragment : Fragment() {
 
                 val userId = ProfileFragmentArgs.fromBundle(it).userId
 
-                if (Injector.getPreferenceHelper().isLoggedIn){
+                if (Injector.getPreferenceHelper().isLoggedIn) {
                     val userString = Injector.getPreferenceHelper().user
                     val user = ObjectConverter().getUser(userString!!)
 
-                    if (userId == user.id.toString()){
+                    if (userId == user.id.toString()) {
                         //my account too
                         myAccountData()
-                    }else{
+                    } else {
                         viewModel.userId = userId
                         viewModel.get(ProfileViewModel.ProfileActions.GET_PROFILE)
 
                         otherUserData()
                     }
-                }else{
+                } else {
                     viewModel.userId = userId
                     viewModel.get(ProfileViewModel.ProfileActions.GET_PROFILE)
 
@@ -94,7 +94,11 @@ class ProfileFragment : Fragment() {
 
         editImgv.setOnClickListener { findNavController().navigate(R.id.editProfileFragment) }
 
-        watchMyAdsMbtn.setOnClickListener { findNavController().navigate(R.id.myAdsFragment) }
+        watchMyAdsMbtn.setOnClickListener {
+            val action =
+                ProfileFragmentDirections.actionProfileFragmentToMyAdsFragment(viewModel.userId!!)
+            findNavController().navigate(action)
+        }
 
         showComments.setOnClickListener {
             val action =

@@ -100,6 +100,7 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         })
 
         searchImgv.setOnClickListener { findNavController().navigate(R.id.searchFragment) }
+        filterImgv.setOnClickListener { findNavController().navigate(R.id.countriesFragment) }
 
         setAuthState()
     }

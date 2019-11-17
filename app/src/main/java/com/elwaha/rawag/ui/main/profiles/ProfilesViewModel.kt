@@ -9,10 +9,11 @@ import com.elwaha.rawag.utilies.Event
 import com.elwaha.rawag.utilies.Injector
 import com.elwaha.rawag.utilies.ViewState
 import kotlinx.coroutines.launch
-import java.text.FieldPosition
 
 class ProfilesViewModel : AppViewModel() {
 
+    var subCategoryName: String? = null
+    var cityId: String? = null
     var subCategoryId: String? = null
     var usersList: ArrayList<UserModel> = arrayListOf()
     var lastLikeActionResult: Boolean? = null
@@ -25,7 +26,8 @@ class ProfilesViewModel : AppViewModel() {
 
             scope.launch(dispatcherProvider.io) {
                 when (val result =
-                    Injector.getCategoriesRepo().getUsers(UsersRequest(subCategoryId!!))) {
+                    Injector.getCategoriesRepo()
+                        .getUsers(UsersRequest(subCategoryId, cityId))) {
                     is DataResource.Success -> {
                         if (result.data.isEmpty()) {
                             runOnMainThread {
@@ -49,7 +51,7 @@ class ProfilesViewModel : AppViewModel() {
         }
     }
 
-    fun like(userId: String,position: Int) {
+    fun like(userId: String, position: Int) {
         checkNetworkEvent {
             runOnMainThread { _uiStateEvent.value = Event(ViewState.Loading) }
             scope.launch(dispatcherProvider.io) {

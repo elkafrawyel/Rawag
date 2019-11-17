@@ -1,4 +1,4 @@
-package com.elwaha.rawag.ui.main.subCategories
+package com.elwaha.rawag.ui.main.mainFragment.home.filter.countries
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,14 +11,17 @@ import androidx.navigation.fragment.findNavController
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.elkafrawyel.CustomViews
 import com.elwaha.rawag.R
-import com.elwaha.rawag.ui.main.adapters.CategoriesAdapter
 import com.elwaha.rawag.utilies.ViewState
-import kotlinx.android.synthetic.main.sub_categories_fragment.*
+import kotlinx.android.synthetic.main.countries_fragment.*
 
-class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
+class CountriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
-    private lateinit var viewModel: SubCategoriesViewModel
-    private var adapter = CategoriesAdapter().also {
+    companion object {
+        fun newInstance() = CountriesFragment()
+    }
+
+    private lateinit var viewModel: CountriesViewModel
+    private var adapter = AdapterCountries().also {
         it.onItemChildClickListener = this
     }
 
@@ -26,32 +29,18 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.sub_categories_fragment, container, false)
+        return inflater.inflate(R.layout.countries_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        rootView.setLayout(subCategoriesRv)
-
-        viewModel = ViewModelProviders.of(this).get(SubCategoriesViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(CountriesViewModel::class.java)
         viewModel.uiState.observe(this, Observer { onResponse(it) })
-
-        arguments?.let {
-            val categoryId = SubCategoriesFragmentArgs.fromBundle(it).categoryId
-            val categoryName = SubCategoriesFragmentArgs.fromBundle(it).categoryName
-            title.text = categoryName
-
-            if (viewModel.categoryId == null) {
-                viewModel.categoryId = categoryId
-                viewModel.getSubCategories()
-            }
-        }
-
+        rootView.setLayout(countriesRv)
         backImgv.setOnClickListener { findNavController().navigateUp() }
 
-        subCategoriesRv.adapter = adapter
-        subCategoriesRv.setHasFixedSize(true)
-
+        countriesRv.setHasFixedSize(true)
+        countriesRv.adapter = adapter
     }
 
     private fun onResponse(state: ViewState?) {
@@ -60,8 +49,8 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
                 rootView.setVisible(CustomViews.LOADING)
             }
             ViewState.Success -> {
-                setData()
                 rootView.setVisible(CustomViews.LAYOUT)
+                setData()
             }
             is ViewState.Error -> {
                 rootView.setVisible(CustomViews.ERROR)
@@ -69,35 +58,25 @@ class SubCategoriesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListe
             ViewState.NoConnection -> {
                 rootView.setVisible(CustomViews.INTERNET)
                 rootView.retry {
-                    viewModel.refresh()
+                    viewModel.getCountries()
                 }
             }
             ViewState.Empty -> {
                 rootView.setVisible(CustomViews.EMPTY)
-                rootView.setEmptyText(R.string.empty_category)
-            }
-            ViewState.LastPage -> {
-
-            }
-            null -> {
-
             }
         }
     }
 
     private fun setData() {
-        adapter.replaceData(viewModel.subCategoriesList)
-        adapter.notifyDataSetChanged()
+        adapter.replaceData(viewModel.countriesList)
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
-            R.id.cardItem -> {
+            R.id.countryItem -> {
                 val action =
-                    SubCategoriesFragmentDirections.actionSubCategoriesFragmentToProductsFragment(
-                        viewModel.subCategoriesList[position].id.toString(),
-                        null,
-                        viewModel.subCategoriesList[position].toString()
+                    CountriesFragmentDirections.actionCountriesFragmentToCitiesFragment(
+                        viewModel.countriesList[position].id.toString()
                     )
                 findNavController().navigate(action)
             }

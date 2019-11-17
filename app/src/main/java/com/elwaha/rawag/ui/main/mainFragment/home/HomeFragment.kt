@@ -14,7 +14,6 @@ import com.elwaha.rawag.ui.main.adapters.CategoriesAdapter
 import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
 import com.elwaha.rawag.ui.main.mainFragment.MainFragmentDirections
 import com.elwaha.rawag.utilies.ViewState
-import com.elwaha.rawag.utilies.toast
 import kotlinx.android.synthetic.main.home_fragment.*
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -126,7 +125,10 @@ class HomeFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             R.id.cardItem -> {
                 val categoryId = viewModel.categories[position].id
                 val action =
-                    MainFragmentDirections.actionMainFragmentToSubCategoriesFragment(categoryId.toString())
+                    MainFragmentDirections.actionMainFragmentToSubCategoriesFragment(
+                        categoryId.toString()
+                        , viewModel.categories[position].toString()
+                    )
                 findNavController().navigate(action)
             }
         }

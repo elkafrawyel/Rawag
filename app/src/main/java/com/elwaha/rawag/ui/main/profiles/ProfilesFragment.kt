@@ -13,9 +13,7 @@ import com.elkafrawyel.CustomViews
 import com.elwaha.rawag.R
 import com.elwaha.rawag.utilies.*
 import dmax.dialog.SpotsDialog
-import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.android.synthetic.main.profiles_fragment.*
-import kotlinx.android.synthetic.main.profiles_fragment.rootView
 
 class ProfilesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
@@ -44,7 +42,18 @@ class ProfilesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         viewModel.uiStateEvent.observeEvent(this) { onLikeResponse(it) }
         arguments?.let {
             val subCategoryId = ProfilesFragmentArgs.fromBundle(it).subCategoryId
-            viewModel.subCategoryId = subCategoryId
+            val subCategoryName= ProfilesFragmentArgs.fromBundle(it).subCategoryName
+            val cityId = ProfilesFragmentArgs.fromBundle(it).citiyId
+            when {
+                subCategoryId != null -> {
+                    viewModel.subCategoryId = subCategoryId
+                    viewModel.subCategoryName= subCategoryName
+                    title.text = subCategoryName
+                }
+                cityId != null -> viewModel.cityId = cityId
+                else -> findNavController().navigateUp()
+            }
+
             if (viewModel.usersList.isEmpty())
                 viewModel.getUsers()
         }
@@ -53,7 +62,7 @@ class ProfilesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         productsRv.adapter = adapter
         productsRv.setHasFixedSize(true)
 
-        rootView.setLayout(profilesCl)
+        rootView.setLayout(productsRv)
         rootView.setVisible(CustomViews.LAYOUT)
     }
 

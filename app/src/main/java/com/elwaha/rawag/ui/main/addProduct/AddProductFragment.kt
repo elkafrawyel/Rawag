@@ -92,6 +92,12 @@ class AddProductFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
                     viewModel.selectedDays = viewModel.days[position]
                 }
             }
+
+        if (viewModel.uriList.isNotEmpty()){
+            adapter.replaceData(viewModel.uriList)
+            imagesRv.setHasFixedSize(true)
+            imagesRv.adapter = adapter
+        }
     }
 
     private fun onMainResponse(state: ViewState?) {
@@ -274,9 +280,11 @@ class AddProductFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
                                 uriList.add(result.getItemAt(i).uri)
                             }
                             adapter.addData(uriList)
+                            viewModel.uriList.addAll(uriList)
                         }
                         uri != null -> {
                             uriList.add(uri)
+                            viewModel.uriList.add(uri)
                             adapter.addData(uri)
 
                         }

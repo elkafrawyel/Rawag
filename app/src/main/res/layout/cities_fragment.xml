@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.elwaha.rawag.ui.main.profiles.ProfilesFragment">
+    android:orientation="vertical"
+    tools:context=".ui.main.mainFragment.home.filter.cities.CitiesFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/profilesCl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.elwaha.rawag.ui.main.profiles.ProfilesFragment">
+        android:layout_height="match_parent">
 
         <com.elkafrawyel.FrameView
             android:id="@+id/rootView"
@@ -18,20 +17,16 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/productsRv"
+                android:id="@+id/citiesRv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:clipToPadding="true"
                 android:paddingTop="4dp"
                 android:paddingBottom="12dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bannerSliderVp"
-                tools:listitem="@layout/profile_item_view" />
-
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:listitem="@layout/city_item_view" />
         </com.elkafrawyel.FrameView>
 
         <com.google.android.material.appbar.AppBarLayout
@@ -64,27 +59,35 @@
                         android:layout_marginStart="18dp"
                         android:gravity="center"
                         android:padding="8dp"
-                        android:text="@string/searchResult"
+                        android:text="@string/cities"
                         android:textAppearance="?attr/textAppearanceBody1"
                         android:textColor="@android:color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/backImgv"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/filterImgv"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/showResults"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="8dp"
-                        android:padding="8dp"
-                        android:src="@drawable/noun_filter"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dp_10"
+                        android:gravity="center"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/show_results"
+                        android:textAppearance="?attr/textAppearanceCaption"
+                        android:textColor="@android:color/white"
+                        app:cornerRadius="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="@android:color/white" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 

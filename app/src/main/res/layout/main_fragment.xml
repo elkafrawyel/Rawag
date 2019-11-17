@@ -54,6 +54,7 @@
                         android:layout_gravity="center"
                         android:layout_marginEnd="8dp"
                         android:padding="8dp"
+                        android:id="@+id/filterImgv"
                         android:src="@drawable/ic_location_on_white_24dp" />
 
                     <ImageView

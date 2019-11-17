@@ -139,4 +139,8 @@
     <string name="hided">Hide Completed</string>
     <string name="EmptyFavList">Favourite list is empty</string>
     <string name="no_search_result">No search result founded</string>
+    <string name="countries">Countries</string>
+    <string name="cities">Cities</string>
+    <string name="show_results">Show Results</string>
+    <string name="searchResult">Search Result</string>
 </resources>

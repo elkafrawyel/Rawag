@@ -79,6 +79,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_mainFragment_to_countriesFragment"
+            app:destination="@id/countriesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -259,13 +266,18 @@
         <argument
             android:name="categoryId"
             app:argType="string" />
+        <argument
+            android:name="categoryName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/profilesFragment"
         android:name="com.elwaha.rawag.ui.main.profiles.ProfilesFragment"
         android:label="profiles_fragment"
         tools:layout="@layout/profiles_fragment" >
-        <argument android:name="subCategoryId" />
+        <argument android:name="subCategoryId"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/action_profilesFragment_to_profileFragment"
             app:destination="@id/profileFragment"
@@ -276,6 +288,14 @@
         <action
             android:id="@+id/action_profilesFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <argument
+            android:name="citiyId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="subCategoryName"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/choosePackageFragment"
@@ -318,7 +338,11 @@
         android:id="@+id/myAdsFragment"
         android:name="com.elwaha.rawag.ui.main.profile.myAds.MyAdsFragment"
         android:label="my_ads_fragment"
-        tools:layout="@layout/my_ads_fragment" />
+        tools:layout="@layout/my_ads_fragment" >
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/commentsFragment"
         android:name="com.elwaha.rawag.ui.main.profile.comments.CommentsFragment"
@@ -327,5 +351,30 @@
         <argument
             android:name="profileId"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/countriesFragment"
+        android:name="com.elwaha.rawag.ui.main.mainFragment.home.filter.countries.CountriesFragment"
+        android:label="countries_fragment"
+        tools:layout="@layout/countries_fragment">
+        <action
+            android:id="@+id/action_countriesFragment_to_citiesFragment"
+            app:destination="@id/citiesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/citiesFragment"
+        android:name="com.elwaha.rawag.ui.main.mainFragment.home.filter.cities.CitiesFragment"
+        android:label="cities_fragment"
+        tools:layout="@layout/cities_fragment" >
+        <argument
+            android:name="countryId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_citiesFragment_to_profilesFragment"
+            app:destination="@id/profilesFragment" />
     </fragment>
 </navigation>

@@ -19,7 +19,7 @@ class MainViewModel : AppViewModel() {
         CategoryModel(fakeId, "", "الاقسام الفرعية", "SubCategories", "", "")
 
     private val fakeCountry =
-        CountryModel(fakeId, "الدول", "Countries", "", "")
+        CountryModel(fakeId, "الدول", "Countries","", "", "")
 
     private val fakeCity =
         CityModel(fakeId, "المدن", "Cities", 999, "", "")

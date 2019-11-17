@@ -91,7 +91,8 @@ data class AddReportRequest(
 )
 
 data class UsersRequest(
-    val sub_category_id: String
+    val sub_category_id: String?,
+    val city_id: String?
 )
 
 data class DeleteCommentRequest(

@@ -1,4 +1,5 @@
 package com.elwaha.rawag.data.models
+
 import com.elwaha.rawag.utilies.Constants
 import com.elwaha.rawag.utilies.Injector
 import com.squareup.moshi.Json
@@ -16,8 +17,7 @@ data class CityModel(
     @field:Json(name = "updated_at")
     val updatedAt: String,
     @field:Json(name = "created_at")
-    val createdAt: String
-){
+    val createdAt: String) {
     override fun toString(): String {
         return if (Injector.getPreferenceHelper().language == Constants.Language.ARABIC.value)
             nameAr

@@ -22,7 +22,7 @@ class CategoriesAdapter :
             if (Injector.getPreferenceHelper().language == Constants.Language.ARABIC.value)
                 item.name_ar
             else
-                item.name_ar
+                item.name_en
         )
         helper.addOnClickListener(R.id.cardItem)
     }

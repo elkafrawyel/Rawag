@@ -12,11 +12,13 @@ data class CountryModel(
     val nameAr: String,
     @field:Json(name = "name_en")
     val nameEn: String,
+    @field:Json(name = "img")
+    val img: String = "",
     @field:Json(name = "updated_at")
     val updatedAt: String,
     @field:Json(name = "created_at")
     val createdAt: String
-){
+) {
     override fun toString(): String {
         return if (Injector.getPreferenceHelper().language == Constants.Language.ARABIC.value)
             nameAr

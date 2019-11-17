@@ -138,4 +138,9 @@
     <string name="deleted">تم المسح</string>
     <string name="hided">تم الاخفاء</string>
     <string name="EmptyFavList">قائمة المفضلة فارغة</string>
+    <string name="no_search_result">لا توجد نتائج لهذا البحث</string>
+    <string name="countries">الدول</string>
+    <string name="cities">المدن</string>
+    <string name="show_results">اظهر النتائج</string>
+    <string name="searchResult">نتائج البحث</string>
 </resources>
