@@ -13,10 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.elwaha.rawag.R
-import com.elwaha.rawag.utilies.Constants
-import com.elwaha.rawag.utilies.Injector
-import com.elwaha.rawag.utilies.ObjectConverter
-import com.elwaha.rawag.utilies.snackBarWithAction
+import com.elwaha.rawag.utilies.*
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import de.hdodenhof.circleimageview.CircleImageView
@@ -169,7 +166,6 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         return true
     }
 
-
     private fun setAuthState() {
         val userImage =
             navigationView.getHeaderView(0).findViewById<CircleImageView>(R.id.userImage)
@@ -180,11 +176,12 @@ class MainFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             val user = ObjectConverter().getUser(Injector.getPreferenceHelper().user)
 
             navigationView.menu.getItem(authIndex).title = getString(R.string.LogOut)
-            Glide.with(this).load(Constants.IMAGES_BASE_URL+user.avatar).into(userImage)
+            userImage.loadWithPlaceHolder(Constants.IMAGES_BASE_URL + user.avatar)
+
             userName.text = user.name
         } else {
             navigationView.menu.getItem(authIndex).title = getString(R.string.LogIn)
-            Glide.with(this).load(R.drawable.logoo).into(userImage)
+            userImage.loadWithPlaceHolder(R.drawable.logoo)
             userName.text = getString(R.string.app_name)
         }
     }

@@ -76,6 +76,14 @@ interface RetrofitApiService {
         @Body profileRequest: ProfileRequest
     ): Deferred<ApiResponse<List<AdModel>>>
 
+    @GET("myFavourite")
+    fun myFavouriteAsync(): Deferred<ApiResponse<FavouritesWithAds>>
+
+    @POST("search")
+    fun searchAsync(
+        @Body searchRequest: SearchRequest
+    ): Deferred<ApiResponse<List<UserModel>>>
+
     //================================ With Auth =========================================
     @POST("profileAuth")
     fun profileAuthAsync(
@@ -89,6 +97,13 @@ interface RetrofitApiService {
         @Header("Authorization") token: String,
         @Body addCommentRequest: AddCommentRequest
     ): Deferred<ApiResponse<CommentModel>>
+
+
+    @POST("deleteAd")
+    fun deleteAdAsync(
+        @Body deleteAdRequest: DeleteAdRequest
+    ): Deferred<ApiResponseNoData>
+
 
     @POST("changePassword")
     fun updatePasswordAsync(
@@ -159,10 +174,6 @@ interface RetrofitApiService {
         @Body usersRequest: UsersRequest
     ): Deferred<ApiResponse<List<UserModel>>>
 
-    @POST("search")
-    fun searchAsync(
-        @Body searchRequest: SearchRequest
-    ): Deferred<ApiResponse<List<UserModel>>>
 
     @POST("searchAuth")
     fun searchAuthAsync(
@@ -182,7 +193,10 @@ interface RetrofitApiService {
         @Header("Authorization") token: String
     ): Deferred<ApiResponse<FavouritesWithAds>>
 
-    @GET("myFavourite")
-    fun myFavouriteAsync(): Deferred<ApiResponse<FavouritesWithAds>>
+    @POST("editAd")
+    fun editAdAsync(
+        @Header("Authorization") token: String,
+        @Body editAdRequest: EditAdRequest
+    ): Deferred<ApiResponse<AdModel>>
 
 }

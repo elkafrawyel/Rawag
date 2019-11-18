@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.elwaha.rawag.R
-import com.elwaha.rawag.utilies.ViewState
-import com.elwaha.rawag.utilies.toast
+import com.elwaha.rawag.utilies.*
+import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.my_ads_fragment.*
 
 class MyAdsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
@@ -20,6 +20,8 @@ class MyAdsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     companion object {
         fun newInstance() = MyAdsFragment()
     }
+
+    private var loading: SpotsDialog? = null
 
     private lateinit var viewModel: MyAdsViewModel
     private var adapter = MyAdsAdapter().also {
@@ -37,6 +39,7 @@ class MyAdsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MyAdsViewModel::class.java)
         viewModel.uiState.observe(this, Observer { onAdsResponse(it) })
+        viewModel.uiStateEvent.observeEvent(this) { onDeleteResponse(it) }
         backImgv.setOnClickListener { findNavController().navigateUp() }
 
         arguments?.let {
@@ -48,6 +51,38 @@ class MyAdsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         myAdsRv.adapter = adapter
         myAdsRv.setHasFixedSize(true)
 
+    }
+
+    private fun onDeleteResponse(state: ViewState) {
+        when (state) {
+            ViewState.Loading -> {
+                loading = activity?.showLoading(getString(R.string.wait))
+                loading!!.show()
+            }
+            ViewState.Success -> {
+                if (loading != null) {
+                    loading!!.dismiss()
+                }
+                if (viewModel.deletedPosition != -1) {
+                    adapter.data.removeAt(viewModel.deletedPosition)
+                    viewModel.images.removeAt(viewModel.deletedPosition)
+                    adapter.notifyItemRemoved(viewModel.deletedPosition)
+                }
+                activity?.toast(getString(R.string.deleted))
+            }
+            is ViewState.Error -> {
+                if (loading != null) {
+                    loading!!.dismiss()
+                }
+                activity?.toast(state.message)
+            }
+            ViewState.NoConnection -> {
+                if (loading != null) {
+                    loading!!.dismiss()
+                }
+                activity?.toast(getString(R.string.noInternet))
+            }
+        }
     }
 
     private fun onAdsResponse(state: ViewState?) {
@@ -74,11 +109,16 @@ class MyAdsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
             R.id.editImgv -> {
-                activity?.toast("Edit")
+                val action =
+                    MyAdsFragmentDirections.actionMyAdsFragmentToEditAdFragment(viewModel.images[position])
+                findNavController().navigate(action)
             }
 
             R.id.cancelImgv -> {
-                activity?.toast("Cancel")
+                activity?.showMessageInDialog(getString(R.string.confirmDeleteMessage),{
+                    viewModel.delete(viewModel.images[position].id.toString(), position)
+                },{})
+
             }
         }
     }

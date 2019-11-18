@@ -143,4 +143,10 @@
     <string name="cities">Cities</string>
     <string name="show_results">Show Results</string>
     <string name="searchResult">Search Result</string>
+    <string name="errorUploadAd">Error Uploading Ad.</string>
+    <string name="editAdTitle">Edit Ad</string>
+    <string name="edit_ad_information">Edit Ad Information</string>
+    <string name="editAdInfo">Edit Ad info</string>
+    <string name="saved">Changes Saved</string>
+    <string name="confirmDeleteMessage">Are you sure you want to delete this ad?</string>
 </resources>

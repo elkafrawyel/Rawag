@@ -143,4 +143,10 @@
     <string name="cities">المدن</string>
     <string name="show_results">اظهر النتائج</string>
     <string name="searchResult">نتائج البحث</string>
+    <string name="errorUploadAd">خطأ في رفع الاعلان</string>
+    <string name="editAdTitle">تعديل الاعلان</string>
+    <string name="edit_ad_information">تعديل بيانات الاعلان</string>
+    <string name="editAdInfo">حفظ البيانات</string>
+    <string name="saved">تم حفظ التغيرات</string>
+    <string name="confirmDeleteMessage">هل انت متأكد من حذف هذا الاعلان؟</string>
 </resources>

@@ -282,7 +282,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setProfileData(user: UserModel) {
-        Glide.with(context!!).load(Constants.IMAGES_BASE_URL + user.avatar).into(profileUserImage)
+        profileUserImage.loadWithPlaceHolder(Constants.IMAGES_BASE_URL + user.avatar)
         profileName.text = user.name
         profileRateBar.rating = user.rate_value.toFloat()
         profileAddress.text = user.address

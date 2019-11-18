@@ -1,13 +1,9 @@
 package com.elwaha.rawag.repo
 
 import androidx.core.net.toUri
-import com.elwaha.rawag.data.models.AdImages
-import com.elwaha.rawag.data.models.AdModel
-import com.elwaha.rawag.data.models.ApiResponse
-import com.elwaha.rawag.data.models.UserModel
-import com.elwaha.rawag.data.models.requests.AddAdRequest
-import com.elwaha.rawag.data.models.requests.ProfileRequest
-import com.elwaha.rawag.data.models.requests.SearchRequest
+import com.elwaha.rawag.R
+import com.elwaha.rawag.data.models.*
+import com.elwaha.rawag.data.models.requests.*
 import com.elwaha.rawag.data.storage.local.PreferencesHelper
 import com.elwaha.rawag.data.storage.remote.RetrofitApiService
 import com.elwaha.rawag.utilies.*
@@ -56,6 +52,38 @@ class AdsRepo(
         )
     }
 
+    suspend fun editInfo(editAdRequest: EditAdRequest): DataResource<String> {
+        return safeApiCall(
+            call = {
+                val userString = Injector.getPreferenceHelper().user
+                val user = ObjectConverter().getUser(userString!!)
+                val response = retrofitApiService.editAdAsync(
+                    if (user.token.contains(Constants.AUTHORIZATION_START))
+                        user.token
+                    else
+                        "${Constants.AUTHORIZATION_START} ${user.token}", editAdRequest
+                ).await()
+
+                if (response.status)
+                    DataResource.Success(response.msg)
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
+    suspend fun delete(deleteAdRequest: DeleteAdRequest): DataResource<Boolean> {
+        return safeApiCall(
+            call = {
+                val response = retrofitApiService.deleteAdAsync(deleteAdRequest).await()
+                if (response.status)
+                    DataResource.Success(response.status)
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
 
     suspend fun uploadAds(addAdRequest: AddAdRequest, adImages: AdImages): DataResource<AdModel> {
         return safeApiCall(
@@ -86,7 +114,8 @@ class AdsRepo(
                     DataResource.Success(response.data)
                 else
                     DataResource.Error(response.msg)
-            }
+            },
+            errorMessage = Injector.getApplicationContext().getString(R.string.errorUploadAd)
         )
     }
 }
