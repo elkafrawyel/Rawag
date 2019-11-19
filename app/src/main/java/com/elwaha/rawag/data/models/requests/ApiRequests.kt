@@ -99,13 +99,16 @@ data class DeleteCommentRequest(
     val comment_id: String
 )
 
-
 data class DeleteAdRequest(
     val ad_id: String
 )
 
 data class SearchRequest(
     val name: String
+)
+
+data class DeleteAdImageRequest(
+    val ad_image_id: String
 )
 
 data class EditAdRequest(

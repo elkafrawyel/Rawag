@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -134,9 +134,52 @@
                 app:rippleColor="@color/colorAccent"
                 app:strokeColor="@android:color/darker_gray" />
 
+            <TextView
+                android:id="@+id/pickImages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:drawableTop="@drawable/photo_camera"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/choose_image"
+                android:textColor="@android:color/black" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imagesRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:nestedScrollingEnabled="true"
+                android:padding="8dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/edit_image_item_view" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveMbtn"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="54dp"
+                android:layout_marginEnd="24dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/saveImages"
+                android:textAllCaps="false"
+                app:cornerRadius="20dp"
+                app:rippleColor="@color/colorAccent"
+                app:strokeColor="@android:color/darker_gray" />
+
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

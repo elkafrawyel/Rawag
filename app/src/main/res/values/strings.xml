@@ -149,4 +149,8 @@
     <string name="editAdInfo">Edit Ad info</string>
     <string name="saved">Changes Saved</string>
     <string name="confirmDeleteMessage">Are you sure you want to delete this ad?</string>
+    <string name="add_image">Add Image</string>
+    <string name="saveImages">Save Image Changes</string>
+    <string name="delete_image_message">This image will be deleted.</string>
+    <string name="noImagesFound">No Images found to upload.</string>
 </resources>

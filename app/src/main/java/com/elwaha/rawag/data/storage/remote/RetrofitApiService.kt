@@ -84,6 +84,20 @@ interface RetrofitApiService {
         @Body searchRequest: SearchRequest
     ): Deferred<ApiResponse<List<UserModel>>>
 
+
+    @POST("deleteAdImage")
+    fun deleteAdImageAsync(
+        @Body deleteAdImageRequest: DeleteAdImageRequest
+    ): Deferred<ApiResponseNoData>
+
+    @POST("addAdImage")
+    @Multipart
+    fun addImagesToAdAsync(
+        @Part("ad_id") adId: RequestBody,
+        @Part images: List<MultipartBody.Part>
+    ): Deferred<ApiResponse<AdModel>>
+
+
     //================================ With Auth =========================================
     @POST("profileAuth")
     fun profileAuthAsync(

@@ -149,4 +149,8 @@
     <string name="editAdInfo">حفظ البيانات</string>
     <string name="saved">تم حفظ التغيرات</string>
     <string name="confirmDeleteMessage">هل انت متأكد من حذف هذا الاعلان؟</string>
+    <string name="add_image">أضافة صورة</string>
+    <string name="saveImages">حفظ تغيرات الصور</string>
+    <string name="delete_image_message">سيتم حذف هذا الصورة</string>
+    <string name="noImagesFound">لا يوجد صور جديدة حتي يتم اضافتها لهذا الاعلان</string>
 </resources>

@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class AdImages(
-    val images: List<String>
+    var images: List<String>
 ) : Parcelable {
     constructor(parcel: Parcel) : this(parcel.createStringArrayList())
 

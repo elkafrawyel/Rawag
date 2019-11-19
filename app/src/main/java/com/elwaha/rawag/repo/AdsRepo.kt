@@ -84,6 +84,18 @@ class AdsRepo(
         )
     }
 
+    suspend fun deleteAdImage(deleteAdImageRequest: DeleteAdImageRequest): DataResource<Boolean> {
+        return safeApiCall(
+            call = {
+                val response = retrofitApiService.deleteAdImageAsync(deleteAdImageRequest).await()
+                if (response.status)
+                    DataResource.Success(response.status)
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
 
     suspend fun uploadAds(addAdRequest: AddAdRequest, adImages: AdImages): DataResource<AdModel> {
         return safeApiCall(
@@ -108,6 +120,31 @@ class AdsRepo(
                         addAdRequest.payment_type.toMultiPart(),
                         addAdRequest.baqa_id.toMultiPart(),
                         addAdRequest.days.toMultiPart(),
+                        images
+                    ).await()
+                if (response.status)
+                    DataResource.Success(response.data)
+                else
+                    DataResource.Error(response.msg)
+            },
+            errorMessage = Injector.getApplicationContext().getString(R.string.errorUploadAd)
+        )
+    }
+
+    suspend fun addImagesToAd(adId:String, adImages: AdImages): DataResource<AdModel> {
+        return safeApiCall(
+            call = {
+                val userString = Injector.getPreferenceHelper().user
+                val user = ObjectConverter().getUser(userString!!)
+
+                //upload an array of images
+                val images = adImages.images.map {
+                    it.toUri().toMultiPart(Injector.getApplicationContext(), "images[]")
+                }
+
+                val response =
+                    retrofitApiService.addImagesToAdAsync(
+                        adId.toMultiPart(),
                         images
                     ).await()
                 if (response.status)
