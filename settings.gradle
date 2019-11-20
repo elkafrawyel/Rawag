@@ -1,2 +1,2 @@
-include ':app', ':paytabs-android-SDK-v2.5'
+include ':app', ':paytabs_sdk-v4.0.0'
 rootProject.name='Rawag'

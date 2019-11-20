@@ -116,3 +116,8 @@ data class EditAdRequest(
     val city_id: String,
     val ad_id: String
 )
+
+data class SendFirebaseTokenRequest(
+    val user_id: String,
+    val mobile_token: String
+)

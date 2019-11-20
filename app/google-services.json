@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "73573625503",
+    "firebase_url": "https://rawag-71e6b.firebaseio.com",
+    "project_id": "rawag-71e6b",
+    "storage_bucket": "rawag-71e6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73573625503:android:21eea4588ee85cf3d8bcaa",
+        "android_client_info": {
+          "package_name": "com.elwaha.rawag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73573625503-e4dcu69odnpm0lr38ljv7os4cjcm2rvn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.elwaha.rawag",
+            "certificate_hash": "edf35842bd239a9bb8bff84b860b1cc5345d7d6c"
+          }
+        },
+        {
+          "client_id": "73573625503-k665jbplcm7jqu7rdu6povbaqo3nmbtf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLHcl8FPfVq0DpA-w0BohMQ8DuE2r5YbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73573625503-k665jbplcm7jqu7rdu6povbaqo3nmbtf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

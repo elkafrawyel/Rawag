@@ -136,7 +136,7 @@ class EditAdFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     private fun onEditInfoResponse(state: ViewState) {
         when (state) {
             ViewState.Loading -> {
-                loading = activity?.showLoading(getString(R.string.msg_please_wait))
+                loading = activity?.showLoading(getString(R.string.wait))
                 loading!!.show()
             }
             ViewState.Success -> {

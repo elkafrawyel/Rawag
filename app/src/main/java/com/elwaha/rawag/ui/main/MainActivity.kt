@@ -9,6 +9,7 @@ import com.elwaha.rawag.R
 import com.elwaha.rawag.utilies.Injector
 import com.elwaha.rawag.utilies.ObjectConverter
 import com.elwaha.rawag.utilies.changeLanguage
+import com.elwaha.rawag.utilies.showMessageInDialog
 
 
 class MainActivity : AppCompatActivity() {

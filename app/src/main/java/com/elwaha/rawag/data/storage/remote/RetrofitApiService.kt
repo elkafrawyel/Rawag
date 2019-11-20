@@ -97,6 +97,11 @@ interface RetrofitApiService {
         @Part images: List<MultipartBody.Part>
     ): Deferred<ApiResponse<AdModel>>
 
+    @POST("mobile_token")
+    fun sendFirebaseTokenAdAsync(
+        @Body sendFirebaseTokenRequest: SendFirebaseTokenRequest
+    ): Deferred<ApiResponseNoData>
+
 
     //================================ With Auth =========================================
     @POST("profileAuth")

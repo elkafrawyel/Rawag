@@ -15,9 +15,10 @@ import com.elwaha.rawag.R
 import com.elwaha.rawag.data.models.requests.AddAdRequest
 import com.elwaha.rawag.ui.main.auth.register.RC_PERMISSION_STORAGE
 import com.elwaha.rawag.utilies.*
+import com.paytabs.paytabs_sdk.payment.ui.activities.PayTabActivity
+import com.paytabs.paytabs_sdk.utils.PaymentParams
 import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.choose_payment_method_fragment.*
-import paytabs.project.PayTabActivity
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -152,7 +153,7 @@ class ChoosePaymentMethodFragment : Fragment() {
 //            openPaymentTab(
 //                user.email,
 //                user.phone,
-//                "1",
+//                5.0,
 //                "ar"
 //            )
         } else {
@@ -163,35 +164,58 @@ class ChoosePaymentMethodFragment : Fragment() {
     private fun openPaymentTab(
         customerEmail: String,
         customerPhone: String,
-        amount: String,
+        amount: Double,
         language: String
     ) {
         val intent = Intent(activity, PayTabActivity::class.java)
-        intent.putExtra("pt_merchant_email", "khalidalmeezan1@hotmail.com")
+
+        intent.putExtra(PaymentParams.MERCHANT_EMAIL, "khalidalmeezan1@hotmail.com")
         intent.putExtra(
-            "pt_secret_key",
+            PaymentParams.SECRET_KEY,
             "Wn18IOERwfqh0gKDJqUxdl0H8Wi2WtNSRP1AEFraVRsW8cARDupQPpyYlQ0hkOabDbLhRdsM5UId7j5KNuADT8BeZBwjqGu3RglJ"
         )
-        intent.putExtra("pt_amount", amount)
-        intent.putExtra("pt_currency_code", "SAR")
-        intent.putExtra("pt_transaction_title", "Test Paytabs android library")
-        intent.putExtra("pt_customer_phone_number", customerPhone)
-        intent.putExtra("pt_country_billing", "SAU")
-        intent.putExtra("pt_address_billing", "Flat 1,Building 123, Road 2345")
-        intent.putExtra("pt_city_billing", "Manama")
-        intent.putExtra("language", language)
-        intent.putExtra("pt_state_billing", "Manama")
-        intent.putExtra("pt_postal_code_billing", "11564")
-        intent.putExtra("pt_customer_email", customerEmail)
-        intent.putExtra("pt_order_id", "1234567")
-        intent.putExtra("pt_product_name", "Samsung Galaxy S6")
+        intent.putExtra(PaymentParams.AMOUNT, amount)
+        intent.putExtra(PaymentParams.CURRENCY_CODE, "SAR")
+        intent.putExtra(PaymentParams.LANGUAGE, language)
+        intent.putExtra(PaymentParams.TRANSACTION_TITLE, "Test Paytabs android library")
+        intent.putExtra(PaymentParams.CUSTOMER_PHONE_NUMBER, customerPhone)
+        intent.putExtra(PaymentParams.COUNTRY_BILLING, "SAU")
+        intent.putExtra(PaymentParams.ADDRESS_BILLING, "Flat 1,Building 123, Road 2345")
+        intent.putExtra(PaymentParams.CITY_BILLING, "Manama")
+        intent.putExtra(PaymentParams.STATE_BILLING, "Manama")
+        intent.putExtra(PaymentParams.POSTAL_CODE_BILLING, "11564")
+        intent.putExtra(PaymentParams.CUSTOMER_EMAIL,customerEmail)
+        intent.putExtra(PaymentParams.ORDER_ID, id.toString())
+        intent.putExtra(PaymentParams.PRODUCT_NAME, "Product 1")
+
+
+//        intent.putExtra("pt_merchant_email", "khalidalmeezan1@hotmail.com")
+//        intent.putExtra(
+//            "pt_secret_key",
+//            "Wn18IOERwfqh0gKDJqUxdl0H8Wi2WtNSRP1AEFraVRsW8cARDupQPpyYlQ0hkOabDbLhRdsM5UId7j5KNuADT8BeZBwjqGu3RglJ"
+//        )
+//        intent.putExtra("pt_amount", amount)
+//        intent.putExtra("pt_currency_code", "SAR")
+//        intent.putExtra("pt_transaction_title", "Test Paytabs android library")
+//        intent.putExtra("pt_customer_phone_number", customerPhone)
+//        intent.putExtra("pt_country_billing", "SAU")
+//        intent.putExtra("pt_address_billing", "Flat 1,Building 123, Road 2345")
+//        intent.putExtra("pt_city_billing", "Manama")
+//        intent.putExtra("language", language)
+//        intent.putExtra("pt_state_billing", "Manama")
+//        intent.putExtra("pt_postal_code_billing", "11564")
+//        intent.putExtra("pt_customer_email", customerEmail)
+//        intent.putExtra("pt_order_id", "1234567")
+//        intent.putExtra("pt_product_name", "Samsung Galaxy S6")
+
+
         startActivityForResult(intent, 201)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == 201) {
-            if (data?.getStringExtra("pt_response_code") == "100") {
+        if (resultCode == RESULT_OK && requestCode == PaymentParams.PAYMENT_REQUEST_CODE) {
+            if (data!!.getStringExtra(PaymentParams.RESPONSE_CODE) == "100") {
                 checkStorage()
                 Log.e("PAY", data.getStringExtra("pt_transaction_id"))
                 Log.e("PAY", data.getStringExtra("pt_result"))

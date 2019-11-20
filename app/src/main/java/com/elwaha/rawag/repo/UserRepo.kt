@@ -146,6 +146,24 @@ class UserRepo(
         )
     }
 
+    suspend fun sendFirebaseToken(token:String): DataResource<String> {
+        return safeApiCall(
+            call = {
+                val userString = Injector.getPreferenceHelper().user
+                val user = ObjectConverter().getUser(userString!!)
+
+                val response = retrofitApiService.sendFirebaseTokenAdAsync(
+                    SendFirebaseTokenRequest(user.id.toString(),token)
+                ).await()
+
+                if (response.status)
+                    DataResource.Success(response.msg)
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
     suspend fun editSocial(editSocialRequest: EditSocialRequest): DataResource<UserModel> {
         return safeApiCall(
             call = {

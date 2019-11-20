@@ -115,7 +115,7 @@ class MyAdsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             }
 
             R.id.cancelImgv -> {
-                activity?.showMessageInDialog(getString(R.string.confirmDeleteMessage),{
+                context!!.showMessageInDialog(getString(R.string.confirmDeleteMessage),{
                     viewModel.delete(viewModel.images[position].id.toString(), position)
                 },{})
 
