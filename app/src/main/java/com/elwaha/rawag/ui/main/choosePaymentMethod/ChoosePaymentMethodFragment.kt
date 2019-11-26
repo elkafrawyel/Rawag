@@ -123,7 +123,7 @@ class ChoosePaymentMethodFragment : Fragment() {
         } else {
             EasyPermissions.requestPermissions(
                 this, getString(R.string.requestPermission),
-                com.elwaha.rawag.ui.main.auth.register.RC_PERMISSION_STORAGE, *perms
+                RC_PERMISSION_STORAGE, *perms
             )
         }
     }
@@ -144,21 +144,20 @@ class ChoosePaymentMethodFragment : Fragment() {
 
     private fun uploadAd() {
 
+        checkStorage()
 
-        if (viewModel.paymentType != null) {
-            checkStorage()
-
+//        if (viewModel.paymentType != null) {
 //            val userString = Injector.getPreferenceHelper().user
 //            val user = ObjectConverter().getUser(userString!!)
 //            openPaymentTab(
 //                user.email,
 //                user.phone,
-//                5.0,
+//                viewModel.price.toDouble(),
 //                "ar"
 //            )
-        } else {
-            activity?.toast(getString(R.string.selectPaymentMethod))
-        }
+//        } else {
+//            activity?.toast(getString(R.string.selectPaymentMethod))
+//        }
     }
 
     private fun openPaymentTab(

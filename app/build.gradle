@@ -15,8 +15,8 @@ android {
         applicationId "com.elwaha.rawag"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -29,6 +29,15 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("rawag.jks")
+            storePassword "rawagrawag"
+            keyAlias "rawag"
+            keyPassword "rawagrawag"
+        }
     }
 }
 

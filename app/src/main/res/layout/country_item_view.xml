@@ -10,8 +10,7 @@
         android:id="@+id/countryImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/test_car" />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/countryName"

@@ -49,11 +49,13 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             val profileId = CommentsFragmentArgs.fromBundle(it).profileId
             viewModel.userId = profileId
 
-            val userString = Injector.getPreferenceHelper().user
-            val user = ObjectConverter().getUser(userString!!)
+            if (Injector.getPreferenceHelper().isLoggedIn) {
+                val userString = Injector.getPreferenceHelper().user
+                val user = ObjectConverter().getUser(userString!!)
 
-            if (profileId == user.id.toString()) {
-                adapter.isMyAccount = true
+                if (profileId == user.id.toString()) {
+                    adapter.isMyAccount = true
+                }
             }
             viewModel.get(CommentsActions.GET)
         }
@@ -64,16 +66,18 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         commentsRv.setHasFixedSize(true)
 
         sendComment.setOnClickListener {
-            if (commentEt.text.toString().isNotEmpty())
-                addComment()
+            if (Injector.getPreferenceHelper().isLoggedIn) {
+                if (commentEt.text.toString().isNotEmpty())
+                    addComment()
+            } else {
+                activity?.toast(getString(R.string.you_must_login))
+            }
         }
     }
 
     private fun addComment() {
 
         KeyboardUtils.hideSoftInput(activity)
-        val userString = Injector.getPreferenceHelper().user
-        val user = ObjectConverter().getUser(userString!!)
 
 
         val ratingView = LayoutInflater.from(context).inflate(R.layout.rating, null)
@@ -85,7 +89,7 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 if (ratingBar.rating > 0) {
                     viewModel.addCommentRequest = AddCommentRequest(
                         commentEt.text.toString(),
-                        user.id.toString(),
+                        viewModel.userId!!,
                         ratingBar.rating.toString()
                     )
                     viewModel.get(CommentsActions.SEND)
@@ -103,7 +107,8 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             ViewState.Loading -> {
                 when (viewModel.action) {
                     CommentsActions.GET -> {
-                        loading = activity?.showLoading(context!!.resources.getString(R.string.wait))
+                        loading =
+                            activity?.showLoading(context!!.resources.getString(R.string.wait))
                         loading!!.show()
                     }
                     CommentsActions.REPORT -> {
@@ -163,7 +168,7 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                         viewModel.allComments.removeAt(viewModel.commentPosition!!)
                         adapter.notifyItemRemoved(viewModel.commentPosition!!)
                         activity?.toast(getString(R.string.deleted))
-                        if (viewModel.allComments.isEmpty()){
+                        if (viewModel.allComments.isEmpty()) {
                             emptyView.visibility = View.VISIBLE
                             emptyView.text = getString(R.string.empty_comments)
                         }
@@ -176,7 +181,7 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                         viewModel.allComments.removeAt(viewModel.commentPosition!!)
                         adapter.notifyItemRemoved(viewModel.commentPosition!!)
                         activity?.toast(getString(R.string.hided))
-                        if (viewModel.allComments.isEmpty()){
+                        if (viewModel.allComments.isEmpty()) {
                             emptyView.visibility = View.VISIBLE
                             emptyView.text = getString(R.string.empty_comments)
                         }
@@ -261,12 +266,16 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
             R.id.reportComment -> {
-                openReportDialog(position)
+                if (Injector.getPreferenceHelper().isLoggedIn) {
+                    openReportDialog(position)
+                } else {
+                    activity?.toast(getString(R.string.you_must_login))
+                }
             }
 
             R.id.menuComment -> {
                 val optionIcon = view.findViewById<ImageView>(R.id.menuComment)
-                showCommentMenu(optionIcon,position)
+                showCommentMenu(optionIcon, position)
             }
         }
     }
@@ -276,7 +285,7 @@ class CommentsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         val problemsArray: Array<out String> = viewModel.problems.map { it.report }.toTypedArray()
         AlertDialog.Builder(context!!)
             .setTitle(getString(R.string.report_reason))
-            .setSingleChoiceItems(problemsArray, -1, null)
+            .setSingleChoiceItems(problemsArray, 0, null)
             .setPositiveButton(R.string.send) { dialog, _ ->
                 dialog.dismiss()
                 val selectedPosition: Int =

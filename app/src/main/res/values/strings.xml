@@ -130,7 +130,7 @@
     <string name="abort">Cancel</string>
     <string name="success">Success</string>
     <string name="select_rate">Select rate first</string>
-    <string name="empty_comments">No Comments on this profile yet send first comment</string>
+    <string name="empty_comments">No Comments on this profile yet swipe up to send first comment</string>
     <string name="errorSendReport">Error sending your report</string>
     <string name="empty_category">Category is empty.</string>
     <string name="addedToFavourites">Added to favourites</string>

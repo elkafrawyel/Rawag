@@ -46,5 +46,7 @@ data class UserModel(
     @field:Json(name = "rate_value")
     val rate_value: Int,
     @field:Json(name = "isLiked")
-    var isLiked: Int
+    var isLiked: Int,
+    @field:Json(name = "notify_status")
+    var notify_status: Int
 )

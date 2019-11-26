@@ -103,6 +103,11 @@ interface RetrofitApiService {
     ): Deferred<ApiResponseNoData>
 
 
+    @POST("notifyStatus")
+    fun notificationStatusAsync(
+        @Body notificationStateRequest: NotificationStateRequest
+    ): Deferred<ApiResponse<Int>>
+
     //================================ With Auth =========================================
     @POST("profileAuth")
     fun profileAuthAsync(

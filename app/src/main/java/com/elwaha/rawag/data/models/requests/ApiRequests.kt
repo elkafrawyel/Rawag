@@ -121,3 +121,8 @@ data class SendFirebaseTokenRequest(
     val user_id: String,
     val mobile_token: String
 )
+
+
+data class NotificationStateRequest(
+    val user_id: String
+)

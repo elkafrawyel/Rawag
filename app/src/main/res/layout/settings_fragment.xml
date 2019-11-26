@@ -103,6 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|end"
             android:checked="true"
+            android:id="@+id/notificationSwitch"
             android:gravity="end"/>
     </LinearLayout>
 </LinearLayout>

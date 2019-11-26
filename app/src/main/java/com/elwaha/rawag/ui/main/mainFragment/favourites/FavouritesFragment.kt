@@ -1,18 +1,17 @@
 package com.elwaha.rawag.ui.main.mainFragment.favourites
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.elkafrawyel.CustomViews
-
 import com.elwaha.rawag.R
-import com.elwaha.rawag.ui.main.mainFragment.MainFragmentDirections
 import com.elwaha.rawag.ui.main.mainFragment.ImageSliderAdapter
+import com.elwaha.rawag.ui.main.mainFragment.MainFragmentDirections
 import com.elwaha.rawag.ui.main.profiles.ProfilesAdapter
 import com.elwaha.rawag.utilies.*
 import dmax.dialog.SpotsDialog
@@ -34,10 +33,14 @@ class FavouritesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
     private var loading: SpotsDialog? = null
 
     private var timer: Timer? = null
-    private val imageSliderAdapter = ImageSliderAdapter {
+    private val imageSliderAdapter = ImageSliderAdapter { position ->
         val images = viewModel.ads
         if (images.isNotEmpty()) {
-            activity?.toast("clicked")
+            val action = MainFragmentDirections.actionMainFragmentToProfileFragment(
+                viewModel.ads[position].userId!!.toString(),
+                false
+            )
+            findNavController().navigate(action)
         }
     }
 
@@ -67,10 +70,7 @@ class FavouritesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
         rootView.setLayout(favouritesNsv)
         rootView.setVisible(CustomViews.LAYOUT)
 
-        if (viewModel.usersList.isEmpty() || viewModel.ads.isEmpty()) {
-            viewModel.get()
-
-        }
+        viewModel.get()
     }
 
     private fun onLikeResponse(state: ViewState) {
@@ -158,16 +158,16 @@ class FavouritesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
         bannerSliderVp.clipToPadding = false
         bannerSliderVp.adapter = imageSliderAdapter
 
-        if (Injector.getPreferenceHelper().isLoggedIn){
-            if (viewModel.usersList.isEmpty() ) {
+        if (Injector.getPreferenceHelper().isLoggedIn) {
+            if (viewModel.usersList.isEmpty()) {
                 messageTv.visibility = View.VISIBLE
                 messageTv.text = getString(R.string.EmptyFavList)
             } else {
                 messageTv.visibility = View.GONE
                 adapter.replaceData(viewModel.usersList)
             }
-        }else{
-            if (viewModel.usersList.isEmpty() ) {
+        } else {
+            if (viewModel.usersList.isEmpty()) {
                 messageTv.visibility = View.VISIBLE
                 messageTv.text = getString(R.string.you_must_login)
             } else {

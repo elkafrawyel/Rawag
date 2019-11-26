@@ -81,6 +81,7 @@
                 app:tabIndicator="@color/colorAccent"
                 app:tabIndicatorColor="@color/colorAccent"
                 app:tabInlineLabel="true"
+                app:tabIndicatorHeight="4dp"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/colorAccent"
                 app:tabTextColor="@android:color/white">

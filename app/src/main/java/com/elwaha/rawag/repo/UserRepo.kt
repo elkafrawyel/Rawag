@@ -164,6 +164,29 @@ class UserRepo(
         )
     }
 
+    suspend fun notificationStatus(): DataResource<Boolean> {
+        return safeApiCall(
+            call = {
+                val userString = Injector.getPreferenceHelper().user
+                val user = ObjectConverter().getUser(userString!!)
+
+                val response = retrofitApiService.notificationStatusAsync(
+                    NotificationStateRequest(user.id.toString())
+                ).await()
+
+                if (response.status){
+                    if (response.data==1){
+                        DataResource.Success(true)
+                    }else{
+                        DataResource.Success(false)
+                    }
+                }
+                else
+                    DataResource.Error(response.msg)
+            }
+        )
+    }
+
     suspend fun editSocial(editSocialRequest: EditSocialRequest): DataResource<UserModel> {
         return safeApiCall(
             call = {

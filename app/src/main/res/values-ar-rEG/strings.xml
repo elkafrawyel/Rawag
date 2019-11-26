@@ -130,7 +130,7 @@
     <string name="abort">الغاء</string>
     <string name="success">تم الارسال</string>
     <string name="select_rate">يجب اختيار التقييم</string>
-    <string name="empty_comments">لا توجد تعليقات حتي الان اضف اول تعليق</string>
+    <string name="empty_comments">لا توجد تعليقات حتي الان  اسحب للاعلي اضف اول تعليق</string>
     <string name="errorSendReport">خطأ في ارسال البلاغ</string>
     <string name="empty_category">القسم فارغ</string>
     <string name="addedToFavourites">تمت الاضافة الي المفضلة</string>
