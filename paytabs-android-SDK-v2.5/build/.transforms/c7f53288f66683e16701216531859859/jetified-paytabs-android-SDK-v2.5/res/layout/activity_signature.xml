@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+        android:id="@+id/headerLine"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:textColor="@android:color/black"
+        android:background="@drawable/header_gradient"
+        android:weightSum="6" >
+        
+	     <ImageView
+	         android:id="@+id/imageViewLogo"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:layout_gravity="center_vertical"
+	         android:layout_weight="0.5"
+	         android:src="@drawable/ic_header" />
+	     
+	     <TextView
+	          android:id="@+id/textViewHidden1"
+	          android:layout_width="wrap_content"
+	          android:layout_height="wrap_content"
+	          android:layout_toRightOf="@+id/imageViewLogo"
+	          android:layout_weight="5"
+	          android:visibility="invisible"
+	          android:text=""
+	          android:textAppearance="?android:attr/textAppearanceLarge" />
+
+	     <ImageView
+	         android:id="@+id/buttonLogout"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:layout_marginRight="10dp"
+	         android:layout_gravity="center_vertical"
+	         android:layout_weight="0.5"
+	         android:clickable="true"
+	         android:visibility="gone"
+	         android:src="@drawable/ic_logout" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+	        android:id="@+id/headerMerchant"
+	        android:layout_width="fill_parent"
+	        android:layout_height="65dp"
+	        android:background="@color/white"
+	        android:textColor="@android:color/black"
+	        android:weightSum="5" >			     
+		     
+		     <ImageView
+	               android:id="@+id/imageViewStoreLogo"
+	               android:layout_width="wrap_content"
+	               android:layout_height="55dp"
+	               android:adjustViewBounds="true"
+	               android:layout_marginRight="5dp"
+	               android:layout_marginBottom="5dp"
+		         android:layout_marginTop="5dp"
+	               android:layout_weight="1" />			     
+		     
+		     <TextView
+		          android:id="@+id/textViewHidden"
+		          android:layout_width="wrap_content"
+		          android:layout_height="wrap_content"
+		          android:layout_toRightOf="@+id/imageViewLogo"
+		          android:layout_weight="3"
+		          android:visibility="invisible"
+		          android:text=""
+		          android:textAppearance="?android:attr/textAppearanceLarge" />
+		     
+		     <TextView
+	                android:id="@+id/textviewStore"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_marginRight="10dp"
+	                android:layout_toRightOf="@+id/imageViewLogo"
+	                android:layout_weight="1"
+	                android:layout_gravity="center"
+	                android:gravity="center"
+	                android:textColor="@color/store"
+	                android:text="STORE"
+	                android:textSize="25sp" />
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/horizontal_line2">        
+    </LinearLayout>
+    
+    <RelativeLayout
+        android:id="@+id/signatureLayout"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="horizontal" />
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/horizontal_line2">        
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/textViewLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/cardholder_sign"
+        android:layout_marginTop="15sp"
+        android:textColor="@color/store"
+        android:textSize="25sp" />
+    
+    <Button
+        android:id="@+id/btnContinue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@color/pay_now"
+        android:textColor="@color/white"
+        android:width="250dp"
+        android:text="@string/lbl_continue" />
+
+    <TextView
+        android:id="@+id/textViewError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/err_please_sign"
+        android:visibility="invisible"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</LinearLayout>

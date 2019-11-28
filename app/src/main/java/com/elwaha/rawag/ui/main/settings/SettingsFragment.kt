@@ -66,6 +66,8 @@ class SettingsFragment : Fragment() {
 
             notificationSwitch.isEnabled = true
             notificationSwitch.isChecked = user.notify_status == 1
+        }else{
+            notificationSwitch.isEnabled = false
         }
 
         notificationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->

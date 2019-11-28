@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="125sp"
+        android:layout_height="125sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20sp"
+        android:src="@drawable/paytab" />
+
+    <Button
+        android:id="@+id/Scan"
+        android:layout_width="fill_parent"
+        android:layout_height="50sp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:background="#064998"
+        android:text="Scan"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/Swipe"
+        android:layout_width="fill_parent"
+        android:layout_height="50sp"
+        android:layout_below="@+id/Scan"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginTop="20sp"
+        android:background="#064998"
+        android:text="Swipe"
+        android:textSize="24sp" />
+
+</RelativeLayout>

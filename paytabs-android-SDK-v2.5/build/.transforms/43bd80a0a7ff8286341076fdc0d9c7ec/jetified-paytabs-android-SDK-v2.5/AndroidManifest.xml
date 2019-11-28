@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="paytabs.project"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="25" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:theme" >
+        <activity android:name="paytabs.project.PayTabActivity" >
+        </activity>
+        <activity android:name="paytabs.project.SecurePayment" >
+        </activity>
+        <activity android:name="paytabs.project.CompleteTransaction" >
+        </activity>
+        <activity android:name="paytabs.project.SignatureActivity" >
+        </activity>
+        <activity android:name="paytabs.project.ReceiptActivity" >
+        </activity>
+        <activity android:name="paytabs.project.TransactionResultActivity" >
+        </activity>
+        <activity
+            android:name="paytabs.project.AmexKSAPINActivity"
+            android:label="@string/title_activity_amex_ksapin" >
+        </activity>
+    </application>
+
+</manifest>
